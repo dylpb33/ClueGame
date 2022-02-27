@@ -1,36 +1,35 @@
 package experiment;
 
-import java.util.Set;
+import java.util.*;
 
 public class TestBoardCell {
 	
+	public TestBoardCell(int row, int column) {
+		row = 0;
+		column = 0;
+	}
+
+	public void addAdjacency(TestBoardCell cell) {
+		
+	}
 	
-	public TestBoardCell() {
-		// TODO Auto-generated constructor stub
+	public Set<TestBoardCell> getAdjList(){
+		return new HashSet<TestBoardCell>();
+	}
+	
+	public void setRoom(boolean b) {
 		
 	}
 
-	void addAdjacency(TestBoardCell cell) {
-		
-	}
-	
-	Set<TestBoardCell> getAdjList(Set<TestBoardCell> s){
-		return s;
-	}
-	
-	void setRoom(boolean b) {
-		
-	}
-	
-	boolean isRoom() {
+	public boolean isRoom() {
 		return true;
 	}
 	
-	void setOccupied(boolean b) {
-	
+	public void setOccupied(boolean b) {
+		
 	}
-	
-	boolean getOccupied() {
+
+	public boolean getOccupied() {
 		return true;
 	}
 }
