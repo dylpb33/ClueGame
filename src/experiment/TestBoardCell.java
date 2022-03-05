@@ -5,8 +5,8 @@ import java.util.*;
 public class TestBoardCell {
 	private int row;
 	private int col;
-	private Boolean isRoom;
-	private Boolean isOccupied;
+	private Boolean isRoom = false;
+	private Boolean isOccupied = false;
 	Set<TestBoardCell> adjList = new HashSet<TestBoardCell>();
 	
 	//Constructor that sets the row and column of the cell
@@ -27,21 +27,31 @@ public class TestBoardCell {
 	
 	//Sets the current room
 	public void setRoom(boolean b) {
-	
+		if (b == true) {
+			isRoom = true;
+		}
+		else {
+			isRoom = false;
+		}
 	}
 	
 	//Returns whether player is in a room
 	public boolean isRoom() {
-	 return true;
+	 return isRoom;
 	}
 	
 	//Sets cell as occupied
 	public void setOccupied(boolean b) {
-		
+		if (b == true) {
+			isOccupied = true;
+		}
+		else {
+			isOccupied = false;
+		}
 	}
 	
 	//Returns whether a cell is occupied
 	public boolean getOccupied() {
-		return true;
+		return isOccupied;
 	}
 }
