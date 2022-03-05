@@ -1,3 +1,5 @@
+ // Authors: Jasmine Hernandez, Dylan Blaine
+
 package experiment;
 
 import java.util.*;

@@ -1,0 +1,15 @@
+commit 1ac0a04de3d717934a38ef4ad862c1ed8f73976a (HEAD -> master, origin/master, origin/HEAD)
+Author: Jasmine Hernandez <jhernandez@daxko.com>
+Date:   Sat Mar 5 14:41:47 2022 -0700
+
+    Passed the rest of the unit tests
+
+commit 064b174562d67afc2e3306b33bc09fec4e20ca08
+Author: dylpb33 <dblaine@mines.edu>
+Date:   Fri Mar 4 20:07:50 2022 -0700
+
+    Passed all adjacency tests
+
+
+I, Jasmine Hernandez, certify that I participated equitably in the creation of assignment C14-A1, dated 03/05/2022. 
+I, Dylan Blaine, certify that I participated equitably in the creation of this assignment C14-A1, dated yy03/05/2022.
