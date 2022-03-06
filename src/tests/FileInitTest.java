@@ -38,15 +38,15 @@ public class FileInitTest {
 	public void testRoomLabels() {
 		// To ensure data is correctly loaded, test retrieving a few rooms
 		// from the hash, including the first and last in the file and a few others
-		assertEquals("Sunroom", board.getRooms('S').getName() );
-		assertEquals("Parlor", board.getRooms('P').getName() );
-		assertEquals("Game Room", board.getRooms('R').getName() );
-		assertEquals("Office", board.getRooms('O').getName() );
-		assertEquals("Laundry Room", board.getRooms('L').getName() );
-		assertEquals("Kitchen", board.getRooms('K').getName() );
-		assertEquals("Wine Cellar", board.getRooms('C').getName() );
-		assertEquals("Theater", board.getRooms('T').getName() );
-		assertEquals("Gym", board.getRooms('G').getName() );
+		assertEquals("Sunroom", board.getRoom('S').getName() );
+		assertEquals("Parlor", board.getRoom('P').getName() );
+		assertEquals("Game Room", board.getRoom('R').getName() );
+		assertEquals("Office", board.getRoom('O').getName() );
+		assertEquals("Laundry Room", board.getRoom('L').getName() );
+		assertEquals("Kitchen", board.getRoom('K').getName() );
+		assertEquals("Wine Cellar", board.getRoom('C').getName() );
+		assertEquals("Theater", board.getRoom('T').getName() );
+		assertEquals("Gym", board.getRoom('G').getName() );
 	}
 
 	@Test

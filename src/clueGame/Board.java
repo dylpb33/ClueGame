@@ -57,8 +57,12 @@ public class Board {
 	public BoardCell getCell(int row, int col) {
 		return new BoardCell(0,0);
 	}
-	public Room getRooms(char c) {
+	public Room getRoom(char c) {
 		return new Room();
 	}
+	public BoardCell getRoom(BoardCell cell) {
+		return new BoardCell(0,0);
+	}
+	
 
 }
