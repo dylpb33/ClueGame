@@ -11,17 +11,25 @@ public class Room {
 	private BoardCell labelCell;
 	
 	public String getName() {
-		String string = "";
-		return string;
+		return name;
 	}
 
 	public BoardCell getLabelCell() {
-		return new BoardCell(0,0);
+		return labelCell;
+	}
+	
+	public void setLabelCell(BoardCell c) {
+		labelCell = c;
 	}
 
 	public BoardCell getCenterCell() {
-		return new BoardCell(0,0);
+		return centerCell;
 	}
+	
+	public void setCenterCell(BoardCell c) {
+		centerCell = c;
+	}
+	
 	
 
 }

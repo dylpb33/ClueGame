@@ -1,5 +1,7 @@
 package clueGame;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.*;
 
 import experiment.TestBoardCell;
@@ -7,10 +9,10 @@ import experiment.TestBoardCell;
 public class Board {
 	
 	private BoardCell[][] grid;
-	int numRows;
-	int numColumns;
-	String layoutConfigFile;
-	String setupConfigFile;
+	private int numRows;
+	private int numColumns;
+	private String layoutConfigFile;
+	private String setupConfigFile;
 	private Map<Character, Room> roomMap;
 	
 	/*
@@ -34,19 +36,49 @@ public class Board {
 	}
 	
 	public void initialize() {
+		try {
+			loadSetupConfig();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			loadLayoutConfig();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
-	public void loadSetupConfig() {
+	public void loadSetupConfig() throws FileNotFoundException {
+		FileReader file = new FileReader(setupConfigFile);
+		Scanner in = new Scanner(file);
+		while(in.hasNext()) {
+			String str = in.nextLine();
+			String [] arrStr = str.split(",", 0);
+			for(int i = 0; i < arrStr.length; i++) {
+				if(arrStr[i] == "Room") {
+					Room r = new Room();
+					r.name = arrStr[i+1];
+				}
+				else if (arrStr[i] == "Space") {
+					Room r = new Room();
+					r.name = arrStr[i+1];
+				}
+			}
+		}
+	}
+	
+	public void loadLayoutConfig() throws FileNotFoundException {
+		FileReader file = new FileReader(layoutConfigFile);
+		Scanner in = new Scanner(file);
+		while(in.hasNext()) {
+			String str = in.nextLine();
+			String [] arrStr = str.split(",", 0);
+		}
 		
 	}
 	
-	public void loadLayoutConfig() {
-		
-	}
-	
-	public Room getRoom(BoardCell cell) {
-		return new Room();
-	}
 	public int getNumRows() {
 		return 0;
 	}
@@ -58,7 +90,7 @@ public class Board {
 		return new BoardCell(0,0);
 	}
 	public Room getRoom(char c) {
-		return new Room();
+		
 	}
 	public BoardCell getRoom(BoardCell cell) {
 		return new BoardCell(0,0);
