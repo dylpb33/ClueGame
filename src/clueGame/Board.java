@@ -8,13 +8,14 @@ import experiment.TestBoardCell;
 
 public class Board {
 
-	private int numRows = 0;
-	private int numColumns = 0;
+	private int numRows;
+	private int numColumns;
 	private BoardCell[][] grid;
 	private String layoutConfigFile;
 	private String setupConfigFile;
-	private Map<Character, Room> roomMap = new HashMap<Character, Room>();
-	private ArrayList<String[]> arr = new ArrayList<String[]>();
+	private Map<Character, Room> roomMap;
+	private ArrayList<String[]> arr;
+	String str_ = "";
 
 	/*
 	 * variable and methods used for singleton pattern
@@ -37,30 +38,42 @@ public class Board {
 	}
 
 	public void initialize() {
+		numRows = 0;
+		numColumns = 0;
+
 		try {
 			loadSetupConfig();
-		} catch (FileNotFoundException | BadConfigFormatException e) {
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (BadConfigFormatException e) {
 			e.printStackTrace();
 		}
+
 		try {
 			loadLayoutConfig();
-		} catch (FileNotFoundException | BadConfigFormatException e) {
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (BadConfigFormatException e) {
 			e.printStackTrace();
 		}
+
 	}
 
 	public void loadSetupConfig() throws BadConfigFormatException, FileNotFoundException {
 		FileReader file = new FileReader("data/" + setupConfigFile);
 		Scanner in = new Scanner(file);
+		roomMap = new HashMap<Character, Room>();
 		// Loading character and room into Hashmap
 		while(in.hasNext()) {
 			String str = in.nextLine();
 			String [] arrStr = str.split(", ");
 			String room = "Room";
 			String space = "Space";
+			
 			for (int i = 0; i < arrStr.length; i++) {
 				if(room.equals(arrStr[i]) || space.equals(arrStr[i]) ) {
 					char ch = arrStr[i+2].charAt(0);
+					str_ = str_ + ch;
 					Room r = new Room();
 					r.name = arrStr[i+1];
 					roomMap.put(ch, r); 
@@ -73,6 +86,7 @@ public class Board {
 	public void loadLayoutConfig() throws BadConfigFormatException, FileNotFoundException {
 		FileReader file = new FileReader("data/" + layoutConfigFile);
 		Scanner in = new Scanner(file);
+		arr = new ArrayList<String[]>();
 		// Calculating number of rows and columns	
 		while (in.hasNextLine()) {
 			String inputLine = in.nextLine();
