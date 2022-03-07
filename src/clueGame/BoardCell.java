@@ -14,8 +14,8 @@ public class BoardCell {
 	private Set<BoardCell> adjList;
 	
 	public BoardCell(int row, int col) {
-		row= 0;
-		col= 0;
+		this.row = row;
+		this.col = col;
 	}
 	
 	public void addAdj(BoardCell cell) {
