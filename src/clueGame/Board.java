@@ -14,6 +14,7 @@ public class Board {
 	private String layoutConfigFile;
 	private String setupConfigFile;
 	private Map<Character, Room> roomMap = new HashMap<Character, Room>();
+	private ArrayList<String[]> arr = new ArrayList<String[]>();
 
 	/*
 	 * variable and methods used for singleton pattern
@@ -38,50 +39,101 @@ public class Board {
 	public void initialize() {
 		try {
 			loadSetupConfig();
-		} catch (FileNotFoundException e) {
+		} catch (FileNotFoundException | BadConfigFormatException e) {
 			e.printStackTrace();
 		}
 		try {
 			loadLayoutConfig();
-		} catch (FileNotFoundException e) {
+		} catch (FileNotFoundException | BadConfigFormatException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public void loadSetupConfig() throws FileNotFoundException {
+	public void loadSetupConfig() throws BadConfigFormatException, FileNotFoundException {
 		FileReader file = new FileReader("data/" + setupConfigFile);
 		Scanner in = new Scanner(file);
 		// Loading character and room into Hashmap
 		while(in.hasNext()) {
 			String str = in.nextLine();
-			String [] arrStr = str.split(",");
+			String [] arrStr = str.split(", ");
 			String room = "Room";
 			String space = "Space";
 			for (int i = 0; i < arrStr.length; i++) {
 				if(room.equals(arrStr[i]) || space.equals(arrStr[i]) ) {
-					char ch = arrStr[i+2].replaceAll("\\s", "").charAt(0);
+					char ch = arrStr[i+2].charAt(0);
 					Room r = new Room();
-					r.name = arrStr[i+1].replaceAll("\\s", "");
+					r.name = arrStr[i+1];
 					roomMap.put(ch, r); 
 				}
 			}
 		}
+		
 	}
 
-	public void loadLayoutConfig() throws FileNotFoundException {
+	public void loadLayoutConfig() throws BadConfigFormatException, FileNotFoundException {
 		FileReader file = new FileReader("data/" + layoutConfigFile);
 		Scanner in = new Scanner(file);
-		// Calculating number of rows and columns
+		// Calculating number of rows and columns	
 		while (in.hasNextLine()) {
 			String inputLine = in.nextLine();
-			String[] array = inputLine.split(",");
+			arr.add(inputLine.split(","));
 			numRows++;
-			numColumns = array.length;
 		}
-		in.close();
+		numColumns = arr.get(0).length; 
+		grid = new BoardCell[numRows][numColumns];
 		
-		// still need to load csv into grid
-
+		for (int i = 0; i < numRows; i++) {
+			for (int j = 0; j < numColumns; j++) {
+				BoardCell cell = new BoardCell(i,j);
+				grid[i][j] = cell;
+				String s = arr.get(i)[j];
+				if (s == "<W") {
+					cell.setInitial(s.charAt(1));
+				}
+				if (s != "<W") {
+					cell.setInitial(s.charAt(0));
+				}
+				Room room = getRoom(cell);
+				if(s.contains("#")) {
+					room.setLabelCell(cell);
+					cell.roomLabel = true;
+					cell.isSecretPassage = false;
+				}
+				if(s.contains("*")) {
+					room.setCenterCell(cell);
+					cell.roomCenter = true;
+					cell.isSecretPassage = false;
+				}
+				if(s.contains(">")) {
+					cell.setDoorDirection(DoorDirection.RIGHT);
+					cell.isDoor = true;
+					cell.isSecretPassage = false;
+				}
+				if(s.contains("<")) {
+					cell.setDoorDirection(DoorDirection.LEFT);
+					cell.isDoor = true;
+					cell.isSecretPassage = false;
+				}
+				if(s.contains("^")) {
+					cell.setDoorDirection(DoorDirection.UP);
+					cell.isDoor = true;
+					cell.isSecretPassage = false;
+				}
+				if(s.contains("v")) {
+					cell.setDoorDirection(DoorDirection.DOWN);
+					cell.isDoor = true;
+					cell.isSecretPassage = false;
+				}
+				if (s.length() == 1) {
+					cell.isSecretPassage = false;
+				}
+				if (cell.isSecretPassage == true) {
+					cell.secretPassage = s.charAt(1);
+				}
+			}
+		}
+		
+		in.close();
 	}
 
 	public int getNumRows() {
@@ -93,16 +145,15 @@ public class Board {
 	}
 
 	public BoardCell getCell(int row, int col) {
-		return new BoardCell(0,0);
+		return grid[row][col];
 	}
 
 	public Room getRoom(char c) {
-		// how to pull character from map?
-		return new Room();
+		return roomMap.get(c);
 	}
 
 	public Room getRoom(BoardCell cell) {
-		return new Room();
+		return roomMap.get(cell.getInitial());
 	}
 
 }

@@ -6,11 +6,13 @@ public class BoardCell {
 	
 	int row;
 	int col;
-	char initial;
+	private char initial;
 	private DoorDirection doorDirection;
-	boolean roomLabel;
-	boolean roomCenter;
+	boolean roomLabel = false;
+	boolean roomCenter = false;
+	boolean isDoor = false;
 	char secretPassage;
+	boolean isSecretPassage = true;
 	private Set<BoardCell> adjList;
 	
 	public BoardCell(int row, int col) {
@@ -18,29 +20,40 @@ public class BoardCell {
 		this.col = col;
 	}
 	
+	public void setInitial(char initial) {
+		this.initial = initial;
+	}
+
 	public void addAdj(BoardCell cell) {
 		adjList.add(cell);
 	}
 
 	public boolean isDoorway() {
-		return false;
+		return isDoor;
 	}
 
 	public DoorDirection getDoorDirection() {
-		return DoorDirection.NONE;
+		return doorDirection;
+	}
+
+	public void setDoorDirection(DoorDirection doorDirection) {
+		this.doorDirection = doorDirection;
 	}
 
 	public boolean isLabel() {
-		return false;
+		return roomLabel;
 	}
 
 	public boolean isRoomCenter() {
-		return false;
+		return roomCenter;
+	}
+
+	public char getInitial() {
+		return initial;
 	}
 
 	public char getSecretPassage() {
-		char ch = 'z';
-		return ch;
+		return secretPassage;
 	}
 	
 
