@@ -139,7 +139,7 @@ public class BoardAdjTargetTest {
 		assertEquals(0, testList.size());
 		assertFalse(testList.contains(board.getCell(20, 8)));
 		assertFalse(testList.contains(board.getCell(16, 9)));
-		assertFalse(testList.contains(board.getCell(16, 8)));
+		assertFalse(testList.contains(board.getCell(17, 8)));
 	}
 	
 	// Targets calculated when leaving a room with a secret passage
