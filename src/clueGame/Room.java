@@ -2,10 +2,6 @@ package clueGame;
 
 public class Room {
 	
-	public Room() {
-		
-	}
-	
 	String name;
 	private BoardCell centerCell;
 	private BoardCell labelCell;

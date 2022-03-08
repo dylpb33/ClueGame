@@ -4,8 +4,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.*;
 
-import experiment.TestBoardCell;
-
 public class Board {
 
 	private int numRows;
@@ -15,7 +13,6 @@ public class Board {
 	private String setupConfigFile;
 	private Map<Character, Room> roomMap;
 	private ArrayList<String[]> arr;
-	String str_ = "";
 
 	/*
 	 * variable and methods used for singleton pattern
@@ -38,23 +35,20 @@ public class Board {
 	}
 
 	public void initialize() {
-		numRows = 0;
-		numColumns = 0;
-
 		try {
 			loadSetupConfig();
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			System.out.println(e);
 		} catch (BadConfigFormatException e) {
-			e.printStackTrace();
+			System.out.println(e);
 		}
 
 		try {
 			loadLayoutConfig();
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			System.out.println(e);
 		} catch (BadConfigFormatException e) {
-			e.printStackTrace();
+			System.out.println(e);
 		}
 
 	}
@@ -69,24 +63,25 @@ public class Board {
 			String [] arrStr = str.split(", ");
 			String room = "Room";
 			String space = "Space";
-			
+
 			for (int i = 0; i < arrStr.length; i++) {
 				if(room.equals(arrStr[i]) || space.equals(arrStr[i]) ) {
 					char ch = arrStr[i+2].charAt(0);
-					str_ = str_ + ch;
 					Room r = new Room();
 					r.name = arrStr[i+1];
 					roomMap.put(ch, r); 
 				}
 			}
 		}
-		
+		in.close();
 	}
 
 	public void loadLayoutConfig() throws BadConfigFormatException, FileNotFoundException {
 		FileReader file = new FileReader("data/" + layoutConfigFile);
 		Scanner in = new Scanner(file);
 		arr = new ArrayList<String[]>();
+		numRows = 0;
+		numColumns = 0;
 		// Calculating number of rows and columns	
 		while (in.hasNextLine()) {
 			String inputLine = in.nextLine();
@@ -96,18 +91,27 @@ public class Board {
 		numColumns = arr.get(0).length; 
 		grid = new BoardCell[numRows][numColumns];
 		
+		// throws exception error if numColumns is not the same in each row
+		for (int i = 0; i < numRows; i++) {
+			if (arr.get(i).length != numColumns) {
+				throw new BadConfigFormatException("File Configuration Error: Number of Columns are not the same for each row.");
+			}
+		}
+		
 		for (int i = 0; i < numRows; i++) {
 			for (int j = 0; j < numColumns; j++) {
 				BoardCell cell = new BoardCell(i,j);
 				grid[i][j] = cell;
 				String s = arr.get(i)[j];
-				if (s == "<W") {
-					cell.setInitial(s.charAt(1));
-				}
-				if (s != "<W") {
-					cell.setInitial(s.charAt(0));
-				}
+				cell.setInitial(s.charAt(0));
+
 				Room room = getRoom(cell);
+
+				// checks to make sure the room exists in the legend
+				if (room == null) {
+					throw new BadConfigFormatException("File Configuration Error: Room does not exist in legend");
+				}
+					
 				if(s.contains("#")) {
 					room.setLabelCell(cell);
 					cell.roomLabel = true;
@@ -146,7 +150,7 @@ public class Board {
 				}
 			}
 		}
-		
+
 		in.close();
 	}
 

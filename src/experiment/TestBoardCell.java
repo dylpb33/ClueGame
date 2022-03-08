@@ -13,8 +13,8 @@ public class TestBoardCell {
 	
 	//Constructor that sets the row and column of the cell
 	public TestBoardCell(int r, int c) {
-		row = r;
-		col = c;
+		this.row = r;
+		this.col = c;
 	}
 
 	//Adds cell to adjacency list

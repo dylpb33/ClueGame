@@ -3,11 +3,11 @@ package clueGame;
 public class BadConfigFormatException extends Exception {
 	
 	public BadConfigFormatException() {
-		System.out.println("Error loading file");
+		System.out.println("Error loading file: invalid file configuration");
 	}
 	
 	public BadConfigFormatException(String s) {
-		System.out.println("Error loading file" + s);
+		System.out.println(s);
 	}
 
 

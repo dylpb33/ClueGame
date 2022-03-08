@@ -4,20 +4,17 @@ package experiment;
 
 import java.util.*;
 
-import org.junit.Assert;
-import org.junit.jupiter.api.*;
 
 public class TestBoard {
 	private Set<TestBoardCell> targets;
 	private Set<TestBoardCell> visited;
-	private int pathlength;
 	final static int COLS = 4;
 	final static int ROWS = 4;
-	private TestBoardCell[][] grid = new TestBoardCell[ROWS][COLS];
+	private TestBoardCell[][] grid;
 
 	//Default constructor to test game board
 	public TestBoard() {
-		super();
+		grid = new TestBoardCell[ROWS][COLS];
 		for(int i = 0; i < ROWS; i++) {
 			for(int j = 0; j < COLS; j++) {
 				TestBoardCell cell = new TestBoardCell(i,j);
@@ -46,7 +43,6 @@ public class TestBoard {
 	public void calcTargets(TestBoardCell startCell, int pathlength) {
 		targets = new HashSet<TestBoardCell>();
 		visited = new HashSet<TestBoardCell>();
-		this.pathlength = pathlength;
 		//	adding the starting cell into the visited list
 		visited.add(startCell);
 		findAllTargets(startCell, pathlength);
