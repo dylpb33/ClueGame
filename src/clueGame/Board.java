@@ -54,15 +54,19 @@ public class Board {
 	}
 
 	public void loadSetupConfig() throws BadConfigFormatException, FileNotFoundException {
+		// initializing variables needed
+		roomMap = new HashMap<Character, Room>();
+		String room = "Room";
+		String space = "Space";
+		
+		// reading in files specified
 		FileReader file = new FileReader("data/" + setupConfigFile);
 		Scanner in = new Scanner(file);
-		roomMap = new HashMap<Character, Room>();
-		// Loading character and room into Hashmap
+		
+		// Loading character and room into roomMap
 		while(in.hasNext()) {
 			String str = in.nextLine();
 			String [] arrStr = str.split(", ");
-			String room = "Room";
-			String space = "Space";
 
 			for (int i = 0; i < arrStr.length; i++) {
 				if(room.equals(arrStr[i]) || space.equals(arrStr[i]) ) {
@@ -77,41 +81,79 @@ public class Board {
 	}
 
 	public void loadLayoutConfig() throws BadConfigFormatException, FileNotFoundException {
-		FileReader file = new FileReader("data/" + layoutConfigFile);
-		Scanner in = new Scanner(file);
+		// initializing variables needed
 		arr = new ArrayList<String[]>();
 		numRows = 0;
 		numColumns = 0;
+		
+		// reading in files specified
+		FileReader file = new FileReader("data/" + layoutConfigFile);
+		Scanner in = new Scanner(file);
+		
 		// Calculating number of rows and columns	
 		while (in.hasNextLine()) {
 			String inputLine = in.nextLine();
 			arr.add(inputLine.split(","));
 			numRows++;
+			numColumns = arr.get(0).length; 
 		}
-		numColumns = arr.get(0).length; 
+		
+		// setting grid with numRows and numColumns pulled from files
 		grid = new BoardCell[numRows][numColumns];
 		
+		// finding if number of columns is not the same for all rows
+		columnNumberException();
+	    // loading in the grid with necessary values
+		loadInGrid();
+		// closing file
+		in.close();
+		
+	}
+
+	public int getNumRows() {
+		return numRows;
+	}
+
+	public int getNumColumns() {
+		return numColumns;
+	}
+
+	public BoardCell getCell(int row, int col) {
+		return grid[row][col];
+	}
+
+	public Room getRoom(char c) {
+		return roomMap.get(c);
+	}
+
+	public Room getRoom(BoardCell cell) {
+		return roomMap.get(cell.getInitial());
+	}
+	
+	
+	public void columnNumberException() throws BadConfigFormatException {
 		// throws exception error if numColumns is not the same in each row
 		for (int i = 0; i < numRows; i++) {
 			if (arr.get(i).length != numColumns) {
 				throw new BadConfigFormatException("File Configuration Error: Number of Columns are not the same for each row.");
 			}
 		}
-		
+
+	}
+	
+	public void loadInGrid() throws BadConfigFormatException {
 		for (int i = 0; i < numRows; i++) {
 			for (int j = 0; j < numColumns; j++) {
 				BoardCell cell = new BoardCell(i,j);
 				grid[i][j] = cell;
 				String s = arr.get(i)[j];
 				cell.setInitial(s.charAt(0));
-
 				Room room = getRoom(cell);
-
-				// checks to make sure the room exists in the legend
+				
 				if (room == null) {
 					throw new BadConfigFormatException("File Configuration Error: Room does not exist in legend");
 				}
-					
+
 				if(s.contains("#")) {
 					room.setLabelCell(cell);
 					cell.roomLabel = true;
@@ -149,29 +191,9 @@ public class Board {
 					cell.secretPassage = s.charAt(1);
 				}
 			}
+			
 		}
-
-		in.close();
-	}
-
-	public int getNumRows() {
-		return numRows;
-	}
-
-	public int getNumColumns() {
-		return numColumns;
-	}
-
-	public BoardCell getCell(int row, int col) {
-		return grid[row][col];
-	}
-
-	public Room getRoom(char c) {
-		return roomMap.get(c);
-	}
-
-	public Room getRoom(BoardCell cell) {
-		return roomMap.get(cell.getInitial());
+		
 	}
 
 }
