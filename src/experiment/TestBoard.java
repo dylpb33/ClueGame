@@ -59,7 +59,7 @@ public class TestBoard {
 				visited.add(cell);
 				if (cell.isRoom() == true) {
 					targets.add(cell);
-					break;
+					continue;
 				}
 //				– if pathlengths == 1, add adjCell to Targets
 				if (pathlength == 1 && cell.getOccupied() == false) {
