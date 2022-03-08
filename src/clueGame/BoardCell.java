@@ -1,3 +1,5 @@
+// Authors: Jasmine Hernandez, Dylan Blaine
+
 package clueGame;
 
 import java.util.*;
@@ -54,6 +56,10 @@ public class BoardCell {
 
 	public char getSecretPassage() {
 		return secretPassage;
+	}
+
+	public void setOccupied(boolean b) {
+
 	}
 	
 

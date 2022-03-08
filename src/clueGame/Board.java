@@ -1,8 +1,12 @@
+// Authors: Jasmine Hernandez, Dylan Blaine
+
 package clueGame;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.*;
+
+import experiment.TestBoardCell;
 
 public class Board {
 
@@ -130,6 +134,18 @@ public class Board {
 		return roomMap.get(cell.getInitial());
 	}
 	
+	public Set<BoardCell> getAdjList(int i, int j) {
+		return new HashSet<BoardCell>();
+	}
+	
+	public void calcTargets(BoardCell cell, int i) {
+		
+	}
+	
+	public Set<BoardCell> getTargets() {
+		return new HashSet<BoardCell>();
+	}
+
 	
 	public void columnNumberException() throws BadConfigFormatException {
 		// throws exception error if numColumns is not the same in each row
@@ -195,5 +211,4 @@ public class Board {
 		}
 		
 	}
-
 }

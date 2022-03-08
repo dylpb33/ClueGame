@@ -1,3 +1,5 @@
+// Authors: Jasmine Hernandez, Dylan Blaine
+
 package clueGame;
 
 public class Room {
