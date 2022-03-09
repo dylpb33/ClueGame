@@ -17,6 +17,9 @@ public class Board {
 	private String setupConfigFile;
 	private Map<Character, Room> roomMap;
 	private ArrayList<String[]> arr;
+	private Set<BoardCell> targets;
+	private Set<BoardCell> visited;
+	
 
 	/*
 	 * variable and methods used for singleton pattern
@@ -26,6 +29,7 @@ public class Board {
 	private Board() {
 		super() ;
 	}
+	
 	// this method returns the only Board
 	public static Board getInstance() {
 		return theInstance;
@@ -134,12 +138,38 @@ public class Board {
 		return roomMap.get(cell.getInitial());
 	}
 	
-	public Set<BoardCell> getAdjList(int i, int j) {
-		return new HashSet<BoardCell>();
+	public void calcTargets(BoardCell startCell, int pathLength) {
+		targets = new HashSet<BoardCell>();
+		visited = new HashSet<BoardCell>();
+		//	adding the starting cell into the visited list
+		visited.add(startCell);
+		findAllTargets(startCell, pathLength);
 	}
 	
-	public void calcTargets(BoardCell cell, int i) {
-		
+	public void findAllTargets(BoardCell startCell, int pathLength) {
+//		Parameters: thisCell and numSteps
+//		• for each adjCell in adjacentCells
+		for ( BoardCell cell: startCell.getAdjList()) {
+//			– if already in visited list, skip rest of this
+			if(!visited.contains(cell) && cell.getOccupied() == false) {
+//				– add adjCell to visited list 
+				visited.add(cell);
+				if (cell.isRoom() == true) {
+					targets.add(cell);
+					continue;
+				}
+//				– if pathLength == 1, add adjCell to Targets
+				if (pathLength == 1 && cell.getOccupied() == false) {
+					targets.add(cell);
+				}
+//				– else call calcTargets() with adjCell, numSteps-1
+				else {
+					findAllTargets(cell, pathLength-1);
+				}
+//				– remove adjCell from visited list
+				visited.remove(cell);
+			}
+		}
 	}
 	
 	public Set<BoardCell> getTargets() {
@@ -165,6 +195,7 @@ public class Board {
 				String s = arr.get(i)[j];
 				cell.setInitial(s.charAt(0));
 				Room room = getRoom(cell);
+				
 				
 				if (room == null) {
 					throw new BadConfigFormatException("File Configuration Error: Room does not exist in legend");
@@ -209,6 +240,25 @@ public class Board {
 			}
 			
 		}
+		for(int i = 0; i < numRows; i++) {
+			for(int j = 0; j < numColumns; j++) {
+				if((i-1) >= 0) {
+					grid[i][j].addAdj(grid[i-1][j]);
+				}
+				if((j-1) >= 0) {
+					grid[i][j].addAdj(grid[i][j-1]);
+				}
+				if((i+1) < numRows) {
+					grid[i][j].addAdj(grid[i+1][j]);
+				}
+				if((j+1) < numColumns) {
+					grid[i][j].addAdj(grid[i][j+1]);
+				}
+			}
+		}
 		
+	}
+	public Set<BoardCell> getAdjList(int i, int j) {
+		return grid[i][j].getAdjList();
 	}
 }
