@@ -7,7 +7,7 @@ public class Room {
 	String name;
 	private BoardCell centerCell;
 	private BoardCell labelCell;
-	
+
 	public String getName() {
 		return name;
 	}
@@ -27,7 +27,5 @@ public class Room {
 	public void setCenterCell(BoardCell c) {
 		centerCell = c;
 	}
-	
-	
 
 }

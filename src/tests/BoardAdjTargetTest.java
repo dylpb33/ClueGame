@@ -29,7 +29,7 @@ public class BoardAdjTargetTest {
 	
 	// Locations with only walkways as adjacent locations
 	// These tests are Yellow on the planning spreadsheet
-	@Test
+//	@Test
 	public void testAdjacencyWalkways()
 	{
 		// Test on bottom edge of board, just one walkway piece
@@ -64,7 +64,7 @@ public class BoardAdjTargetTest {
 	
 	// Locations that are doorways and their walkways
 	// These cells are LIGHT ORANGE on the planning spreadsheet
-	@Test
+//	@Test
 	public void testAdjacencyDoor()
 	{
 		Set<BoardCell> testList = board.getAdjList(9, 14);
@@ -90,7 +90,7 @@ public class BoardAdjTargetTest {
 
 	// Locations that are connected by a secret passage
 	// These cells are PURPLE on the planning spreadsheet
-	@Test
+//	@Test
 	public void testAdjacenciesRooms()
 	{
 		// we want to test a couple of different rooms.
@@ -117,7 +117,7 @@ public class BoardAdjTargetTest {
 	}
 	
 	// Locations within rooms not center (should have empty adjacency list)
-	@Test
+//	@Test
 	public void testAdjacenciesRoomsNotCenter()
 	{
 		// 
@@ -143,8 +143,8 @@ public class BoardAdjTargetTest {
 	}
 	
 	// Targets calculated when leaving a room with a secret passage
-//	// These are WHITE on the planning spreadsheet
-	@Test
+	// These are WHITE on the planning spreadsheet
+//	@Test
 	public void testTargetsInGym() {
 		// test a roll of 1
 		board.calcTargets(board.getCell(19, 18), 1);
@@ -176,7 +176,7 @@ public class BoardAdjTargetTest {
 	
 	// Targets calculated when leaving a room without a secret passage
 	// These are WHITE on the planning spreadsheet
-	@Test
+//	@Test
 	public void testTargetsInGameRoom() {
 		// test a roll of 1
 		board.calcTargets(board.getCell(16, 2), 1);
@@ -206,7 +206,7 @@ public class BoardAdjTargetTest {
 
 	// Targets that allow the user to enter a room
 	// These are PURPLE on the planning spreadsheet
-	@Test
+//	@Test
 	public void testTargetsAtDoor() {
 		// test a roll of 1, at door
 		board.calcTargets(board.getCell(2, 5), 1);
@@ -238,7 +238,7 @@ public class BoardAdjTargetTest {
 	}
 	
 	// Targets along walkways, at various distances
-	@Test
+//	@Test
 	public void testTargetsInWalkway1() {
 		// test a roll of 1
 		board.calcTargets(board.getCell(18, 0), 1);
@@ -262,7 +262,7 @@ public class BoardAdjTargetTest {
 	}
 
 
-	@Test
+//	@Test
 	public void testTargetsOccupied() {
 		// test a roll of 4 blocked 2 down
 		board.getCell(1, 6).setOccupied(true);

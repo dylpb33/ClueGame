@@ -16,10 +16,10 @@ public class Board {
 	private String layoutConfigFile;
 	private String setupConfigFile;
 	private Map<Character, Room> roomMap;
-	private ArrayList<String[]> arr;
+	private ArrayList<String[]> cellList;
 	private Set<BoardCell> targets;
 	private Set<BoardCell> visited;
-	
+
 
 	/*
 	 * variable and methods used for singleton pattern
@@ -29,7 +29,7 @@ public class Board {
 	private Board() {
 		super() ;
 	}
-	
+
 	// this method returns the only Board
 	public static Board getInstance() {
 		return theInstance;
@@ -45,20 +45,12 @@ public class Board {
 	public void initialize() {
 		try {
 			loadSetupConfig();
-		} catch (FileNotFoundException e) {
-			System.out.println(e);
-		} catch (BadConfigFormatException e) {
-			System.out.println(e);
-		}
-
-		try {
 			loadLayoutConfig();
 		} catch (FileNotFoundException e) {
 			System.out.println(e);
 		} catch (BadConfigFormatException e) {
 			System.out.println(e);
 		}
-
 	}
 
 	public void loadSetupConfig() throws BadConfigFormatException, FileNotFoundException {
@@ -66,58 +58,236 @@ public class Board {
 		roomMap = new HashMap<Character, Room>();
 		String room = "Room";
 		String space = "Space";
-		
+		String comment = "//";
+
 		// reading in files specified
 		FileReader file = new FileReader("data/" + setupConfigFile);
 		Scanner in = new Scanner(file);
-		
+
 		// Loading character and room into roomMap
 		while(in.hasNext()) {
-			String str = in.nextLine();
-			String [] arrStr = str.split(", ");
+			String fileLine = in.nextLine();
+			String [] arrStr = fileLine.split(", ");
 
-			for (int i = 0; i < arrStr.length; i++) {
-				if(room.equals(arrStr[i]) || space.equals(arrStr[i]) ) {
-					char ch = arrStr[i+2].charAt(0);
-					Room r = new Room();
-					r.name = arrStr[i+1];
-					roomMap.put(ch, r); 
+			// only parse through if it is not a comment or empty line
+			if(!(fileLine.contains(comment) || fileLine.isEmpty())) {
+
+				//check to make sure it is a valid line that starts with Room or Space
+				if(room.equals(arrStr[0]) || space.equals(arrStr[0])) {
+					char roomInitial = arrStr[2].charAt(0);
+					Room newRoom = new Room();
+					newRoom.name = arrStr[1];
+					roomMap.put(roomInitial, newRoom); 
+				}
+				//if not a valid line, throw bad config error
+				else {
+					throw new BadConfigFormatException("Invalid row in " + setupConfigFile);
 				}
 			}
 		}
 		in.close();
 	}
+	
 
 	public void loadLayoutConfig() throws BadConfigFormatException, FileNotFoundException {
 		// initializing variables needed
-		arr = new ArrayList<String[]>();
+		cellList = new ArrayList<String[]>();
 		numRows = 0;
 		numColumns = 0;
-		
+
 		// reading in files specified
 		FileReader file = new FileReader("data/" + layoutConfigFile);
 		Scanner in = new Scanner(file);
-		
-		// Calculating number of rows and columns	
-		while (in.hasNextLine()) {
-			String inputLine = in.nextLine();
-			arr.add(inputLine.split(","));
-			numRows++;
-			numColumns = arr.get(0).length; 
-		}
-		
+
+		// Calculating number of rows and columns before reading in file
+		countRowsCols(in);
+
 		// setting grid with numRows and numColumns pulled from files
 		grid = new BoardCell[numRows][numColumns];
-		
-		// finding if number of columns is not the same for all rows
-		columnNumberException();
-	    // loading in the grid with necessary values
-		loadInGrid();
+
+		// loading in rooms
+		for (int row = 0; row < numRows; row++) {
+			for (int col = 0; col < numColumns; col++) {
+				BoardCell cell = new BoardCell(row,col);
+				grid[row][col] = cell;
+				String fileLine = cellList.get(row)[col];
+				char roomChar = fileLine.charAt(0);
+				cell.setInitial(roomChar);
+				Room room = getRoom(cell);
+				// if there is no room
+				if (room == null) {
+					throw new BadConfigFormatException("File Configuration Error: Room does not exist in legend");
+				}
+				/* calling method to setup cells with indicators 
+				 * (*, #, <, >, ^, v, extra char for room letter) */
+				setupCellIndicator(fileLine,room, cell, roomChar);
+			}
+		}
+		// calling method to setup where a member can go (adjacency cells)
+		setupWalkways();
 		// closing file
 		in.close();
-		
 	}
 
+	private void countRowsCols(Scanner in) throws BadConfigFormatException, FileNotFoundException  {
+		while (in.hasNextLine()) {
+			String inputLine = in.nextLine();
+			cellList.add(inputLine.split(","));
+			numRows++;
+			numColumns = cellList.get(0).length; 
+		}
+		
+		// throw exception if number of columns differ per row
+		for (int col = 0; col < numRows; col++) {
+			if (cellList.get(col).length != numColumns) {
+				throw new BadConfigFormatException("File Configuration Error: Number of Columns are not the same for each row.");
+			}
+		}
+	}
+	
+	public void setupCellIndicator(String fileLine, Room room, BoardCell cell, char roomChar) {
+
+		if (fileLine.length() > 1) {
+			// space for room name
+			if(fileLine.contains("#")) {
+				roomMap.get(roomChar).setLabelCell(cell);
+				cell.setIsRoom(true);
+				cell.setRoomLabel(true);
+			}
+			// room center
+			else if(fileLine.contains("*")) {
+				roomMap.get(roomChar).setCenterCell(cell);
+				cell.setIsRoom(true);
+				cell.setRoomCenter(true);
+			}
+			// door leading right into room
+			else if(fileLine.contains(">")) {
+				cell.setDoorDirection(DoorDirection.RIGHT);
+				cell.setDoor(true);
+			}
+			// door leading left into room
+			else if(fileLine.contains("<")) {
+				cell.setDoorDirection(DoorDirection.LEFT);
+				cell.setDoor(true);
+			}
+			// door leading up into room
+			else if(fileLine.contains("^")) {
+				cell.setDoorDirection(DoorDirection.UP);
+				cell.setDoor(true);
+			}
+			// door leading down into room
+			else if(fileLine.contains("v")) {
+				cell.setDoorDirection(DoorDirection.DOWN);
+				cell.setDoor(true);
+			}
+			// otherwise it is a secret passage
+			else {
+				cell.setSecretPassage(fileLine.charAt(1));
+				cell.setSecretPassage(true);
+				cell.setIsRoom(true);
+			}
+		}
+	}
+	
+
+	public void setupWalkways() {
+		// Ensure door locations include their rooms and also additional walkways
+
+		// checking for rooms doors can go into
+		for(int row = 0; row < numRows; row++) {
+			for(int col = 0; col < numColumns; col++) {
+				BoardCell cell = this.getCell(row, col);
+				Room room;
+				// for doors that go up into a room
+				if (cell.getDoorDirection() == DoorDirection.UP) {
+					room = getRoom(grid[row-1][col]);
+					cell.setAdjList(room.getCenterCell());
+					room.getCenterCell().setAdjList(cell);
+				}
+				// for doors that go down into a room
+				if (cell.getDoorDirection() == DoorDirection.DOWN) {
+					room = getRoom(grid[row+1][col]);
+					cell.setAdjList(room.getCenterCell());
+					room.getCenterCell().setAdjList(cell);
+				}
+				// for doors that go left into a room
+				if (cell.getDoorDirection() == DoorDirection.LEFT) {
+					room = getRoom(grid[row][col-1]);
+					cell.setAdjList(room.getCenterCell());
+					room.getCenterCell().setAdjList(cell);
+				}
+				// for doors that go right into a room
+				if (cell.getDoorDirection() == DoorDirection.RIGHT) {
+					room = getRoom(grid[row][col+1]);
+					cell.setAdjList(room.getCenterCell());
+					room.getCenterCell().setAdjList(cell);
+				}
+
+				// checking for additional walkways
+				if (cell.getInitial() == 'W') {
+					if((row-1) >= 0) {
+						cell = this.getCell(row-1, col);
+						if (cell.getInitial() == 'W') {
+							grid[row][col].setAdjList(cell);
+						}
+					}
+					if((col-1) >= 0) {
+						cell = this.getCell(row, col-1);
+						if (cell.getInitial() == 'W') {
+							grid[row][col].setAdjList(cell);
+						}
+					}
+					if((row+1) < numRows) {
+						cell = this.getCell(row+1, col);
+						if (cell.getInitial() == 'W') {
+							grid[row][col].setAdjList(cell);
+						}
+					}
+					if((col+1) < numColumns) {
+						cell = this.getCell(row, col+1);
+						if (cell.getInitial() == 'W') {
+							grid[row][col].setAdjList(cell);
+						}
+					}
+				}
+			}
+		}
+	}
+
+	public void calcTargets(BoardCell startCell, int pathLength) {
+		targets = new HashSet<BoardCell>();
+		visited = new HashSet<BoardCell>();
+		//	adding the starting cell into the visited list
+		visited.add(startCell);
+		findAllTargets(startCell, pathLength);
+	}
+
+	public void findAllTargets(BoardCell startCell, int pathLength) {
+		//		Parameters: thisCell and numSteps
+		//		ï¿½ for each adjCell in adjacentCells
+		for ( BoardCell cell: startCell.getAdjList()) {
+			//			ï¿½ if already in visited list, skip rest of this
+			if(!visited.contains(cell) && cell.getIsOccupied() == false) {
+				//				ï¿½ add adjCell to visited list 
+				visited.add(cell);
+				if (cell.getIsRoom() == true) {
+					targets.add(cell);
+					continue;
+				}
+				//				ï¿½ if pathLength == 1, add adjCell to Targets
+				if (pathLength == 1 && cell.getIsOccupied() == false) {
+					targets.add(cell);
+				}
+				//				ï¿½ else call calcTargets() with adjCell, numSteps-1
+				else {
+					findAllTargets(cell, pathLength-1);
+				}
+				//				ï¿½ remove adjCell from visited list
+				visited.remove(cell);
+			}
+		}
+	}
+	
 	public int getNumRows() {
 		return numRows;
 	}
@@ -137,128 +307,12 @@ public class Board {
 	public Room getRoom(BoardCell cell) {
 		return roomMap.get(cell.getInitial());
 	}
-	
-	public void calcTargets(BoardCell startCell, int pathLength) {
-		targets = new HashSet<BoardCell>();
-		visited = new HashSet<BoardCell>();
-		//	adding the starting cell into the visited list
-		visited.add(startCell);
-		findAllTargets(startCell, pathLength);
-	}
-	
-	public void findAllTargets(BoardCell startCell, int pathLength) {
-//		Parameters: thisCell and numSteps
-//		• for each adjCell in adjacentCells
-		for ( BoardCell cell: startCell.getAdjList()) {
-//			– if already in visited list, skip rest of this
-			if(!visited.contains(cell) && cell.getOccupied() == false) {
-//				– add adjCell to visited list 
-				visited.add(cell);
-				if (cell.isRoom() == true) {
-					targets.add(cell);
-					continue;
-				}
-//				– if pathLength == 1, add adjCell to Targets
-				if (pathLength == 1 && cell.getOccupied() == false) {
-					targets.add(cell);
-				}
-//				– else call calcTargets() with adjCell, numSteps-1
-				else {
-					findAllTargets(cell, pathLength-1);
-				}
-//				– remove adjCell from visited list
-				visited.remove(cell);
-			}
-		}
-	}
-	
+
 	public Set<BoardCell> getTargets() {
 		return new HashSet<BoardCell>();
 	}
 
-	
-	public void columnNumberException() throws BadConfigFormatException {
-		// throws exception error if numColumns is not the same in each row
-		for (int i = 0; i < numRows; i++) {
-			if (arr.get(i).length != numColumns) {
-				throw new BadConfigFormatException("File Configuration Error: Number of Columns are not the same for each row.");
-			}
-		}
-
-	}
-	
-	public void loadInGrid() throws BadConfigFormatException {
-		for (int i = 0; i < numRows; i++) {
-			for (int j = 0; j < numColumns; j++) {
-				BoardCell cell = new BoardCell(i,j);
-				grid[i][j] = cell;
-				String s = arr.get(i)[j];
-				cell.setInitial(s.charAt(0));
-				Room room = getRoom(cell);
-				
-				
-				if (room == null) {
-					throw new BadConfigFormatException("File Configuration Error: Room does not exist in legend");
-				}
-
-				if(s.contains("#")) {
-					room.setLabelCell(cell);
-					cell.roomLabel = true;
-					cell.isSecretPassage = false;
-				}
-				if(s.contains("*")) {
-					room.setCenterCell(cell);
-					cell.roomCenter = true;
-					cell.isSecretPassage = false;
-				}
-				if(s.contains(">")) {
-					cell.setDoorDirection(DoorDirection.RIGHT);
-					cell.isDoor = true;
-					cell.isSecretPassage = false;
-				}
-				if(s.contains("<")) {
-					cell.setDoorDirection(DoorDirection.LEFT);
-					cell.isDoor = true;
-					cell.isSecretPassage = false;
-				}
-				if(s.contains("^")) {
-					cell.setDoorDirection(DoorDirection.UP);
-					cell.isDoor = true;
-					cell.isSecretPassage = false;
-				}
-				if(s.contains("v")) {
-					cell.setDoorDirection(DoorDirection.DOWN);
-					cell.isDoor = true;
-					cell.isSecretPassage = false;
-				}
-				if (s.length() == 1) {
-					cell.isSecretPassage = false;
-				}
-				if (cell.isSecretPassage == true) {
-					cell.secretPassage = s.charAt(1);
-				}
-			}
-			
-		}
-		for(int i = 0; i < numRows; i++) {
-			for(int j = 0; j < numColumns; j++) {
-				if((i-1) >= 0) {
-					grid[i][j].addAdj(grid[i-1][j]);
-				}
-				if((j-1) >= 0) {
-					grid[i][j].addAdj(grid[i][j-1]);
-				}
-				if((i+1) < numRows) {
-					grid[i][j].addAdj(grid[i+1][j]);
-				}
-				if((j+1) < numColumns) {
-					grid[i][j].addAdj(grid[i][j+1]);
-				}
-			}
-		}
-		
-	}
-	public Set<BoardCell> getAdjList(int i, int j) {
-		return grid[i][j].getAdjList();
+	public Set<BoardCell> getAdjList(int row, int col) {
+		return grid[row][col].getAdjList();
 	}
 }
