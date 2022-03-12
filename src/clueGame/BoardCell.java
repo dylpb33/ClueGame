@@ -30,103 +30,103 @@ public class BoardCell {
 		doorDirection = DoorDirection.NONE;
 	}
 	
-	//Returns initial for cell
+	// Returns initial for cell
 	public char getInitial() {
 		return initial;
 	}
 	
-	//Sets cell initial
+	// Sets cell initial
 	public void setInitial(char initial) {
 		this.initial = initial;
 	}
 	
-	//Returns direction of door cells
+	// Returns direction of door cells
 	public DoorDirection getDoorDirection() {
 		return doorDirection;
 	}
 	
-	//Sets direction for door cells
+	// Sets direction for door cells
 	public void setDoorDirection(DoorDirection doorDirection) {
 		this.doorDirection = doorDirection;
 	}
 	
-	//Returns whether a cell is a room label
+	// Returns whether a cell is a room label
 	public boolean isLabel() {
 		return roomLabel;
 	}
 	
-	//Sets room label
+	// Sets room label
 	public void setRoomLabel(boolean roomLabel) {
 		this.roomLabel = roomLabel;
 	}
 	
-	//Returns whether a cell is the room center
+	// Returns whether a cell is the room center
 	public boolean isRoomCenter() {
 		return roomCenter;
 	}
 	
-	//Sets room center
+	// Sets room center
 	public void setRoomCenter(boolean roomCenter) {
 		this.roomCenter = roomCenter;
 	}
 	
-	//Returns whether cell is a doorway
+	// Returns whether cell is a doorway
 	public boolean isDoorway() {
 		return isDoor;
 	}
 	
-	//Sets cell as a door
+	// Sets cell as a door
 	public void setDoor(boolean isDoor) {
 		this.isDoor = isDoor;
 	}
 	
-	//Returns character of secret passage
+	// Returns character of secret passage
 	public char getSecretPassage() {
 		return secretPassage;
 	}
 	
-	//Sets secret passage with char
+	// Sets secret passage with char
 	public void setSecretPassage(char secretPassage) {
 		this.secretPassage = secretPassage;
 	}
 	
-	//Sets secret passage with boolean
+	// Sets secret passage with boolean
 	public void setSecretPassage(boolean isSecretPassage) {
 		this.isSecretPassage = isSecretPassage;
 	}
 	
-	//Returns whether a cell is a secret passage
+	// Returns whether a cell is a secret passage
 	public boolean isSecretPassage() {
 		return isSecretPassage;
 	}
 	
 	
-	//Returns whether a cell is a room
+	// Returns whether a cell is a room
 	public Boolean getIsRoom() {
 		return isRoom;
 	}
 	
-	//Sets whether a cell is part of a room
+	// Sets whether a cell is part of a room
 	public void setIsRoom(Boolean isRoom) {
 		this.isRoom = isRoom;
 	}
 	
-	//Returns whether a cell is occupied
+	// Returns whether a cell is occupied
 	public Boolean getIsOccupied() {
 		return isOccupied;
 	}
 	
-	//Sets cell as occupied or unoccupied
+	// Sets cell as occupied or unoccupied
 	public void setOccupied(Boolean isOccupied) {
 		this.isOccupied = isOccupied;
 	}
 	
-	//Adds cell to adjList
+	// Adds cell to adjList
 	public void setAdjList(BoardCell cell) {
 		adjList.add(cell);
 	}
 	
-	//Returns adjList for a cell
+	// Returns adjList for a cell
 	public Set<BoardCell> getAdjList(){
 		return adjList;
 	}
