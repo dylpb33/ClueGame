@@ -1,0 +1,146 @@
+C17-A2 Refactoring
+Dylan Blaine, Jasmine Hernandez
+Section A
+
+Put the cell indicator calculations into its own method.
+
+before:
+		//Fill grid with the cells, and create rooms from the cells
+		for (int row = 0; row < numRows; row++) {
+			for (int col = 0; col < numColumns; col++) {
+				BoardCell cell = new BoardCell(row,col);
+				grid[row][col] = cell;
+				String fileLine = cellList.get(row)[col];
+				char roomChar = fileLine.charAt(0);
+				cell.setInitial(roomChar);
+				Room room = getRoom(cell);
+				// if there is no room
+				if (room == null) {
+					throw new BadConfigFormatException("File Configuration Error: Room does not exist in legend");
+				}
+				
+		if (fileLine.length() > 1) {
+			// space for room name
+			if(fileLine.contains("#")) {
+				roomMap.get(roomChar).setLabelCell(cell);
+				cell.setIsRoom(true);
+				cell.setRoomLabel(true);
+			}
+			// room center
+			else if(fileLine.contains("*")) {
+				roomMap.get(roomChar).setCenterCell(cell);
+				cell.setIsRoom(true);
+				cell.setRoomCenter(true);
+				cell.setSecretPassage(roomChar);
+			}
+			// door leading right into room
+			else if(fileLine.contains(">")) {
+				cell.setDoorDirection(DoorDirection.RIGHT);
+				cell.setDoor(true);
+			}
+			// door leading left into room
+			else if(fileLine.contains("<")) {
+				cell.setDoorDirection(DoorDirection.LEFT);
+				cell.setDoor(true);
+			}
+			// door leading up into room
+			else if(fileLine.contains("^")) {
+				cell.setDoorDirection(DoorDirection.UP);
+				cell.setDoor(true);
+			}
+			// door leading down into room
+			else if(fileLine.contains("v")) {
+				cell.setDoorDirection(DoorDirection.DOWN);
+				cell.setDoor(true);
+			}
+			// otherwise it is a secret passage
+			else {
+				cell.setSecretPassage(fileLine.charAt(1));
+				cell.setSecretPassage(true);
+				cell.setIsRoom(true);
+				room.setSecretPassageCell(cell);
+			}
+		}
+			}
+		}
+after:
+		//Fill grid with the cells, and create rooms from the cells
+		for (int row = 0; row < numRows; row++) {
+			for (int col = 0; col < numColumns; col++) {
+				BoardCell cell = new BoardCell(row,col);
+				grid[row][col] = cell;
+				String fileLine = cellList.get(row)[col];
+				char roomChar = fileLine.charAt(0);
+				cell.setInitial(roomChar);
+				Room room = getRoom(cell);
+				// if there is no room
+				if (room == null) {
+					throw new BadConfigFormatException("File Configuration Error: Room does not exist in legend");
+				}
+				/* calling method to setup cells with indicators 
+				 * (*, #, <, >, ^, v, extra char for room letter) */
+				setupCellIndicator(fileLine,room, cell, roomChar);
+			}
+		}
+
+	public void setupCellIndicator(String fileLine, Room room, BoardCell cell, char roomChar) {
+
+		if (fileLine.length() > 1) {
+			// space for room name
+			if(fileLine.contains("#")) {
+				roomMap.get(roomChar).setLabelCell(cell);
+				cell.setIsRoom(true);
+				cell.setRoomLabel(true);
+			}
+			// room center
+			else if(fileLine.contains("*")) {
+				roomMap.get(roomChar).setCenterCell(cell);
+				cell.setIsRoom(true);
+				cell.setRoomCenter(true);
+				cell.setSecretPassage(roomChar);
+			}
+			// door leading right into room
+			else if(fileLine.contains(">")) {
+				cell.setDoorDirection(DoorDirection.RIGHT);
+				cell.setDoor(true);
+			}
+			// door leading left into room
+			else if(fileLine.contains("<")) {
+				cell.setDoorDirection(DoorDirection.LEFT);
+				cell.setDoor(true);
+			}
+			// door leading up into room
+			else if(fileLine.contains("^")) {
+				cell.setDoorDirection(DoorDirection.UP);
+				cell.setDoor(true);
+			}
+			// door leading down into room
+			else if(fileLine.contains("v")) {
+				cell.setDoorDirection(DoorDirection.DOWN);
+				cell.setDoor(true);
+			}
+			// otherwise it is a secret passage
+			else {
+				cell.setSecretPassage(fileLine.charAt(1));
+				cell.setSecretPassage(true);
+				cell.setIsRoom(true);
+				room.setSecretPassageCell(cell);
+			}
+		}
+	}
+
+Added instance variable in Room to store the cell containing a rooms secret passage.
+Before:
+After:
+private BoardCell secretPassageCell;
+
+
+	//Returns center cell for a room
+	public BoardCell getSecretPassageCell() {
+		return secretPassageCell;
+	}
+	
+	//Sets center cell for a room
+	public void setSecretPassageCell(BoardCell c) {
+		secretPassageCell = c;
+	}
