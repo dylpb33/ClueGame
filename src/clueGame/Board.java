@@ -271,57 +271,57 @@ public class Board {
 	}
 
 	public void findAllTargets(BoardCell startCell, int pathLength) {
-		//		Parameters: thisCell and numSteps
-		//		� for each adjCell in adjacentCells
+		// Parameters: thisCell and numSteps
+		// for each adjCell in adjacentCells
 		for ( BoardCell cell: startCell.getAdjList()) {
-			//			� if already in visited list, skip rest of this
+			// if already in visited list, skip rest of this
 			if(!visited.contains(cell) && (cell.getIsOccupied() == false || cell.getIsRoom())) {
-				//				� add adjCell to visited list 
+				// add adjCell to visited list 
 				visited.add(cell);
 				if (cell.getIsRoom() == true || pathLength == 1) {
 					targets.add(cell);
 				}
-				//				� else call calcTargets() with adjCell, numSteps-1
+				// else call calcTargets() with adjCell, numSteps-1
 				else {
 					findAllTargets(cell, pathLength-1);
 				}
-				//				� remove adjCell from visited list
+				// remove adjCell from visited list
 				visited.remove(cell);
 			}
 		}
 	}
 	
-	//Returns number of rows in board
+	// Returns number of rows in board
 	public int getNumRows() {
 		return numRows;
 	}
 	
-	//Returns number of columns in board
+	// Returns number of columns in board
 	public int getNumColumns() {
 		return numColumns;
 	}
 	
-	//Returns cell on board at given row and column of cell
+	// Returns cell on board at given row and column of cell
 	public BoardCell getCell(int row, int col) {
 		return grid[row][col];
 	}
 	
-	//Returns room of cell based on its initial
+	// Returns room of cell based on its initial
 	public Room getRoom(char c) {
 		return roomMap.get(c);
 	}
 	
-	//Returns the room a cell is in
+	// Returns the room a cell is in
 	public Room getRoom(BoardCell cell) {
 		return roomMap.get(cell.getInitial());
 	}
 	
-	//Returns possible targets
+	// Returns possible targets
 	public Set<BoardCell> getTargets() {
 		return targets;
 	}
 	
-	//Returns AdjList based on row and column of cell
+	// Returns AdjList based on row and column of cell
 	public Set<BoardCell> getAdjList(int row, int col) {
 		return grid[row][col].getAdjList();
 	}
