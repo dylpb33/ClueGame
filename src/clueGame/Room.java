@@ -14,6 +14,7 @@ public class Room {
 		return name;
 	}
 	
+	//Set name of each room
 	public void setName(String s) {
 		name = s;
 	}
