@@ -277,7 +277,7 @@ public class Board {
 		//		� for each adjCell in adjacentCells
 		for ( BoardCell cell: startCell.getAdjList()) {
 			//			� if already in visited list, skip rest of this
-			if(!visited.contains(cell) && cell.getIsOccupied() == false) {
+			if(!visited.contains(cell) && (cell.getIsOccupied() == false || cell.getIsRoom())) {
 				//				� add adjCell to visited list 
 				visited.add(cell);
 				if (cell.getIsRoom() == true || pathLength == 1) {
