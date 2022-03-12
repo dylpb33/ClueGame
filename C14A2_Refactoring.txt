@@ -144,3 +144,195 @@ private BoardCell secretPassageCell;
 	public void setSecretPassageCell(BoardCell c) {
 		secretPassageCell = c;
 	}
+
+Added a method to setup the walkways
+Before:
+	public void loadLayoutConfig() throws BadConfigFormatException, FileNotFoundException {
+		// initializing variables needed
+		cellList = new ArrayList<String[]>();
+		numRows = 0;
+		numColumns = 0;
+
+		// reading in files specified
+		FileReader file = new FileReader("data/" + layoutConfigFile);
+		Scanner in = new Scanner(file);
+
+		// Calculating number of rows and columns before reading in file
+		countRowsCols(in);
+
+		// setting grid with numRows and numColumns pulled from files
+		grid = new BoardCell[numRows][numColumns];
+
+		//Fill grid with the cells, and create rooms from the cells
+		for (int row = 0; row < numRows; row++) {
+			for (int col = 0; col < numColumns; col++) {
+				BoardCell cell = new BoardCell(row,col);
+				grid[row][col] = cell;
+				String fileLine = cellList.get(row)[col];
+				char roomChar = fileLine.charAt(0);
+				cell.setInitial(roomChar);
+				Room room = getRoom(cell);
+				// if there is no room
+				if (room == null) {
+					throw new BadConfigFormatException("File Configuration Error: Room does not exist in legend");
+				}
+				/* calling method to setup cells with indicators 
+				 * (*, #, <, >, ^, v, extra char for room letter) */
+				setupCellIndicator(fileLine,room, cell, roomChar);
+			}
+		}
+		// calling method to setup where a member can go (adjacency cells)
+				for(int row = 0; row < numRows; row++) {
+			for(int col = 0; col < numColumns; col++) {
+				BoardCell cell = this.getCell(row, col);
+				Room room;
+				// for doors that go up into a room
+				if (cell.getDoorDirection() == DoorDirection.UP) {
+					room = getRoom(grid[row-1][col]);
+					cell.setAdjList(room.getCenterCell());
+					room.getCenterCell().setAdjList(cell);
+				}
+				// for doors that go down into a room
+				if (cell.getDoorDirection() == DoorDirection.DOWN) {
+					room = getRoom(grid[row+1][col]);
+					cell.setAdjList(room.getCenterCell());
+					room.getCenterCell().setAdjList(cell);
+				}
+				// for doors that go left into a room
+				if (cell.getDoorDirection() == DoorDirection.LEFT) {
+					room = getRoom(grid[row][col-1]);
+					cell.setAdjList(room.getCenterCell());
+					room.getCenterCell().setAdjList(cell);
+				}
+				// for doors that go right into a room
+				if (cell.getDoorDirection() == DoorDirection.RIGHT) {
+					room = getRoom(grid[row][col+1]);
+					cell.setAdjList(room.getCenterCell());
+					room.getCenterCell().setAdjList(cell);
+				}
+				else if(cell.isRoomCenter()) {
+					room = getRoom(cell);
+					if(room.getSecretPassageCell() != null) {
+						char c = room.getSecretPassageCell().getSecretPassage();
+						room = getRoom(c);
+						cell.setAdjList(room.getCenterCell());
+					}
+				}
+		// closing file
+		in.close();
+	}
+
+
+After:
+
+	public void loadLayoutConfig() throws BadConfigFormatException, FileNotFoundException {
+		// initializing variables needed
+		cellList = new ArrayList<String[]>();
+		numRows = 0;
+		numColumns = 0;
+
+		// reading in files specified
+		FileReader file = new FileReader("data/" + layoutConfigFile);
+		Scanner in = new Scanner(file);
+
+		// Calculating number of rows and columns before reading in file
+		countRowsCols(in);
+
+		// setting grid with numRows and numColumns pulled from files
+		grid = new BoardCell[numRows][numColumns];
+
+		//Fill grid with the cells, and create rooms from the cells
+		for (int row = 0; row < numRows; row++) {
+			for (int col = 0; col < numColumns; col++) {
+				BoardCell cell = new BoardCell(row,col);
+				grid[row][col] = cell;
+				String fileLine = cellList.get(row)[col];
+				char roomChar = fileLine.charAt(0);
+				cell.setInitial(roomChar);
+				Room room = getRoom(cell);
+				// if there is no room
+				if (room == null) {
+					throw new BadConfigFormatException("File Configuration Error: Room does not exist in legend");
+				}
+				/* calling method to setup cells with indicators 
+				 * (*, #, <, >, ^, v, extra char for room letter) */
+				setupCellIndicator(fileLine,room, cell, roomChar);
+			}
+		}
+		// calling method to setup where a member can go (adjacency cells)
+		setupWalkways();
+		// closing file
+		in.close();
+	}
+
+	public void setupWalkways() {
+		// Ensure door locations include their rooms and also additional walkways
+
+		// checking for rooms doors can go into
+		for(int row = 0; row < numRows; row++) {
+			for(int col = 0; col < numColumns; col++) {
+				BoardCell cell = this.getCell(row, col);
+				Room room;
+				// for doors that go up into a room
+				if (cell.getDoorDirection() == DoorDirection.UP) {
+					room = getRoom(grid[row-1][col]);
+					cell.setAdjList(room.getCenterCell());
+					room.getCenterCell().setAdjList(cell);
+				}
+				// for doors that go down into a room
+				if (cell.getDoorDirection() == DoorDirection.DOWN) {
+					room = getRoom(grid[row+1][col]);
+					cell.setAdjList(room.getCenterCell());
+					room.getCenterCell().setAdjList(cell);
+				}
+				// for doors that go left into a room
+				if (cell.getDoorDirection() == DoorDirection.LEFT) {
+					room = getRoom(grid[row][col-1]);
+					cell.setAdjList(room.getCenterCell());
+					room.getCenterCell().setAdjList(cell);
+				}
+				// for doors that go right into a room
+				if (cell.getDoorDirection() == DoorDirection.RIGHT) {
+					room = getRoom(grid[row][col+1]);
+					cell.setAdjList(room.getCenterCell());
+					room.getCenterCell().setAdjList(cell);
+				}
+				else if(cell.isRoomCenter()) {
+					room = getRoom(cell);
+					if(room.getSecretPassageCell() != null) {
+						char c = room.getSecretPassageCell().getSecretPassage();
+						room = getRoom(c);
+						cell.setAdjList(room.getCenterCell());
+					}
+				}
+
+				// checking for additional walkways
+				if (cell.getInitial() == 'W') {
+					if((row-1) >= 0) {
+						cell = this.getCell(row-1, col);
+						if (cell.getInitial() == 'W') {
+							grid[row][col].setAdjList(cell);
+						}
+					}
+					if((col-1) >= 0) {
+						cell = this.getCell(row, col-1);
+						if (cell.getInitial() == 'W') {
+							grid[row][col].setAdjList(cell);
+						}
+					}
+					if((row+1) < numRows) {
+						cell = this.getCell(row+1, col);
+						if (cell.getInitial() == 'W') {
+							grid[row][col].setAdjList(cell);
+						}
+					}
+					if((col+1) < numColumns) {
+						cell = this.getCell(row, col+1);
+						if (cell.getInitial() == 'W') {
+							grid[row][col].setAdjList(cell);
+						}
+					}
+				}
+			}
+		}
+	}

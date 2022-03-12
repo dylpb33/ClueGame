@@ -276,16 +276,16 @@ public class Board {
 		for ( BoardCell cell: startCell.getAdjList()) {
 			// if already in visited list, skip rest of this
 			if(!visited.contains(cell) && (!cell.getIsOccupied() || cell.getIsRoom())) {
-				// add adjCell to visited list 
+				//add adjCell to visited list 
 				visited.add(cell);
 				if (Boolean.TRUE.equals(cell.getIsRoom()) || pathLength == 1) {
 					targets.add(cell);
 				}
-				// else call calcTargets() with adjCell, numSteps-1
+				//else call calcTargets() with adjCell, numSteps-1
 				else {
 					findAllTargets(cell, pathLength-1);
 				}
-				// remove adjCell from visited list
+				//remove adjCell from visited list
 				visited.remove(cell);
 			}
 		}
