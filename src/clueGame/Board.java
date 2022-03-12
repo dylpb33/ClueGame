@@ -103,7 +103,7 @@ public class Board {
 		// setting grid with numRows and numColumns pulled from files
 		grid = new BoardCell[numRows][numColumns];
 
-		//Fill grid with the cells, and create rooms from the cells
+		// Fill grid with the cells, and create rooms from the cells
 		for (int row = 0; row < numRows; row++) {
 			for (int col = 0; col < numColumns; col++) {
 				BoardCell cell = new BoardCell(row,col);
