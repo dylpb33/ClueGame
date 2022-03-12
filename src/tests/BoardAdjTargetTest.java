@@ -29,7 +29,7 @@ public class BoardAdjTargetTest {
 	
 	// Locations with only walkways as adjacent locations
 	// These tests are Yellow on the planning spreadsheet
-//	@Test
+	@Test
 	public void testAdjacencyWalkways()
 	{
 		// Test on bottom edge of board, just one walkway piece
@@ -64,7 +64,7 @@ public class BoardAdjTargetTest {
 	
 	// Locations that are doorways and their walkways
 	// These cells are LIGHT ORANGE on the planning spreadsheet
-//	@Test
+	@Test
 	public void testAdjacencyDoor()
 	{
 		Set<BoardCell> testList = board.getAdjList(9, 14);
@@ -90,7 +90,7 @@ public class BoardAdjTargetTest {
 
 	// Locations that are connected by a secret passage
 	// These cells are PURPLE on the planning spreadsheet
-//	@Test
+	@Test
 	public void testAdjacenciesRooms()
 	{
 		// we want to test a couple of different rooms.
@@ -117,7 +117,7 @@ public class BoardAdjTargetTest {
 	}
 	
 	// Locations within rooms not center (should have empty adjacency list)
-//	@Test
+	@Test
 	public void testAdjacenciesRoomsNotCenter()
 	{
 		// 
@@ -144,7 +144,7 @@ public class BoardAdjTargetTest {
 	
 	// Targets calculated when leaving a room with a secret passage
 	// These are WHITE on the planning spreadsheet
-//	@Test
+	@Test
 	public void testTargetsInGym() {
 		// test a roll of 1
 		board.calcTargets(board.getCell(19, 18), 1);
@@ -153,30 +153,29 @@ public class BoardAdjTargetTest {
 		assertTrue(targets.contains(board.getCell(18, 13)));	
 		assertTrue(targets.contains(board.getCell(19, 13)));
 		assertTrue(targets.contains(board.getCell(20, 13)));
-		assertTrue(targets.contains(board.getCell(1, 21)));
+		assertTrue(targets.contains(board.getCell(3, 18)));
 		
 		// test a roll of 3
 		board.calcTargets(board.getCell(19, 18), 3);
 		targets= board.getTargets();
-		assertEquals(12, targets.size());
+		assertEquals(15, targets.size());
 		assertTrue(targets.contains(board.getCell(18, 12)));
 		assertTrue(targets.contains(board.getCell(18, 11)));	
-		assertTrue(targets.contains(board.getCell(2, 14)));
-		assertTrue(targets.contains(board.getCell(3, 13)));	
+		assertTrue(targets.contains(board.getCell(20, 13)));	
 		
 		// test a roll of 4
 		board.calcTargets(board.getCell(19, 18), 4);
 		targets= board.getTargets();
-		assertEquals(29, targets.size());
-		assertTrue(targets.contains(board.getCell(5, 14)));
-		assertTrue(targets.contains(board.getCell(4, 13)));	
+		assertEquals(22, targets.size());
+		assertTrue(targets.contains(board.getCell(19, 12)));
+		assertTrue(targets.contains(board.getCell(3, 18)));	
 		assertTrue(targets.contains(board.getCell(16, 13)));
-		assertTrue(targets.contains(board.getCell(16, 12)));	
+		assertTrue(targets.contains(board.getCell(17, 11)));	
 	}
 	
 	// Targets calculated when leaving a room without a secret passage
 	// These are WHITE on the planning spreadsheet
-//	@Test
+	@Test
 	public void testTargetsInGameRoom() {
 		// test a roll of 1
 		board.calcTargets(board.getCell(16, 2), 1);
@@ -197,7 +196,7 @@ public class BoardAdjTargetTest {
 		// test a roll of 4
 		board.calcTargets(board.getCell(16, 2), 4);
 		targets= board.getTargets();
-		assertEquals(8, targets.size());
+		assertEquals(9, targets.size());
 		assertTrue(targets.contains(board.getCell(12, 0)));
 		assertTrue(targets.contains(board.getCell(11, 1)));	
 		assertTrue(targets.contains(board.getCell(18, 5)));
@@ -206,7 +205,7 @@ public class BoardAdjTargetTest {
 
 	// Targets that allow the user to enter a room
 	// These are PURPLE on the planning spreadsheet
-//	@Test
+	@Test
 	public void testTargetsAtDoor() {
 		// test a roll of 1, at door
 		board.calcTargets(board.getCell(2, 5), 1);
@@ -229,8 +228,8 @@ public class BoardAdjTargetTest {
 		// test a roll of 4
 		board.calcTargets(board.getCell(2, 5), 4);
 		targets= board.getTargets();
-		assertEquals(9, targets.size());
-		assertTrue(targets.contains(board.getCell(4, 0)));
+		assertEquals(10, targets.size());
+		assertTrue(targets.contains(board.getCell(4, 7)));
 		assertTrue(targets.contains(board.getCell(4, 3)));
 		assertTrue(targets.contains(board.getCell(4, 5)));	
 		assertTrue(targets.contains(board.getCell(5, 6)));
@@ -238,7 +237,7 @@ public class BoardAdjTargetTest {
 	}
 	
 	// Targets along walkways, at various distances
-//	@Test
+	@Test
 	public void testTargetsInWalkway1() {
 		// test a roll of 1
 		board.calcTargets(board.getCell(18, 0), 1);
@@ -258,18 +257,18 @@ public class BoardAdjTargetTest {
 		targets= board.getTargets();
 		assertEquals(2, targets.size());
 		assertTrue(targets.contains(board.getCell(18, 4)));
-		assertTrue(targets.contains(board.getCell(13, 2)));
+		assertTrue(targets.contains(board.getCell(16, 2)));
 	}
 
 
-//	@Test
+	@Test
 	public void testTargetsOccupied() {
 		// test a roll of 4 blocked 2 down
 		board.getCell(1, 6).setOccupied(true);
 		board.calcTargets(board.getCell(0, 6), 4);
 		board.getCell(1, 6).setOccupied(false);
 		Set<BoardCell> targets = board.getTargets();
-		assertEquals(1, targets.size());
+		assertEquals(3, targets.size());
 		assertTrue(targets.contains(board.getCell(2, 2)));
 		assertTrue(targets.contains(board.getCell(3, 5)));
 		assertTrue(targets.contains(board.getCell(2, 6)));	
@@ -293,10 +292,10 @@ public class BoardAdjTargetTest {
 		board.calcTargets(board.getCell(11, 18), 3);
 		board.getCell(9, 14).setOccupied(false);
 		targets= board.getTargets();
-		assertEquals(8, targets.size());
-		assertTrue(targets.contains(board.getCell(7, 14)));
-		assertTrue(targets.contains(board.getCell(8, 13)));	
-		assertTrue(targets.contains(board.getCell(15, 16)));
+		assertEquals(3, targets.size());
+		assertTrue(targets.contains(board.getCell(7, 2)));
+		assertTrue(targets.contains(board.getCell(15, 16)));	
+		assertTrue(targets.contains(board.getCell(15, 20)));
 
 	}
 }
