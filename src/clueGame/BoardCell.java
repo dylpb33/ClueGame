@@ -75,7 +75,7 @@ public class BoardCell {
 		return isDoor;
 	}
 	
-	// Sets cell as a door
+	// Sets whether a cell is a door
 	public void setDoor(boolean isDoor) {
 		this.isDoor = isDoor;
 	}

@@ -285,7 +285,7 @@ public class Board {
 				else {
 					findAllTargets(cell, pathLength-1);
 				}
-				//remove adjCell from visited list
+				//git remove adjCell from visited list
 				visited.remove(cell);
 			}
 		}
