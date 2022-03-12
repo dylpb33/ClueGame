@@ -76,7 +76,7 @@ public class Board {
 				if(room.equals(arrStr[0]) || space.equals(arrStr[0])) {
 					char roomInitial = arrStr[2].charAt(0);
 					Room newRoom = new Room();
-					newRoom.name = arrStr[1];
+					newRoom.setName(arrStr[1]);
 					roomMap.put(roomInitial, newRoom); 
 				}
 				//if not a valid line, throw bad config error
@@ -105,7 +105,7 @@ public class Board {
 		// setting grid with numRows and numColumns pulled from files
 		grid = new BoardCell[numRows][numColumns];
 
-		// loading in rooms
+		//Fill grid with the cells, and create rooms from the cells
 		for (int row = 0; row < numRows; row++) {
 			for (int col = 0; col < numColumns; col++) {
 				BoardCell cell = new BoardCell(row,col);
@@ -159,6 +159,7 @@ public class Board {
 				roomMap.get(roomChar).setCenterCell(cell);
 				cell.setIsRoom(true);
 				cell.setRoomCenter(true);
+				cell.setSecretPassage(roomChar);
 			}
 			// door leading right into room
 			else if(fileLine.contains(">")) {
@@ -185,6 +186,7 @@ public class Board {
 				cell.setSecretPassage(fileLine.charAt(1));
 				cell.setSecretPassage(true);
 				cell.setIsRoom(true);
+				room.setSecretPassageCell(cell);
 			}
 		}
 	}
@@ -221,6 +223,14 @@ public class Board {
 					room = getRoom(grid[row][col+1]);
 					cell.setAdjList(room.getCenterCell());
 					room.getCenterCell().setAdjList(cell);
+				}
+				else if(cell.isRoomCenter()) {
+					room = getRoom(cell);
+					if(room.getSecretPassageCell() != null) {
+						char c = room.getSecretPassageCell().getSecretPassage();
+						room = getRoom(c);
+						cell.setAdjList(room.getCenterCell());
+					}
 				}
 
 				// checking for additional walkways
@@ -270,12 +280,7 @@ public class Board {
 			if(!visited.contains(cell) && cell.getIsOccupied() == false) {
 				//				� add adjCell to visited list 
 				visited.add(cell);
-				if (cell.getIsRoom() == true) {
-					targets.add(cell);
-					continue;
-				}
-				//				� if pathLength == 1, add adjCell to Targets
-				if (pathLength == 1 && cell.getIsOccupied() == false) {
+				if (cell.getIsRoom() == true || pathLength == 1) {
 					targets.add(cell);
 				}
 				//				� else call calcTargets() with adjCell, numSteps-1
@@ -288,30 +293,37 @@ public class Board {
 		}
 	}
 	
+	//Returns number of rows in board
 	public int getNumRows() {
 		return numRows;
 	}
-
+	
+	//Returns number of columns in board
 	public int getNumColumns() {
 		return numColumns;
 	}
-
+	
+	//Returns cell on board at given row and column of cell
 	public BoardCell getCell(int row, int col) {
 		return grid[row][col];
 	}
-
+	
+	//Returns room of cell based on its initial
 	public Room getRoom(char c) {
 		return roomMap.get(c);
 	}
-
+	
+	//Returns the room a cell is in
 	public Room getRoom(BoardCell cell) {
 		return roomMap.get(cell.getInitial());
 	}
-
+	
+	//Returns possible targets
 	public Set<BoardCell> getTargets() {
-		return new HashSet<BoardCell>();
+		return targets;
 	}
-
+	
+	//Returns AdjList based on row and column of cell
 	public Set<BoardCell> getAdjList(int row, int col) {
 		return grid[row][col].getAdjList();
 	}
