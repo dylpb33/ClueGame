@@ -291,6 +291,10 @@ public class Board {
 		}
 	}
 	
+	public void deal() {
+		
+	}
+	
 	// Returns number of rows in board
 	public int getNumRows() {
 		return numRows;

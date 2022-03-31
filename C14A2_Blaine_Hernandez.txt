@@ -1,0 +1,414 @@
+C17-A2 Refactoring
+Dylan Blaine, Jasmine Hernandez
+Section A
+
+I, Dylan Blaine, certify that I participated equitably in the creation of assignment C17-A2, dated 3/11/2022.
+I, Jasmine Hernandez, certify that I participated equitably in the creation of this assignment C17-A2, dated 3/11/2022.
+
+commits:
+commit e4300ec129ebf3c36e983b98b5552eb08a00011b (HEAD -> master, origin/master)
+Author: dylpb33 <dblaine@mines.edu>
+Date:   Fri Mar 11 18:58:58 2022 -0700
+
+    Added comments to methods in BoardCell to specify their purpose
+
+commit 626712dbc0ee69f341f36a4df649d17f90b56dde
+Author: dylpb33 <dblaine@mines.edu>
+Date:   Fri Mar 11 18:56:03 2022 -0700
+
+    Updated comments in findAllTargets to specify what algorithm is doing
+
+commit fdd87933cd2efa14da9953d75766f9e2e80cab3c
+Author: Jazmine Hernandez <jazminehernandez@Jazmines-MacBook-Pro.local>
+Date:   Fri Mar 11 18:52:17 2022 -0700
+
+    Update variables to be more clear. arr -> cellList, String s -> String fileLine, char c -> char roomInitial
+
+commit b35a48fec77e7a9885955d0cd5dc5c92ab2f56eb
+Author: Jazmine Hernandez <jazminehernandez@Jazmines-MacBook-Pro.local>
+Date:   Fri Mar 11 18:48:40 2022 -0700
+
+    Removed unused helper functions
+
+commit e26434ab45e7efafafbc810e2c0a30e6ac7b92b1
+Author: dylpb33 <dblaine@mines.edu>
+Date:   Fri Mar 11 18:44:24 2022 -0700
+
+    Made room name a private variable and added a setter function for it
+
+commit 1aeb4b27de467a5bdb26ebb312b91029d083a8d6
+Author: dylpb33 <dblaine@mines.edu>
+Date:   Fri Mar 11 18:42:32 2022 -0700
+
+    Added secretPassageCell instance variable in room along with getters and setters
+
+commit 40d8ae5e2ab56690940920184eaf6221afdd17ff
+Author: Jazmine Hernandez <jazminehernandez@Jazmines-MacBook-Pro.local>
+Date:   Fri Mar 11 18:35:08 2022 -0700
+
+    Simplified Boolean expressions
+
+commit a12b7e7da291c794e82ca1c0cce7969ba7ac6b3e
+Author: Jazmine Hernandez <jazminehernandez@Jazmines-MacBook-Pro.local>
+Date:   Fri Mar 11 18:29:55 2022 -0700
+
+commit e26434ab45e7efafafbc810e2c0a30e6ac7b92b1
+Author: dylpb33 <dblaine@mines.edu>
+Date:   Fri Mar 11 18:44:24 2022 -0700
+
+    Made room name a private variable and added a setter function for it
+
+commit 1aeb4b27de467a5bdb26ebb312b91029d083a8d6
+Author: dylpb33 <dblaine@mines.edu>
+Date:   Fri Mar 11 18:42:32 2022 -0700
+
+    Added secretPassageCell instance variable in room along with getters and setters
+
+commit 40d8ae5e2ab56690940920184eaf6221afdd17ff
+Author: Jazmine Hernandez <jazminehernandez@Jazmines-MacBook-Pro.local>
+Date:   Fri Mar 11 18:35:08 2022 -0700
+
+    Simplified Boolean expressions
+
+commit a12b7e7da291c794e82ca1c0cce7969ba7ac6b3e
+Author: Jazmine Hernandez <jazminehernandez@Jazmines-MacBook-Pro.local>
+Date:   Fri Mar 11 18:29:55 2022 -0700
+
+    Edited loadLayoutConfig() to call new method setupCellIndicator() which sets up cells and if they are a roomCenter, Label, Door, etc
+
+Most Significant changes:
+
+Put the cell indicator calculations into its own method.
+
+before:
+		//Fill grid with the cells, and create rooms from the cells
+		for (int row = 0; row < numRows; row++) {
+			for (int col = 0; col < numColumns; col++) {
+				BoardCell cell = new BoardCell(row,col);
+				grid[row][col] = cell;
+				String fileLine = cellList.get(row)[col];
+				char roomChar = fileLine.charAt(0);
+				cell.setInitial(roomChar);
+				Room room = getRoom(cell);
+				// if there is no room
+				if (room == null) {
+					throw new BadConfigFormatException("File Configuration Error: Room does not exist in legend");
+				}
+				
+		if (fileLine.length() > 1) {
+			// space for room name
+			if(fileLine.contains("#")) {
+				roomMap.get(roomChar).setLabelCell(cell);
+				cell.setIsRoom(true);
+				cell.setRoomLabel(true);
+			}
+			// room center
+			else if(fileLine.contains("*")) {
+				roomMap.get(roomChar).setCenterCell(cell);
+				cell.setIsRoom(true);
+				cell.setRoomCenter(true);
+				cell.setSecretPassage(roomChar);
+			}
+			// door leading right into room
+			else if(fileLine.contains(">")) {
+				cell.setDoorDirection(DoorDirection.RIGHT);
+				cell.setDoor(true);
+			}
+			// door leading left into room
+			else if(fileLine.contains("<")) {
+				cell.setDoorDirection(DoorDirection.LEFT);
+				cell.setDoor(true);
+			}
+			// door leading up into room
+			else if(fileLine.contains("^")) {
+				cell.setDoorDirection(DoorDirection.UP);
+				cell.setDoor(true);
+			}
+			// door leading down into room
+			else if(fileLine.contains("v")) {
+				cell.setDoorDirection(DoorDirection.DOWN);
+				cell.setDoor(true);
+			}
+			// otherwise it is a secret passage
+			else {
+				cell.setSecretPassage(fileLine.charAt(1));
+				cell.setSecretPassage(true);
+				cell.setIsRoom(true);
+				room.setSecretPassageCell(cell);
+			}
+		}
+			}
+		}
+after:
+		//Fill grid with the cells, and create rooms from the cells
+		for (int row = 0; row < numRows; row++) {
+			for (int col = 0; col < numColumns; col++) {
+				BoardCell cell = new BoardCell(row,col);
+				grid[row][col] = cell;
+				String fileLine = cellList.get(row)[col];
+				char roomChar = fileLine.charAt(0);
+				cell.setInitial(roomChar);
+				Room room = getRoom(cell);
+				// if there is no room
+				if (room == null) {
+					throw new BadConfigFormatException("File Configuration Error: Room does not exist in legend");
+				}
+				/* calling method to setup cells with indicators 
+				 * (*, #, <, >, ^, v, extra char for room letter) */
+				setupCellIndicator(fileLine,room, cell, roomChar);
+			}
+		}
+
+	public void setupCellIndicator(String fileLine, Room room, BoardCell cell, char roomChar) {
+
+		if (fileLine.length() > 1) {
+			// space for room name
+			if(fileLine.contains("#")) {
+				roomMap.get(roomChar).setLabelCell(cell);
+				cell.setIsRoom(true);
+				cell.setRoomLabel(true);
+			}
+			// room center
+			else if(fileLine.contains("*")) {
+				roomMap.get(roomChar).setCenterCell(cell);
+				cell.setIsRoom(true);
+				cell.setRoomCenter(true);
+				cell.setSecretPassage(roomChar);
+			}
+			// door leading right into room
+			else if(fileLine.contains(">")) {
+				cell.setDoorDirection(DoorDirection.RIGHT);
+				cell.setDoor(true);
+			}
+			// door leading left into room
+			else if(fileLine.contains("<")) {
+				cell.setDoorDirection(DoorDirection.LEFT);
+				cell.setDoor(true);
+			}
+			// door leading up into room
+			else if(fileLine.contains("^")) {
+				cell.setDoorDirection(DoorDirection.UP);
+				cell.setDoor(true);
+			}
+			// door leading down into room
+			else if(fileLine.contains("v")) {
+				cell.setDoorDirection(DoorDirection.DOWN);
+				cell.setDoor(true);
+			}
+			// otherwise it is a secret passage
+			else {
+				cell.setSecretPassage(fileLine.charAt(1));
+				cell.setSecretPassage(true);
+				cell.setIsRoom(true);
+				room.setSecretPassageCell(cell);
+			}
+		}
+	}
+
+Added instance variable in Room to store the cell containing a rooms secret passage.
+Before:
+After:
+private BoardCell secretPassageCell;
+
+
+	//Returns center cell for a room
+	public BoardCell getSecretPassageCell() {
+		return secretPassageCell;
+	}
+	
+	//Sets center cell for a room
+	public void setSecretPassageCell(BoardCell c) {
+		secretPassageCell = c;
+	}
+
+Added a method to setup the walkways
+Before:
+	public void loadLayoutConfig() throws BadConfigFormatException, FileNotFoundException {
+		// initializing variables needed
+		cellList = new ArrayList<String[]>();
+		numRows = 0;
+		numColumns = 0;
+
+		// reading in files specified
+		FileReader file = new FileReader("data/" + layoutConfigFile);
+		Scanner in = new Scanner(file);
+
+		// Calculating number of rows and columns before reading in file
+		countRowsCols(in);
+
+		// setting grid with numRows and numColumns pulled from files
+		grid = new BoardCell[numRows][numColumns];
+
+		//Fill grid with the cells, and create rooms from the cells
+		for (int row = 0; row < numRows; row++) {
+			for (int col = 0; col < numColumns; col++) {
+				BoardCell cell = new BoardCell(row,col);
+				grid[row][col] = cell;
+				String fileLine = cellList.get(row)[col];
+				char roomChar = fileLine.charAt(0);
+				cell.setInitial(roomChar);
+				Room room = getRoom(cell);
+				// if there is no room
+				if (room == null) {
+					throw new BadConfigFormatException("File Configuration Error: Room does not exist in legend");
+				}
+				/* calling method to setup cells with indicators 
+				 * (*, #, <, >, ^, v, extra char for room letter) */
+				setupCellIndicator(fileLine,room, cell, roomChar);
+			}
+		}
+		// calling method to setup where a member can go (adjacency cells)
+				for(int row = 0; row < numRows; row++) {
+			for(int col = 0; col < numColumns; col++) {
+				BoardCell cell = this.getCell(row, col);
+				Room room;
+				// for doors that go up into a room
+				if (cell.getDoorDirection() == DoorDirection.UP) {
+					room = getRoom(grid[row-1][col]);
+					cell.setAdjList(room.getCenterCell());
+					room.getCenterCell().setAdjList(cell);
+				}
+				// for doors that go down into a room
+				if (cell.getDoorDirection() == DoorDirection.DOWN) {
+					room = getRoom(grid[row+1][col]);
+					cell.setAdjList(room.getCenterCell());
+					room.getCenterCell().setAdjList(cell);
+				}
+				// for doors that go left into a room
+				if (cell.getDoorDirection() == DoorDirection.LEFT) {
+					room = getRoom(grid[row][col-1]);
+					cell.setAdjList(room.getCenterCell());
+					room.getCenterCell().setAdjList(cell);
+				}
+				// for doors that go right into a room
+				if (cell.getDoorDirection() == DoorDirection.RIGHT) {
+					room = getRoom(grid[row][col+1]);
+					cell.setAdjList(room.getCenterCell());
+					room.getCenterCell().setAdjList(cell);
+				}
+				else if(cell.isRoomCenter()) {
+					room = getRoom(cell);
+					if(room.getSecretPassageCell() != null) {
+						char c = room.getSecretPassageCell().getSecretPassage();
+						room = getRoom(c);
+						cell.setAdjList(room.getCenterCell());
+					}
+				}
+		// closing file
+		in.close();
+	}
+
+
+After:
+
+	public void loadLayoutConfig() throws BadConfigFormatException, FileNotFoundException {
+		// initializing variables needed
+		cellList = new ArrayList<String[]>();
+		numRows = 0;
+		numColumns = 0;
+
+		// reading in files specified
+		FileReader file = new FileReader("data/" + layoutConfigFile);
+		Scanner in = new Scanner(file);
+
+		// Calculating number of rows and columns before reading in file
+		countRowsCols(in);
+
+		// setting grid with numRows and numColumns pulled from files
+		grid = new BoardCell[numRows][numColumns];
+
+		//Fill grid with the cells, and create rooms from the cells
+		for (int row = 0; row < numRows; row++) {
+			for (int col = 0; col < numColumns; col++) {
+				BoardCell cell = new BoardCell(row,col);
+				grid[row][col] = cell;
+				String fileLine = cellList.get(row)[col];
+				char roomChar = fileLine.charAt(0);
+				cell.setInitial(roomChar);
+				Room room = getRoom(cell);
+				// if there is no room
+				if (room == null) {
+					throw new BadConfigFormatException("File Configuration Error: Room does not exist in legend");
+				}
+				/* calling method to setup cells with indicators 
+				 * (*, #, <, >, ^, v, extra char for room letter) */
+				setupCellIndicator(fileLine,room, cell, roomChar);
+			}
+		}
+		// calling method to setup where a member can go (adjacency cells)
+		setupWalkways();
+		// closing file
+		in.close();
+	}
+
+	public void setupWalkways() {
+		// Ensure door locations include their rooms and also additional walkways
+
+		// checking for rooms doors can go into
+		for(int row = 0; row < numRows; row++) {
+			for(int col = 0; col < numColumns; col++) {
+				BoardCell cell = this.getCell(row, col);
+				Room room;
+				// for doors that go up into a room
+				if (cell.getDoorDirection() == DoorDirection.UP) {
+					room = getRoom(grid[row-1][col]);
+					cell.setAdjList(room.getCenterCell());
+					room.getCenterCell().setAdjList(cell);
+				}
+				// for doors that go down into a room
+				if (cell.getDoorDirection() == DoorDirection.DOWN) {
+					room = getRoom(grid[row+1][col]);
+					cell.setAdjList(room.getCenterCell());
+					room.getCenterCell().setAdjList(cell);
+				}
+				// for doors that go left into a room
+				if (cell.getDoorDirection() == DoorDirection.LEFT) {
+					room = getRoom(grid[row][col-1]);
+					cell.setAdjList(room.getCenterCell());
+					room.getCenterCell().setAdjList(cell);
+				}
+				// for doors that go right into a room
+				if (cell.getDoorDirection() == DoorDirection.RIGHT) {
+					room = getRoom(grid[row][col+1]);
+					cell.setAdjList(room.getCenterCell());
+					room.getCenterCell().setAdjList(cell);
+				}
+				else if(cell.isRoomCenter()) {
+					room = getRoom(cell);
+					if(room.getSecretPassageCell() != null) {
+						char c = room.getSecretPassageCell().getSecretPassage();
+						room = getRoom(c);
+						cell.setAdjList(room.getCenterCell());
+					}
+				}
+
+				// checking for additional walkways
+				if (cell.getInitial() == 'W') {
+					if((row-1) >= 0) {
+						cell = this.getCell(row-1, col);
+						if (cell.getInitial() == 'W') {
+							grid[row][col].setAdjList(cell);
+						}
+					}
+					if((col-1) >= 0) {
+						cell = this.getCell(row, col-1);
+						if (cell.getInitial() == 'W') {
+							grid[row][col].setAdjList(cell);
+						}
+					}
+					if((row+1) < numRows) {
+						cell = this.getCell(row+1, col);
+						if (cell.getInitial() == 'W') {
+							grid[row][col].setAdjList(cell);
+						}
+					}
+					if((col+1) < numColumns) {
+						cell = this.getCell(row, col+1);
+						if (cell.getInitial() == 'W') {
+							grid[row][col].setAdjList(cell);
+						}
+					}
+				}
+			}
+		}
+	}
