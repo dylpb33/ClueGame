@@ -2,9 +2,23 @@ package clueGame;
 
 public class Card {
 	private String cardName;
+	public enum CardType {ROOM,PERSON,WEAPON};
+	private CardType type;
 
-	public Card() {
-		// TODO Auto-generated constructor stub
+	public Card(String s) {
+		cardName = s;
+	}
+	
+	public void setCardType(String s) {
+		if(s == "r") {
+			type = type.ROOM;
+		}
+		else if(s == "p") {
+			type = type.PERSON;
+		}
+		else {
+			type = type.WEAPON;
+		}
 	}
 	
 	public boolean equals(Card target){

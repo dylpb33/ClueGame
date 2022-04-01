@@ -46,7 +46,11 @@ public abstract class Player {
 	}
 	
 	public void updateHand(Card card){
-		
+		hand.add(card);
+	}
+	
+	public Card getHand(int i) {
+		return hand.get(i);
 	}
 	
 	public int getHandSize() {

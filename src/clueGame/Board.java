@@ -74,21 +74,46 @@ public class Board {
 
 			// only parse through if it is not a comment or empty line
 			if(!(fileLine.contains(comment) || fileLine.isEmpty())) {
+				Card newCard;
+				String r = "r";
+				String p = "p";
+				String w = "w";		
+			
 
 				//check to make sure it is a valid line that starts with Room or Space
 				if(room.equals(arrStr[0]) || space.equals(arrStr[0])) {
 					char roomInitial = arrStr[2].charAt(0);
 					Room newRoom = new Room();
 					newRoom.setName(arrStr[1]);
-					roomMap.put(roomInitial, newRoom); 
+					roomMap.put(roomInitial, newRoom);
+					newCard = new Card(arrStr[1]);
+					newCard.setCardType(r);
 				}
 				else if(player.equals(arrStr[0])) {
-					ComputerPlayer newPlayer = new ComputerPlayer();
-					newPlayer.setName(arrStr[0]);
+					int row = Integer.parseInt(arrStr[4]);
+					int col = Integer.parseInt(arrStr[5]);
+					if(arrStr[2] == "human") {
+						HumanPlayer newHuman = new HumanPlayer();
+						newHuman.setName(arrStr[1]);
+						newHuman.setColor(arrStr[3]);
+						newHuman.setRow(row);
+						newHuman.setColumn(col);
+						newCard = new Card(arrStr[1]);
+						newCard.setCardType(p);
+					}
+					else {
+						ComputerPlayer newComputer = new ComputerPlayer();
+						newComputer.setName(arrStr[1]);
+						newComputer.setColor(arrStr[3]);
+						newComputer.setRow(row);
+						newComputer.setColumn(col);
+						newCard = new Card(arrStr[1]);
+						newCard.setCardType(p);
+					}
 				}
 				else if(weapon.equals(arrStr[0])) {
-				
-					
+					newCard = new Card(arrStr[1]);
+					newCard.setCardType(w);
 				}
 				//if not a valid line, throw bad config error
 				else {
@@ -99,6 +124,7 @@ public class Board {
 		in.close();
 	}
 	
+
 
 	public void loadLayoutConfig() throws BadConfigFormatException, FileNotFoundException {
 		// initializing variables needed

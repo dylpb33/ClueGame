@@ -2,6 +2,7 @@ package tests;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
 import java.util.Set;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -9,6 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import clueGame.Board;
 import clueGame.BoardCell;
+import clueGame.Card;
 import clueGame.ComputerPlayer;
 import clueGame.HumanPlayer;
 
@@ -63,11 +65,27 @@ public class PlayersTests {
 	
 	@Test
 	public void testCardsDealt() {
+		//Test total size of deck is correct.
 		int total = 0;
 		for(int i = 0; i < board.getPlayerArray().size(); i++) {
 			total = total + board.getPlayer(i).getHandSize();
 		}
 		assertEquals(board.getDeck().size(), total);
-		assertEquals()
+		
+		//Test that all players have roughly the same number of cards.
+		int avgHandSize = (board.getDeck().size() - 3)/board.getPlayerArray().size();
+		int min = avgHandSize - 1;
+		int max = avgHandSize + 1;
+		assertTrue(board.getPlayer(0).getHandSize() < max && board.getPlayer(0).getHandSize() > min);
+		
+		//Test same card is not given to more than one player
+		ArrayList<Card> checkCards = new ArrayList();
+		for(int i = 0; i < board.getPlayerArray().size(); i++) {
+			for(int j = 0; j < 3; j++) {
+				assertFalse(checkCards.contains(board.getPlayer(i).getHand(j)));
+				checkCards.add(board.getPlayer(i).getHand(j));
+			}
+		}
+		
 	}
 }
