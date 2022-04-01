@@ -8,7 +8,13 @@ public class Card {
 	}
 	
 	public boolean equals(Card target){
-		
+		Card c = null;
+		if(target == c) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 
 }

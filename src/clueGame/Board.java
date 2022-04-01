@@ -4,6 +4,7 @@ package clueGame;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.lang.reflect.Array;
 import java.util.*;
 
 public class Board {
@@ -17,6 +18,8 @@ public class Board {
 	private ArrayList<String[]> cellList;
 	private Set<BoardCell> targets;
 	private Set<BoardCell> visited;
+	private ArrayList<Card> Hand = new ArrayList();
+	private ArrayList<Player> Players = new ArrayList();
 
 
 	/*
@@ -56,6 +59,8 @@ public class Board {
 		roomMap = new HashMap<Character, Room>();
 		String room = "Room";
 		String space = "Space";
+		String player = "Player";
+		String weapon = "Weapon";
 		String comment = "//";
 
 		// reading in files specified
@@ -76,6 +81,14 @@ public class Board {
 					Room newRoom = new Room();
 					newRoom.setName(arrStr[1]);
 					roomMap.put(roomInitial, newRoom); 
+				}
+				else if(player.equals(arrStr[0])) {
+					ComputerPlayer newPlayer = new ComputerPlayer();
+					newPlayer.setName(arrStr[0]);
+				}
+				else if(weapon.equals(arrStr[0])) {
+				
+					
 				}
 				//if not a valid line, throw bad config error
 				else {
@@ -328,5 +341,13 @@ public class Board {
 	// Returns AdjList based on row and column of cell
 	public Set<BoardCell> getAdjList(int row, int col) {
 		return grid[row][col].getAdjList();
+	}
+	
+	public void setPlayerArray(Player p, int i) {
+		Players.add(i, p);
+	}
+	
+	public Player getPlayer(int i) {
+		return Players.get(i);
 	}
 }
