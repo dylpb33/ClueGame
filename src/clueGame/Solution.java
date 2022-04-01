@@ -6,7 +6,25 @@ public class Solution {
 	private Card weapon;
 
 	public Solution() {
-		// TODO Auto-generated constructor stub
+		
+	}
+	
+	public void setSolution(Card a, Card b, Card c) {
+		room = a;
+		person = b;
+		weapon = c;
+	}
+	
+	public Card getSolutionRoom() {
+		return room;
+	}
+	
+	public Card getSolutionPerson() {
+		return person;
+	}
+	
+	public Card getSolutionWeapon() {
+		return weapon;
 	}
 
 }

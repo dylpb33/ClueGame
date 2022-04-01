@@ -7,7 +7,7 @@ public abstract class Player {
 	private String color;
 	private int row;
 	private int column;
-	private ArrayList hand[];
+	private ArrayList<Card> hand = new ArrayList();
 	
 	public Player() {
 
@@ -47,6 +47,10 @@ public abstract class Player {
 	
 	public void updateHand(Card card){
 		
+	}
+	
+	public int getHandSize() {
+		return hand.size();
 	}
 
 }

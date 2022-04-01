@@ -18,9 +18,9 @@ public class Board {
 	private ArrayList<String[]> cellList;
 	private Set<BoardCell> targets;
 	private Set<BoardCell> visited;
-	private ArrayList<Card> Hand = new ArrayList();
+	private ArrayList<Card> Deck = new ArrayList();
 	private ArrayList<Player> Players = new ArrayList();
-
+	private Solution solution;
 
 	/*
 	 * variable and methods used for singleton pattern
@@ -349,5 +349,29 @@ public class Board {
 	
 	public Player getPlayer(int i) {
 		return Players.get(i);
+	}
+	
+	public ArrayList<Player> getPlayerArray() {
+		return Players;
+	}
+	
+	public void setDeck(Card c, int i) {
+		Deck.add(i, c);
+	}
+	
+	public Card getCardInDeck(int i) {
+		return Deck.get(i);
+	}
+	
+	public ArrayList<Card> getDeck() {
+		return Deck;
+	}
+	
+	public void setSolution(Card a, Card b, Card c) {
+		solution.setSolution(a,b,c);
+	}
+	
+	public Solution getSolution() {
+		return solution;
 	}
 }
