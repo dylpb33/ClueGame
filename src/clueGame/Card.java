@@ -21,6 +21,21 @@ public class Card {
 		}
 	}
 	
+	public String getCardType() {
+		String r = "room";
+		String p = "person";
+		String w = "weapon";
+		if(type == type.ROOM) {
+			return r;
+		}
+		else if(type == type.PERSON) {
+			return p;
+		}
+		else {
+			return w;
+		}
+	}
+	
 	public boolean equals(Card target){
 		Card c = null;
 		if(target == c) {

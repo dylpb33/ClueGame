@@ -18,8 +18,9 @@ public class Board {
 	private ArrayList<String[]> cellList;
 	private Set<BoardCell> targets;
 	private Set<BoardCell> visited;
-	private ArrayList<Card> Deck = new ArrayList();
-	private ArrayList<Player> Players = new ArrayList();
+	private ArrayList<Card> Deck;
+	private ArrayList<Card> shuffledDeck;
+	private ArrayList<Player> Players;
 	private Solution solution;
 
 	/*
@@ -57,11 +58,14 @@ public class Board {
 	public void loadSetupConfig() throws BadConfigFormatException, FileNotFoundException {
 		// initializing variables needed
 		roomMap = new HashMap<Character, Room>();
+		Deck = new ArrayList<Card>();
+		Players = new ArrayList<Player>();
 		String room = "Room";
 		String space = "Space";
 		String player = "Player";
 		String weapon = "Weapon";
 		String comment = "//";
+		String human = "human";
 
 		// reading in files specified
 		FileReader file = new FileReader("data/" + setupConfigFile);
@@ -86,13 +90,20 @@ public class Board {
 					Room newRoom = new Room();
 					newRoom.setName(arrStr[1]);
 					roomMap.put(roomInitial, newRoom);
+					if(space.equals(arrStr[0])){
+						
+					}
+					else{
 					newCard = new Card(arrStr[1]);
 					newCard.setCardType(r);
+					setDeck(newCard);
+					}
+					
 				}
 				else if(player.equals(arrStr[0])) {
 					int row = Integer.parseInt(arrStr[4]);
 					int col = Integer.parseInt(arrStr[5]);
-					if(arrStr[2] == "human") {
+					if(human.equals(arrStr[2])) {
 						HumanPlayer newHuman = new HumanPlayer();
 						newHuman.setName(arrStr[1]);
 						newHuman.setColor(arrStr[3]);
@@ -100,6 +111,8 @@ public class Board {
 						newHuman.setColumn(col);
 						newCard = new Card(arrStr[1]);
 						newCard.setCardType(p);
+						setDeck(newCard);
+						setPlayerArray(newHuman);
 					}
 					else {
 						ComputerPlayer newComputer = new ComputerPlayer();
@@ -109,18 +122,23 @@ public class Board {
 						newComputer.setColumn(col);
 						newCard = new Card(arrStr[1]);
 						newCard.setCardType(p);
+						setDeck(newCard);
+						setPlayerArray(newComputer);
 					}
 				}
-				else if(weapon.equals(arrStr[0])) {
+				else {
 					newCard = new Card(arrStr[1]);
 					newCard.setCardType(w);
-				}
-				//if not a valid line, throw bad config error
-				else {
-					throw new BadConfigFormatException("Invalid row in " + setupConfigFile);
+					setDeck(newCard);
 				}
 			}
+				//if not a valid line, throw bad config error
+//			else {
+//					throw new BadConfigFormatException("Invalid row in " + setupConfigFile);
+//			}
 		}
+		
+		deal();
 		in.close();
 	}
 	
@@ -331,7 +349,59 @@ public class Board {
 	}
 	
 	public void deal() {
-		
+		Card a = null;
+		Card b = null;
+		Card c = null;
+		shuffledDeck = new ArrayList<Card>();
+		for(int i = 0; i < getDeck().size(); i++) {
+			shuffledDeck.add(Deck.get(i));
+		}
+		Collections.shuffle(shuffledDeck);
+		for(int i = 0; i < getShuffledDeck().size(); i++) {
+			if(shuffledDeck.get(i).getCardType() == "room") {
+				a = shuffledDeck.get(i);
+				shuffledDeck.remove(i);
+				break;
+			}
+		}
+		for(int i = 0; i < getShuffledDeck().size(); i++) {
+			if(shuffledDeck.get(i).getCardType() == "person") {
+				b = shuffledDeck.get(i);
+				shuffledDeck.remove(i);
+				break;
+			}
+		}
+		for(int i = 0; i < getShuffledDeck().size(); i++) {
+			if(shuffledDeck.get(i).getCardType() == "weapon") {
+				c = shuffledDeck.get(i);
+				shuffledDeck.remove(i);
+				break;
+			}
+		}
+		solution = new Solution();
+		solution.setSolution(a, b, c);
+		boolean bool = true;
+		while(bool == true) {
+			for(int i = 0; i < getPlayerArray().size(); i++) {
+				if(getShuffledDeck().size() > i) {
+					getPlayer(i).getHand().add(shuffledDeck.get(i));
+					shuffledDeck.remove(i);
+				}
+				else if(getShuffledDeck().size() <= i && getShuffledDeck().size() > 0) {
+					int j = i;
+					while(j > 0) {
+						for(int k = j; j < (j + i) - 1 && j > 0; k++) {
+						getPlayer(k).getHand().add(shuffledDeck.get(j-1));
+						shuffledDeck.remove(j-1);
+						j--;
+						}
+					}
+				}
+				else {
+					bool = false;
+				}
+			}
+		}
 	}
 	
 	// Returns number of rows in board
@@ -369,8 +439,8 @@ public class Board {
 		return grid[row][col].getAdjList();
 	}
 	
-	public void setPlayerArray(Player p, int i) {
-		Players.add(i, p);
+	public void setPlayerArray(Player p) {
+		Players.add(p);
 	}
 	
 	public Player getPlayer(int i) {
@@ -381,8 +451,8 @@ public class Board {
 		return Players;
 	}
 	
-	public void setDeck(Card c, int i) {
-		Deck.add(i, c);
+	public void setDeck(Card c) {
+		Deck.add(c);
 	}
 	
 	public Card getCardInDeck(int i) {
@@ -391,6 +461,10 @@ public class Board {
 	
 	public ArrayList<Card> getDeck() {
 		return Deck;
+	}
+	
+	public ArrayList<Card> getShuffledDeck() {
+		return shuffledDeck;
 	}
 	
 	public void setSolution(Card a, Card b, Card c) {

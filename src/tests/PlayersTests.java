@@ -19,7 +19,7 @@ public class PlayersTests {
 	private static Board board;
 
 	@BeforeAll
-	public void setUp() {
+	public static void setUp() {
 		// Board is singleton, get the only instance
 		board = Board.getInstance();
 		// set the file names to use my config files
@@ -67,9 +67,11 @@ public class PlayersTests {
 	public void testCardsDealt() {
 		//Test total size of deck is correct.
 		int total = 0;
+		int a = board.getPlayer(0).getHandSize();
 		for(int i = 0; i < board.getPlayerArray().size(); i++) {
 			total = total + board.getPlayer(i).getHandSize();
 		}
+		total = total + 3; //Include cards from solution
 		assertEquals(board.getDeck().size(), total);
 		
 		//Test that all players have roughly the same number of cards.

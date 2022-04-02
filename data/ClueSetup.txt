@@ -12,3 +12,19 @@ Room, Gym, G
 // Other spaces on board
 Space, Unused, X
 Space, Walkway, W
+
+//People and people cards
+Player, Ms. Pots, human, red, 12, 0
+Player, Moreen Ridley, computer, blue, 23, 13
+Player, Leslie Zayne, computer, green, 0, 6
+Player, Dr. Brown, computer, brown, 0, 13
+Player, Justin Prince, computer, orange, 6, 21
+Player, Pacman, computer, yellow, 23, 5
+
+//Weapons and weapon cards
+Weapon, Knife
+Weapon, Hammer
+Weapon, Wire
+Weapon, Ice Pick
+Weapon, Lead Pipe
+Weapon, Saw
