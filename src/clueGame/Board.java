@@ -349,14 +349,21 @@ public class Board {
 	}
 	
 	public void deal() {
+		//Initialize variables that will hold solution.
 		Card a = null;
 		Card b = null;
 		Card c = null;
+		
+		//Allocate new shuffledDeck and fill it with Deck's contents.
 		shuffledDeck = new ArrayList<Card>();
 		for(int i = 0; i < getDeck().size(); i++) {
 			shuffledDeck.add(Deck.get(i));
 		}
+		
+		//Shuffle shuffledDeck.
 		Collections.shuffle(shuffledDeck);
+		
+		//Find first occurrence of a room, person, and weapon card from the shuffledDeck
 		for(int i = 0; i < getShuffledDeck().size(); i++) {
 			if(shuffledDeck.get(i).getCardType() == "room") {
 				a = shuffledDeck.get(i);
@@ -378,9 +385,15 @@ public class Board {
 				break;
 			}
 		}
+		
+		//Set solution based on the first occurrence cards found.
 		solution = new Solution();
 		solution.setSolution(a, b, c);
+		
+		//Initialize boolean variable to true, used for while loop.
 		boolean bool = true;
+		
+		//Deal shuffled cards to players sequentially until all cards have been dealt.
 		while(bool == true) {
 			for(int i = 0; i < getPlayerArray().size(); i++) {
 				if(getShuffledDeck().size() > i) {
@@ -404,73 +417,82 @@ public class Board {
 		}
 	}
 	
-	// Returns number of rows in board
+	// Returns number of rows in board.
 	public int getNumRows() {
 		return numRows;
 	}
 	
-	// Returns number of columns in board
+	// Returns number of columns in board.
 	public int getNumColumns() {
 		return numColumns;
 	}
 	
-	// Returns cell on board at given row and column of cell
+	// Returns cell on board at given row and column of cell.
 	public BoardCell getCell(int row, int col) {
 		return grid[row][col];
 	}
 	
-	// Returns room of cell based on its initial
+	// Returns room of cell based on its initial.
 	public Room getRoom(char c) {
 		return roomMap.get(c);
 	}
 	
-	// Returns the room a cell is in
+	// Returns the room a cell is in.
 	public Room getRoom(BoardCell cell) {
 		return roomMap.get(cell.getInitial());
 	}
 	
-	// Returns possible targets
+	// Returns possible targets.
 	public Set<BoardCell> getTargets() {
 		return targets;
 	}
 	
-	// Returns AdjList based on row and column of cell
+	// Returns AdjList based on row and column of cell.
 	public Set<BoardCell> getAdjList(int row, int col) {
 		return grid[row][col].getAdjList();
 	}
 	
+	//Add player to Players Array.
 	public void setPlayerArray(Player p) {
 		Players.add(p);
 	}
 	
+	//Return player from Players Array based on index.
 	public Player getPlayer(int i) {
 		return Players.get(i);
 	}
 	
+	//Return Players array.
 	public ArrayList<Player> getPlayerArray() {
 		return Players;
 	}
 	
+	//Add card to Deck.
 	public void setDeck(Card c) {
 		Deck.add(c);
 	}
 	
+	//Return card from Deck based on index.
 	public Card getCardInDeck(int i) {
 		return Deck.get(i);
 	}
 	
+	//Return Deck.
 	public ArrayList<Card> getDeck() {
 		return Deck;
 	}
 	
+	//Return shuffledDeck.
 	public ArrayList<Card> getShuffledDeck() {
 		return shuffledDeck;
 	}
 	
+	//Set solution for board.
 	public void setSolution(Card a, Card b, Card c) {
 		solution.setSolution(a,b,c);
 	}
 	
+	//Return solution for board.
 	public Solution getSolution() {
 		return solution;
 	}

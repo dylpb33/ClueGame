@@ -4,11 +4,13 @@ public class Card {
 	private String cardName;
 	public enum CardType {ROOM,PERSON,WEAPON};
 	private CardType type;
-
+	
+	//Default constructor sets cardName
 	public Card(String s) {
 		cardName = s;
 	}
 	
+	//Sets the CardType based on an input string.
 	public void setCardType(String s) {
 		if(s == "r") {
 			type = type.ROOM;
@@ -21,6 +23,7 @@ public class Card {
 		}
 	}
 	
+	//Returns string based on CardType.
 	public String getCardType() {
 		String r = "room";
 		String p = "person";
@@ -36,6 +39,7 @@ public class Card {
 		}
 	}
 	
+	//Determines whether a card equals another.
 	public boolean equals(Card target){
 		Card c = null;
 		if(target == c) {
@@ -46,6 +50,7 @@ public class Card {
 		}
 	}
 	
+	//Return cardName.
 	public String getCardName() {
 		return cardName;
 	}

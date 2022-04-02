@@ -27,11 +27,14 @@ public class PlayersTests {
 		// Initialize will load BOTH config files
 		board.initialize();
 	}
+	
+	//Test correct number of players were created.
 	@Test
 	public void testNumberOfPlayers() {
 		assertEquals(board.getPlayerArray().size(), 6);
 	}
 	
+	//Test human player.
 	@Test
 	public void testHuman() {
 		assertTrue(board.getPlayer(0) instanceof HumanPlayer);
@@ -40,6 +43,7 @@ public class PlayersTests {
 		
 	}
 	
+	//Test computer player.
 	@Test
 	public void testComputer() {
 		assertTrue(board.getPlayer(1) instanceof ComputerPlayer);
@@ -47,6 +51,7 @@ public class PlayersTests {
 		assertEquals("blue", board.getPlayer(1).getColor());
 	}
 	
+	//Test deck is correct size and holds correct cards.
 	@Test
 	public void testDeck() {
 		assertTrue(board.getDeck() != null);
@@ -56,6 +61,7 @@ public class PlayersTests {
 		assertEquals("Hammer", board.getCardInDeck(16).getCardName());
 	}
 	
+	//Test that solution is created properly with one of each type of card.
 	@Test
 	public void testSolution() {
 		assertTrue(board.getSolution().getSolutionRoom() != null);
@@ -63,6 +69,7 @@ public class PlayersTests {
 		assertTrue(board.getSolution().getSolutionPerson() != null);
 	}
 	
+	//Test cards are dealt correctly.
 	@Test
 	public void testCardsDealt() {
 		//Test total size of deck is correct.
@@ -71,7 +78,7 @@ public class PlayersTests {
 		for(int i = 0; i < board.getPlayerArray().size(); i++) {
 			total = total + board.getPlayer(i).getHandSize();
 		}
-		total = total + 3; //Include cards from solution
+		total = total + 3; //Include cards from solution.
 		assertEquals(board.getDeck().size(), total);
 		
 		//Test that all players have roughly the same number of cards.
@@ -80,7 +87,7 @@ public class PlayersTests {
 		int max = avgHandSize + 1;
 		assertTrue(board.getPlayer(0).getHandSize() < max && board.getPlayer(0).getHandSize() > min);
 		
-		//Test same card is not given to more than one player
+		//Test same card is not given to more than one player.
 		ArrayList<Card> checkCards = new ArrayList();
 		for(int i = 0; i < board.getPlayerArray().size(); i++) {
 			for(int j = 0; j < 3; j++) {
