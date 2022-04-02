@@ -4,7 +4,6 @@ package clueGame;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.lang.reflect.Array;
 import java.util.*;
 
 public class Board {
@@ -63,7 +62,6 @@ public class Board {
 		String room = "Room";
 		String space = "Space";
 		String player = "Player";
-		String weapon = "Weapon";
 		String comment = "//";
 		String human = "human";
 
@@ -90,16 +88,15 @@ public class Board {
 					Room newRoom = new Room();
 					newRoom.setName(arrStr[1]);
 					roomMap.put(roomInitial, newRoom);
-					if(space.equals(arrStr[0])){
-						
-					}
-					else{
-					newCard = new Card(arrStr[1]);
-					newCard.setCardType(r);
-					setDeck(newCard);
+					// making sure
+					if (!space.equals(arrStr[0])) {
+						newCard = new Card(arrStr[1]);
+						newCard.setCardType(r);
+						setDeck(newCard);
 					}
 					
 				}
+				// loading in Human player information
 				else if(player.equals(arrStr[0])) {
 					int row = Integer.parseInt(arrStr[4]);
 					int col = Integer.parseInt(arrStr[5]);
@@ -115,6 +112,7 @@ public class Board {
 						setPlayerArray(newHuman);
 					}
 					else {
+						// loading in computer player information
 						ComputerPlayer newComputer = new ComputerPlayer();
 						newComputer.setName(arrStr[1]);
 						newComputer.setColor(arrStr[3]);
@@ -132,12 +130,7 @@ public class Board {
 					setDeck(newCard);
 				}
 			}
-				//if not a valid line, throw bad config error
-//			else {
-//					throw new BadConfigFormatException("Invalid row in " + setupConfigFile);
-//			}
-		}
-		
+		}	
 		deal();
 		in.close();
 	}

@@ -4,6 +4,9 @@ public class Card {
 	private String cardName;
 	public enum CardType {ROOM,PERSON,WEAPON};
 	private CardType type;
+	String r = "room";
+	String p = "person";
+	String w = "weapon";
 	
 	//Default constructor sets cardName
 	public Card(String s) {

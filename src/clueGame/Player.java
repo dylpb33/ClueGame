@@ -9,10 +9,6 @@ public abstract class Player {
 	private int column;
 	private ArrayList<Card> hand = new ArrayList<Card>();
 	
-	//Default constructor.
-	public Player() {
-		
-	}
 	
 	//Sets player name.
 	public void setName(String n) {
