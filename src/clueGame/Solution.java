@@ -32,4 +32,19 @@ public class Solution {
 		return weapon;
 	}
 
+	public void setSolutionRoom(Card r) {
+		room = r;
+		
+	}
+
+	public void setSolutionPerson(Card p) {
+		person = p;
+		
+	}
+
+	public void setSolutionWeapon(Card w) {
+		weapon = w;
+	
+	}
+
 }

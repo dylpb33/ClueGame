@@ -59,11 +59,17 @@ public class Board {
 		roomMap = new HashMap<Character, Room>();
 		Deck = new ArrayList<Card>();
 		Players = new ArrayList<Player>();
+		Card newCard;	
 		String room = "Room";
 		String space = "Space";
 		String player = "Player";
 		String comment = "//";
 		String human = "human";
+		String weapon = "Weapon";
+		String computer = "computer";
+		String r = "r";
+		String p = "p";
+		String w = "w";	
 
 		// reading in files specified
 		FileReader file = new FileReader("data/" + setupConfigFile);
@@ -76,11 +82,6 @@ public class Board {
 
 			// only parse through if it is not a comment or empty line
 			if(!(fileLine.contains(comment) || fileLine.isEmpty())) {
-				Card newCard;
-				String r = "r";
-				String p = "p";
-				String w = "w";		
-			
 
 				//check to make sure it is a valid line that starts with Room or Space
 				if(room.equals(arrStr[0]) || space.equals(arrStr[0])) {
@@ -92,12 +93,11 @@ public class Board {
 					if (!space.equals(arrStr[0])) {
 						newCard = new Card(arrStr[1]);
 						newCard.setCardType(r);
-						setDeck(newCard);
+						Deck.add(newCard);
 					}
-					
 				}
 				// loading in Human player information
-				else if(player.equals(arrStr[0])) {
+				if(player.equals(arrStr[0])) {
 					int row = Integer.parseInt(arrStr[4]);
 					int col = Integer.parseInt(arrStr[5]);
 					if(human.equals(arrStr[2])) {
@@ -108,10 +108,10 @@ public class Board {
 						newHuman.setColumn(col);
 						newCard = new Card(arrStr[1]);
 						newCard.setCardType(p);
-						setDeck(newCard);
-						setPlayerArray(newHuman);
+						Deck.add(newCard);
+						Players.add(newHuman);
 					}
-					else {
+					if (computer.equals(arrStr[2])) {
 						// loading in computer player information
 						ComputerPlayer newComputer = new ComputerPlayer();
 						newComputer.setName(arrStr[1]);
@@ -120,21 +120,20 @@ public class Board {
 						newComputer.setColumn(col);
 						newCard = new Card(arrStr[1]);
 						newCard.setCardType(p);
-						setDeck(newCard);
-						setPlayerArray(newComputer);
+						Deck.add(newCard);
+						Players.add(newComputer);
 					}
 				}
-				else {
+				if (weapon.equals(arrStr[0])) {
 					newCard = new Card(arrStr[1]);
 					newCard.setCardType(w);
-					setDeck(newCard);
+					Deck.add(newCard);
 				}
 			}
 		}	
-		deal();
 		in.close();
 	}
-	
+
 
 
 	public void loadLayoutConfig() throws BadConfigFormatException, FileNotFoundException {
@@ -342,72 +341,50 @@ public class Board {
 	}
 	
 	public void deal() {
-		//Initialize variables that will hold solution.
-		Card a = null;
-		Card b = null;
-		Card c = null;
-		
+
+
 		//Allocate new shuffledDeck and fill it with Deck's contents.
 		shuffledDeck = new ArrayList<Card>();
 		for(int i = 0; i < getDeck().size(); i++) {
 			shuffledDeck.add(Deck.get(i));
 		}
-		
+
 		//Shuffle shuffledDeck.
 		Collections.shuffle(shuffledDeck);
-		
+
+		//Set solution based on the first occurrence cards found.
+		solution = new Solution();
+
 		//Find first occurrence of a room, person, and weapon card from the shuffledDeck
 		for(int i = 0; i < getShuffledDeck().size(); i++) {
 			if(shuffledDeck.get(i).getCardType() == "room") {
-				a = shuffledDeck.get(i);
+				solution.setSolutionRoom(shuffledDeck.get(i));
 				shuffledDeck.remove(i);
 				break;
 			}
 		}
 		for(int i = 0; i < getShuffledDeck().size(); i++) {
 			if(shuffledDeck.get(i).getCardType() == "person") {
-				b = shuffledDeck.get(i);
+				solution.setSolutionPerson(shuffledDeck.get(i));
 				shuffledDeck.remove(i);
 				break;
 			}
 		}
 		for(int i = 0; i < getShuffledDeck().size(); i++) {
 			if(shuffledDeck.get(i).getCardType() == "weapon") {
-				c = shuffledDeck.get(i);
+				solution.setSolutionWeapon(shuffledDeck.get(i));
 				shuffledDeck.remove(i);
 				break;
 			}
 		}
-		
-		//Set solution based on the first occurrence cards found.
-		solution = new Solution();
-		solution.setSolution(a, b, c);
-		
-		//Initialize boolean variable to true, used for while loop.
-		boolean bool = true;
-		
+
 		//Deal shuffled cards to players sequentially until all cards have been dealt.
-		while(bool == true) {
-			for(int i = 0; i < getPlayerArray().size(); i++) {
-				if(getShuffledDeck().size() > i) {
-					getPlayer(i).getHand().add(shuffledDeck.get(i));
-					shuffledDeck.remove(i);
-				}
-				else if(getShuffledDeck().size() <= i && getShuffledDeck().size() > 0) {
-					int j = i;
-					while(j > 0) {
-						for(int k = j; j < (j + i) - 1 && j > 0; k++) {
-						getPlayer(k).getHand().add(shuffledDeck.get(j-1));
-						shuffledDeck.remove(j-1);
-						j--;
-						}
-					}
-				}
-				else {
-					bool = false;
-				}
-			}
-		}
+		while(getShuffledDeck().size() > 0) {
+			for(int i = 0; i < getPlayerArray().size(); i++) {	
+				getPlayer(i).getHand().add(shuffledDeck.get(0));
+				shuffledDeck.remove(0);
+			}	
+		}	
 	}
 	
 	// Returns number of rows in board.

@@ -26,12 +26,14 @@ public class PlayersTests {
 		board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");
 		// Initialize will load BOTH config files
 		board.initialize();
+		//Deal cards to players
+		board.deal();
 	}
 	
 	//Test correct number of players were created.
 	@Test
 	public void testNumberOfPlayers() {
-		assertEquals(board.getPlayerArray().size(), 6);
+		assertEquals(6, board.getPlayerArray().size());
 	}
 	
 	//Test human player.
@@ -55,7 +57,7 @@ public class PlayersTests {
 	@Test
 	public void testDeck() {
 		assertTrue(board.getDeck() != null);
-		assertEquals(board.getDeck().size(), 21);
+		assertEquals(21, board.getDeck().size());
 		assertEquals("Sunroom", board.getCardInDeck(0).getCardName());
 		assertEquals("Dr. Brown", board.getCardInDeck(12).getCardName());
 		assertEquals("Hammer", board.getCardInDeck(16).getCardName());
@@ -79,7 +81,7 @@ public class PlayersTests {
 			total = total + board.getPlayer(i).getHandSize();
 		}
 		total = total + 3; //Include cards from solution.
-		assertEquals(board.getDeck().size(), total);
+		assertEquals(total, board.getDeck().size());
 		
 		//Test that all players have roughly the same number of cards.
 		int avgHandSize = (board.getDeck().size() - 3)/board.getPlayerArray().size();
