@@ -11,8 +11,8 @@ public abstract class Player {
 	
 	
 	//Sets player name.
-	public void setName(String n) {
-		name = n;
+	public void setName(String name) {
+		this.name = name;
 	}
 	
 	//Return player name.
@@ -21,8 +21,8 @@ public abstract class Player {
 	}
 	
 	//Sets player color.
-	public void setColor(String c) {
-		color = c;
+	public void setColor(String color) {
+		this.color = color;
 	}
 	
 	//Return player color.
@@ -31,8 +31,8 @@ public abstract class Player {
 	}
 	
 	//Sets row of player start location.
-	public void setRow(int i) {
-		row = i;
+	public void setRow(int row) {
+		this.row = row;
 	}
 	
 	//Return player name.
@@ -41,8 +41,8 @@ public abstract class Player {
 	}
 	
 	//Sets column of player start location.
-	public void setColumn(int i) {
-		column = i;
+	public void setColumn(int column) {
+		this.column = column;
 	}
 	
 	//Return player name.

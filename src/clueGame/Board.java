@@ -67,9 +67,6 @@ public class Board {
 		String human = "human";
 		String weapon = "Weapon";
 		String computer = "computer";
-		String r = "r";
-		String p = "p";
-		String w = "w";	
 
 		// reading in files specified
 		FileReader file = new FileReader("data/" + setupConfigFile);
@@ -92,7 +89,7 @@ public class Board {
 					// making sure
 					if (!space.equals(arrStr[0])) {
 						newCard = new Card(arrStr[1]);
-						newCard.setCardType(r);
+						newCard.setCardType(room);
 						Deck.add(newCard);
 					}
 				}
@@ -107,7 +104,7 @@ public class Board {
 						newHuman.setRow(row);
 						newHuman.setColumn(col);
 						newCard = new Card(arrStr[1]);
-						newCard.setCardType(p);
+						newCard.setCardType(player);
 						Deck.add(newCard);
 						Players.add(newHuman);
 					}
@@ -119,14 +116,14 @@ public class Board {
 						newComputer.setRow(row);
 						newComputer.setColumn(col);
 						newCard = new Card(arrStr[1]);
-						newCard.setCardType(p);
+						newCard.setCardType(player);
 						Deck.add(newCard);
 						Players.add(newComputer);
 					}
 				}
 				if (weapon.equals(arrStr[0])) {
 					newCard = new Card(arrStr[1]);
-					newCard.setCardType(w);
+					newCard.setCardType(weapon);
 					Deck.add(newCard);
 				}
 			}
@@ -385,6 +382,21 @@ public class Board {
 				shuffledDeck.remove(0);
 			}	
 		}	
+	}
+	
+	public boolean checkAccusation(String room, String person, String weapon) {
+		if (room == solution.getSolutionRoom().getCardName()) {
+			return true;
+		}
+		if (person == solution.getSolutionPerson().getCardName()) {
+			return true;
+		}
+		if (weapon == solution.getSolutionWeapon().getCardName()) {
+			return true;
+		}
+		else  {
+			return false;
+		}
 	}
 	
 	// Returns number of rows in board.

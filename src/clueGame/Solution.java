@@ -11,10 +11,10 @@ public class Solution {
 	}
 	
 	//Sets the solution variables.
-	public void setSolution(Card a, Card b, Card c) {
-		room = a;
-		person = b;
-		weapon = c;
+	public void setSolution(Card room, Card person, Card weapon) {
+		this.room = room;
+		this.person = person;
+		this.weapon = weapon;
 	}
 	
 	//Returns room card in solution.
@@ -32,18 +32,18 @@ public class Solution {
 		return weapon;
 	}
 
-	public void setSolutionRoom(Card r) {
-		room = r;
+	public void setSolutionRoom(Card room) {
+		this.room = room;
 		
 	}
 
-	public void setSolutionPerson(Card p) {
-		person = p;
+	public void setSolutionPerson(Card person) {
+		this.person = person;
 		
 	}
 
-	public void setSolutionWeapon(Card w) {
-		weapon = w;
+	public void setSolutionWeapon(Card weapon) {
+		this.person = weapon;
 	
 	}
 

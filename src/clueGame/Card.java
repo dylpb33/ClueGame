@@ -4,21 +4,21 @@ public class Card {
 	private String cardName;
 	public enum CardType {ROOM,PERSON,WEAPON};
 	private CardType type;
-	String r = "room";
-	String p = "person";
-	String w = "weapon";
+	String room = "room";
+	String person = "person";
+	String weapon = "weapon";
 	
 	//Default constructor sets cardName
-	public Card(String s) {
-		cardName = s;
+	public Card(String cardName) {
+		this.cardName = cardName;
 	}
 	
 	//Sets the CardType based on an input string.
-	public void setCardType(String s) {
-		if(s == "r") {
+	public void setCardType(String cardType) {
+		if(cardType == "Room") {
 			type = type.ROOM;
 		}
-		else if(s == "p") {
+		else if(cardType == "Player") {
 			type = type.PERSON;
 		}
 		else {
@@ -28,17 +28,14 @@ public class Card {
 	
 	//Returns string based on CardType.
 	public String getCardType() {
-		String r = "room";
-		String p = "person";
-		String w = "weapon";
 		if(type == type.ROOM) {
-			return r;
+			return room;
 		}
 		else if(type == type.PERSON) {
-			return p;
+			return person;
 		}
 		else {
-			return w;
+			return weapon;
 		}
 	}
 	

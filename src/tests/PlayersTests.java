@@ -66,9 +66,25 @@ public class PlayersTests {
 	//Test that solution is created properly with one of each type of card.
 	@Test
 	public void testSolution() {
-		assertTrue(board.getSolution().getSolutionRoom() != null);
-		assertTrue(board.getSolution().getSolutionWeapon() != null);
-		assertTrue(board.getSolution().getSolutionPerson() != null);
+		// creating a new solution
+		board.setSolution(new Card("Kitchen"), new Card("Pacman"), new Card("Wire"));
+		
+		// testing to make sure the solution gets pulled correctly
+		assertEquals("Kitchen", board.getSolution().getSolutionRoom().getCardName());
+		assertEquals("Wire", board.getSolution().getSolutionWeapon().getCardName());
+		assertEquals("Pacman", board.getSolution().getSolutionPerson().getCardName());
+	}
+	
+	@Test
+	public void testAccusation() {
+		board.setSolution(new Card("Parlor"), new Card("Leslie Zayne"), new Card("Saw"));
+		
+		//Check that the correct accusation returns true
+		assertTrue(board.checkAccusation("Parlor", "Leslie Zayne", "Saw"));
+		
+		//Check that various wrong accusations return false
+		assertFalse(board.checkAccusation("Kitchen", "Ms. Pots", "Knife"));
+		assertFalse(board.checkAccusation("Hammer", "Office", "Gym"));
 	}
 	
 	//Test cards are dealt correctly.
