@@ -69,5 +69,12 @@ public class GameSolutionTest {
 		assertTrue(countKnife > 1);
 	}
 	
+	@Test
+	public void handleSuggestion() {
+		
+		
+		
+	}
+	
 
 }

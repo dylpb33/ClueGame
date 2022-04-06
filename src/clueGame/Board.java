@@ -21,6 +21,9 @@ public class Board {
 	private ArrayList<Card> shuffledDeck;
 	private ArrayList<Player> Players;
 	private Solution solution;
+	public ArrayList<Card> testPeople;
+	public ArrayList<Card> testWeapons;
+	public ArrayList<Card> testRoom;
 
 	/*
 	 * variable and methods used for singleton pattern
@@ -395,8 +398,7 @@ public class Board {
 		}
 	}
 
-
-	public Card handleSuggestion(String room, String person, String weapon) {
+	public Card handleSuggestion(String room, String person, String weapon, ComputerPlayer player) {
 		String newCard_ = null;
 		Card newCard = new Card(newCard_);
 		ArrayList<Card> newArray = new ArrayList<Card>();
@@ -426,6 +428,7 @@ public class Board {
 			return null;
 		}
 	}
+
 	
 	// Returns number of rows in board.
 	public int getNumRows() {
@@ -506,4 +509,5 @@ public class Board {
 	public Solution getSolution() {
 		return solution;
 	}
+
 }
