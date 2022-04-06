@@ -1,22 +1,15 @@
 package tests;
 
 import static org.junit.Assert.*;
-
-import java.util.ArrayList;
-import java.util.Set;
-
+import java.util.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-
-import clueGame.Board;
-import clueGame.BoardCell;
-import clueGame.Card;
-import clueGame.ComputerPlayer;
-import clueGame.HumanPlayer;
+import clueGame.*;
 
 public class PlayersTests {
 	
 	private static Board board;
+	private static Player player;
 
 	@BeforeAll
 	public static void setUp() {
@@ -75,24 +68,12 @@ public class PlayersTests {
 		assertEquals("Pacman", board.getSolution().getSolutionPerson().getCardName());
 	}
 	
-	@Test
-	public void testAccusation() {
-		board.setSolution(new Card("Parlor"), new Card("Leslie Zayne"), new Card("Saw"));
-		
-		//Check that the correct accusation returns true
-		assertTrue(board.checkAccusation("Parlor", "Leslie Zayne", "Saw"));
-		
-		//Check that various wrong accusations return false
-		assertFalse(board.checkAccusation("Kitchen", "Ms. Pots", "Knife"));
-		assertFalse(board.checkAccusation("Hammer", "Office", "Gym"));
-	}
 	
 	//Test cards are dealt correctly.
 	@Test
 	public void testCardsDealt() {
 		//Test total size of deck is correct.
 		int total = 0;
-		int a = board.getPlayer(0).getHandSize();
 		for(int i = 0; i < board.getPlayerArray().size(); i++) {
 			total = total + board.getPlayer(i).getHandSize();
 		}

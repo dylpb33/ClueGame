@@ -385,17 +385,45 @@ public class Board {
 	}
 	
 	public boolean checkAccusation(String room, String person, String weapon) {
-		if (room == solution.getSolutionRoom().getCardName()) {
-			return true;
-		}
-		if (person == solution.getSolutionPerson().getCardName()) {
-			return true;
-		}
-		if (weapon == solution.getSolutionWeapon().getCardName()) {
+		if (room == solution.getSolutionRoom().getCardName() 
+				&& person == solution.getSolutionPerson().getCardName()
+				&& weapon == solution.getSolutionWeapon().getCardName()) {
 			return true;
 		}
 		else  {
 			return false;
+		}
+	}
+
+
+	public Card handleSuggestion(String room, String person, String weapon) {
+		String newCard_ = null;
+		Card newCard = new Card(newCard_);
+		ArrayList<Card> newArray = new ArrayList<Card>();
+		
+		for(int i = 0; i < getPlayerArray().size(); i++) {
+			for (int j = 0; j < getPlayerArray().get(i).getHand().size(); j++) {
+				if (room == getPlayerArray().get(i).getHand().get(j).getCardName()) {
+					newCard =  getPlayerArray().get(i).getHand().get(j);
+					newArray.add(newCard);
+				}
+				if (person ==  getPlayerArray().get(i).getHand().get(j).getCardName()) {
+					newCard =   getPlayerArray().get(i).getHand().get(j);
+					newArray.add(newCard);
+				}
+				if (weapon ==  getPlayerArray().get(i).getHand().get(j).getCardName()) {
+					newCard =  getPlayerArray().get(i).getHand().get(j);
+					newArray.add(newCard);
+				}
+			}
+		}
+		if (newArray.size() > 1) {
+			Random rand = new Random();
+			int randNum = rand.nextInt(2);
+			return newArray.get(randNum);
+		}
+		else {
+			return null;
 		}
 	}
 	
