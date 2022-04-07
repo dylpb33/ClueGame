@@ -6,13 +6,13 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public abstract class Player {
-	private String name;
-	private String color;
-	private int row;
-	private int column;
-	private ArrayList<Card> hand = new ArrayList<Card>();
-	private ArrayList<Card> seenCards = new ArrayList<Card>();
-	private ArrayList<Card> suggestion = new ArrayList<Card>();
+	protected String name;
+	protected String color;
+	protected int row;
+	protected int column;
+	protected ArrayList<Card> hand = new ArrayList<Card>();
+	protected ArrayList<Card> seenCards = new ArrayList<Card>();
+	protected ArrayList<Card> suggestion = new ArrayList<Card>();
 	
 	public void player() {
 		
