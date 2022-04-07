@@ -79,8 +79,10 @@ public class ComputerAITest {
 		weapon2.setCardType(weapon);
 		possibleCards.add(weapon2);
 		
+		//Add cards that have been seen
 		seen.add(weapon1);
 		seen.add(person1);
+		
 		//Create suggestion
 		newComputer.createSuggestion(location, possibleCards, newComputer, seen);
 		
