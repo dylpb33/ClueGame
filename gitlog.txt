@@ -1,0 +1,38 @@
+I, Dylan Blaine, certify that I participated equitably in the creation of assignment C21A, dated 4/6/2022.
+I, Jasmine Hernandez, certify that I participated equitably in the creation of this assignment C21A, dated 4/6/2022.
+
+commit 5fe706b1129d334c5c61d3bb025d9cf74be4b64b (HEAD -> master)
+Author: dylpb33 <dblaine@mines.edu>
+Date:   Wed Apr 6 20:21:35 2022 -0600
+
+    Refactored code
+
+commit 4ea6906b8155ac080214bb4cd740a30c0a46510f (origin/master, origin/HEAD)
+Author: dylpb33 <dblaine@mines.edu>
+Date:   Wed Apr 6 20:14:36 2022 -0600
+
+    Completed handlesuggestions() and createSuggestion() tests andmethods, all tests passing
+
+commit ac9c66eba3e4e685d52105b92a19708ee8fd8a2d
+Author: Jazmine Hernandez <jazminehernandez@Jazmines-MBP.attlocal.net>
+Date:   Tue Apr 5 19:21:58 2022 -0600
+
+    Refactored
+
+commit c6e13e89d68ed78734996f003bb973ddff163e46
+Author: Jazmine Hernandez <jazminehernandez@Jazmines-MBP.attlocal.net>
+Date:   Tue Apr 5 18:57:06 2022 -0600
+
+    added selectTargets method and passing tests
+
+commit cc0132f37f4c92af0a689f42b4bcd0914ac87b8b
+Author: Jazmine Hernandez <jazminehernandez@Jazmines-MBP.attlocal.net>
+Date:   Tue Apr 5 18:30:07 2022 -0600
+
+    disprove suggestion method and passing tests
+
+commit 5de9c60c87d8ae4f5d60fcc10f2265cedd95f17e
+Author: Jazmine Hernandez <jazminehernandez@Jazmines-MBP.attlocal.net>
+Date:   Tue Apr 5 12:57:04 2022 -0600
+
+    Added accusation method and test is now passing

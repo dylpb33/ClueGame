@@ -11,6 +11,10 @@ public class ComputerPlayer extends Player{
 		super();
 	}
 	
+	public ComputerPlayer(String string, int i, int j, String string2) {
+		
+	}
+
 	public BoardCell selectTargets(Set<BoardCell> targets) {
 
 		ArrayList<BoardCell> availablePaths = new ArrayList<BoardCell>();
