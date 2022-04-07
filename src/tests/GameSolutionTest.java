@@ -71,10 +71,52 @@ public class GameSolutionTest {
 	
 	@Test
 	public void handleSuggestion() {
+		ArrayList<Player> playersArray = new ArrayList<Player>();
+		Card newCard;
+		HumanPlayer newHuman = new HumanPlayer();
+		newCard = new Card("Office");
+		newHuman.updateHand(newCard);
+		newCard = new Card("Ms. Pots");
+		newHuman.updateHand(newCard);
+		newCard = new Card("Knife");
+		newHuman.updateHand(newCard);
+		playersArray.add(newHuman);
+		
+		ComputerPlayer newComputer = new ComputerPlayer();
+		newCard = new Card("Sunroom");
+		newComputer.updateHand(newCard);
+		newCard = new Card("Moreen Ridley");
+		newComputer.updateHand(newCard);
+		newCard = new Card("Hammer");
+		newComputer.updateHand(newCard);
+		playersArray.add(newComputer);
+		
+		ComputerPlayer newComputer2 = new ComputerPlayer();
+		newCard = new Card("Parlor");
+		newComputer2.updateHand(newCard);
+		newCard = new Card("Pacman");
+		newComputer2.updateHand(newCard);
+		newCard = new Card("Wire");
+		newComputer2.updateHand(newCard);
+		playersArray.add(newComputer2);
 		
 		
+		//Suggestion no one can disprove (newHuman is accuser)
+		assertEquals(null, board.handleSuggestion("Wine Cellar", "Justin Prince", "Ice Pick", playersArray, newHuman));
+		assertEquals(null, board.handleSuggestion("Wine Cellar", "Justin Prince", "Ice Pick", playersArray, newHuman));
+		
+		//Suggestion only accusing player can disprove returns null(newHuman is accuser)
+		assertEquals(null, board.handleSuggestion("Office", "Justin Prince", "Ice Pick", playersArray, newHuman));
+		assertEquals(null, board.handleSuggestion("Wine Cellar", "Justin Prince", "Ice Pick", playersArray, newHuman));
+		
+		//Suggestion only human can disprove returns answer (newComputer is accuser)
+		assertEquals("Office", board.handleSuggestion("Office", "Justin Prince", "Ice Pick", playersArray, newComputer).getCardName());
+		assertEquals(null, board.handleSuggestion("Wine Cellar", "Justin Prince", "Ice Pick", playersArray, newComputer));
+		
+		//Suggestion that two players can disprove, correct player returns answer (newHuman is accuser)
+		assertEquals("Sunroom", board.handleSuggestion("Sunroom", "Pacman", "Ice Pick", playersArray, newHuman).getCardName());
+		assertEquals("Moreen Ridley", board.handleSuggestion("Office", "Moreen Ridley", "Wire", playersArray, newHuman).getCardName());
 		
 	}
-	
 
 }

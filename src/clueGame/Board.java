@@ -398,35 +398,35 @@ public class Board {
 		}
 	}
 
-	public Card handleSuggestion(String room, String person, String weapon, ComputerPlayer player) {
-		String newCard_ = null;
-		Card newCard = new Card(newCard_);
-		ArrayList<Card> newArray = new ArrayList<Card>();
-		
-		for(int i = 0; i < getPlayerArray().size(); i++) {
-			for (int j = 0; j < getPlayerArray().get(i).getHand().size(); j++) {
-				if (room == getPlayerArray().get(i).getHand().get(j).getCardName()) {
-					newCard =  getPlayerArray().get(i).getHand().get(j);
-					newArray.add(newCard);
+	public Card handleSuggestion(String room, String person, String weapon, ArrayList<Player> playerArray, Player accusingPlayer) {
+		boolean first = true;
+		Card card = new Card();
+		card = null;
+	
+		for(int i = 0; i < playerArray.size(); i++) {
+			if(first == false) {
+				break;
+			}
+			for(int j = 0; j < playerArray.get(i).getHand().size(); j++) {
+				if(playerArray.get(i).getHand(j).getCardName().equals(room) && playerArray.get(i) != accusingPlayer) {
+					card = playerArray.get(i).getHand(j);
+					first = false;
+					break;
 				}
-				if (person ==  getPlayerArray().get(i).getHand().get(j).getCardName()) {
-					newCard =   getPlayerArray().get(i).getHand().get(j);
-					newArray.add(newCard);
+				if(playerArray.get(i).getHand(j).getCardName().equals(person) && playerArray.get(i) != accusingPlayer) {
+					card = playerArray.get(i).getHand(j);
+					first = false;
+					break;
 				}
-				if (weapon ==  getPlayerArray().get(i).getHand().get(j).getCardName()) {
-					newCard =  getPlayerArray().get(i).getHand().get(j);
-					newArray.add(newCard);
+				if(playerArray.get(i).getHand(j).getCardName().equals(weapon) && playerArray.get(i) != accusingPlayer) {
+					card = playerArray.get(i).getHand(j);
+					first = false;
+					break;
 				}
 			}
 		}
-		if (newArray.size() > 1) {
-			Random rand = new Random();
-			int randNum = rand.nextInt(2);
-			return newArray.get(randNum);
-		}
-		else {
-			return null;
-		}
+		return card;
+
 	}
 
 	

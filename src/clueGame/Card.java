@@ -8,7 +8,12 @@ public class Card {
 	String person = "person";
 	String weapon = "weapon";
 	
-	//Default constructor sets cardName
+	//Default constructor
+	public Card() {
+		
+	}
+	
+	//Constructor sets cardName
 	public Card(String cardName) {
 		this.cardName = cardName;
 	}

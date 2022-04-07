@@ -42,10 +42,36 @@ public class ComputerPlayer extends Player{
 			return availablePaths.get(selected);
 		}
 
-	} 
-	
-	public void createSuggestion() {
-
 	}
+	
+	
+	public void createSuggestion(Card location, ArrayList<Card> possibleCards, ComputerPlayer player, ArrayList<Card> seen) {
+		Random rand = new Random();
+		player.getSuggestion().add(location);
+		for(int i = 0; i < seen.size(); i++) {
+			player.getSeenCards().add(seen.get(i));
+		}
+		ArrayList<Card> people = new ArrayList<Card>();
+		ArrayList<Card> weapons = new ArrayList<Card>();
+		String person = "person";
+		String weapon = "weapon";
+		
+		for(int i = 0; i < possibleCards.size(); i++) {
+			if(!player.getSeenCards().contains(possibleCards.get(i))) {
+				if(possibleCards.get(i).getCardType().equals(person)) {
+					people.add(possibleCards.get(i));
+				}
+				if(possibleCards.get(i).getCardType().equals(weapon)) {
+					weapons.add(possibleCards.get(i));
+				}
+				
+			}
+		}
+		
+		player.getSuggestion().add(people.get(rand.nextInt(people.size())));
+		player.getSuggestion().add(weapons.get(rand.nextInt(weapons.size())));
+		
+	}
+	
 
 }

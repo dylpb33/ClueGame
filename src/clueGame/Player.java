@@ -11,6 +11,8 @@ public abstract class Player {
 	private int row;
 	private int column;
 	private ArrayList<Card> hand = new ArrayList<Card>();
+	private ArrayList<Card> seenCards = new ArrayList<Card>();
+	private ArrayList<Card> suggestion = new ArrayList<Card>();
 	
 	public void player() {
 		
@@ -75,6 +77,14 @@ public abstract class Player {
 	public int getHandSize() {
 		return hand.size();
 	}
+	
+	public ArrayList<Card> getSeenCards(){
+		return seenCards;
+	}
+	
+	public ArrayList<Card> getSuggestion(){
+		return suggestion;
+	}
 
 
 	public Card disproveSuggestion(String room, String person, String weapon) {
@@ -106,5 +116,6 @@ public abstract class Player {
 			return newCard;
 		}
 	}
+	
 	
 }
