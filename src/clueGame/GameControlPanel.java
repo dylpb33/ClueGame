@@ -35,14 +35,14 @@ public class GameControlPanel extends JPanel{
 		JButton makeAccusation = makeAccusationButton();
 		mainPanel.add(makeAccusation);
 
-		JButton nextPlayer = nextButton();
-		mainPanel.add(nextPlayer);
-
 		JPanel guessPanel = guessPanel();
 		mainPanel.add(guessPanel);
 		
 		JPanel guessResult = guessResultPanel();
 		mainPanel.add(guessResult);
+		
+		JButton nextPlayer = nextButton();
+		mainPanel.add(nextPlayer);
 
 		add(mainPanel);
 		

@@ -21,9 +21,6 @@ public class Board {
 	private ArrayList<Card> shuffledDeck;
 	private ArrayList<Player> Players;
 	private Solution solution;
-	public ArrayList<Card> testPeople;
-	public ArrayList<Card> testWeapons;
-	public ArrayList<Card> testRoom;
 
 	/*
 	 * variable and methods used for singleton pattern
