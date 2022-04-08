@@ -472,6 +472,17 @@ public class Board {
 		return Players.get(i);
 	}
 	
+	//Return player from Players Array based on index.
+	public HumanPlayer getHumanPlayer() {
+		HumanPlayer human = null;
+		for(int i = 0; i < Players.size(); i++) {
+			if(Players.get(i) instanceof HumanPlayer) {
+				human = (HumanPlayer) Players.get(i);
+			}
+		}
+		return human;
+	}
+	
 	//Return Players array.
 	public ArrayList<Player> getPlayerArray() {
 		return Players;

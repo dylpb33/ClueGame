@@ -11,9 +11,16 @@ import clueGame.Card.CardType;
 
 public class CardPanel extends JPanel{
 	
-	Player HumanPlayer;
-	private JTextField hand;
-	private JTextField seenHand;
+	private Card card;
+	private JTextField PeopleHand;
+	private JTextField PeopleSeen;
+	private JTextField RoomsHand;
+	private JTextField RoomsSeen;
+	private JTextField WeaponsHand;
+	private JTextField WeaponsSeen;
+	private JPanel peoplePanel;
+	private JPanel roomPanel;
+	private JPanel weaponPanel;
 
 	public CardPanel() {
 		// creating the known cards panel
@@ -21,130 +28,125 @@ public class CardPanel extends JPanel{
 		knownCards.setBorder(new TitledBorder (new EtchedBorder(), "Known Cards"));
 		knownCards.setLayout(new GridLayout(3, 1));
 
-		JPanel people = peoplePanel();
-		knownCards.add(people);
+		peoplePanel();
+		knownCards.add(peoplePanel);
 		
-		JPanel rooms = roomPanel();
-		knownCards.add(rooms);
+		roomPanel();
+		knownCards.add(roomPanel);
 		
-		JPanel weapons = weaponPanel();
-		knownCards.add(weapons);
+		weaponPanel();
+		knownCards.add(weaponPanel);
 		
 		add(knownCards);
+		
 	}
 	
 	public void updatePanels() {
-		updatePanel(peoplePanel(), Card.CardType.PERSON);
-		updatePanel(roomPanel(), Card.CardType.ROOM);
-		updatePanel(weaponPanel(), Card.CardType.WEAPON);
+		updatePanel(peoplePanel, Card.CardType.PERSON);
+		updatePanel(roomPanel, Card.CardType.ROOM);
+		updatePanel(weaponPanel , Card.CardType.WEAPON);
 	}
 	
-	public JPanel peoplePanel() {		
+	public void peoplePanel() {		
 		// creating the people panel 
-		JPanel people = new JPanel();
-		people.setLayout(new GridLayout(2, 0));
-		people.setBorder(new TitledBorder (new EtchedBorder(), "People"));
+		peoplePanel = new JPanel();
+		peoplePanel.setLayout(new GridLayout(0, 1));
+		peoplePanel.setBorder(new TitledBorder (new EtchedBorder(), "People"));
 
-		// setting the panel that shows the players hand
-		JPanel inHand = new JPanel();
+		//Add in Hand label to people panel
 		JLabel inHandLabel = new JLabel("In Hand:");
-
-		hand = new JTextField(20);
-		hand.setText("Test Name");
-
-		inHand.setLayout(new GridLayout(2, 0));
-		inHand.add(inHandLabel);
-		inHand.add(hand);
-
-		people.add(inHand, BorderLayout.CENTER);
+		peoplePanel.add(inHandLabel);
 		
-		// setting the panel that shows the cards the player has seeen
-		JPanel seen = new JPanel();
+		//Add in Hand text to people panel
+		PeopleHand = new JTextField(20);
+		PeopleHand.setText("None");
+		peoplePanel.add(PeopleHand);
+
+		//Add seen cards label to people panel
 		JLabel seenLabel = new JLabel("Seen:");
-
-		seenHand = new JTextField(25);
-		seenHand.setText("Test Name");
-
-		seen.setLayout(new GridLayout(2, 0));
-		seen.add(seenLabel);
-		seen.add(seenHand);
-
-		people.add(seen, BorderLayout.SOUTH);
+		peoplePanel.add(seenLabel);
 		
-		return people;
+		//Add seen cards text to people panel
+		PeopleSeen = new JTextField(25);
+		PeopleSeen.setText("None");
+		peoplePanel.add(PeopleSeen);
+		
 	}
 	
-	public JPanel roomPanel() {
+	public void roomPanel() {
 		// creating the rooms panel that goes in Known Cards
-		JPanel rooms = new JPanel();
-		rooms.setLayout(new GridLayout(2, 0));
-		rooms.setBorder(new TitledBorder (new EtchedBorder(), "Rooms"));
-
-		// setting the panel that shows the rooms the player has seen
-		JPanel inHand = new JPanel();
+		roomPanel = new JPanel();
+		roomPanel.setLayout(new GridLayout(0, 1));
+		roomPanel.setBorder(new TitledBorder (new EtchedBorder(), "Rooms"));
+		
+		//Add in Hand label to room panel
 		JLabel inHandLabel = new JLabel("In Hand:");
+		roomPanel.add(inHandLabel);
+		
+		//Add rooms in hand text to room panel
+		RoomsHand = new JTextField(20);
+		RoomsHand.setText("None");
+		roomPanel.add(RoomsHand);
 
-		hand = new JTextField(20);
-		hand.setText("Test Name");
-
-		inHand.setLayout(new GridLayout(2, 0));
-		inHand.add(inHandLabel);
-		inHand.add(hand);
-
-		rooms.add(inHand, BorderLayout.CENTER);
-
-		// setting the panel that shows the cards the player has seeen
-		JPanel seen = new JPanel();
+		//Add seen cards label to room panel
 		JLabel seenLabel = new JLabel("Seen:");
-
-		seenHand = new JTextField(25);
-		seenHand.setText("Test Name");
-
-		seen.setLayout(new GridLayout(2, 0));
-		seen.add(seenLabel);
-		seen.add(seenHand);
-
-		rooms.add(seen, BorderLayout.SOUTH);
-		return rooms;
+		roomPanel.add(seenLabel);
+		
+		//Add seen rooms text to room panel
+		RoomsSeen = new JTextField(25);
+		RoomsSeen.setText("None");
+		roomPanel.add(RoomsSeen);
 	}
 
-	public JPanel weaponPanel() {
-		// creating the weapoons panel that goes in Known Cards
-		JPanel weapons = new JPanel();
-		weapons.setLayout(new GridLayout(2, 0));
-		weapons.setBorder(new TitledBorder (new EtchedBorder(), "Weapons"));
+	public void weaponPanel() {
+		// creating the weapons panel that goes in Known Cards
+		weaponPanel = new JPanel();
+		weaponPanel.setLayout(new GridLayout(0, 1));
+		weaponPanel.setBorder(new TitledBorder (new EtchedBorder(), "Weapons"));
 
-		// setting the panel that shows the rooms the player has seen
-		JPanel inHand = new JPanel();
+		//Add in hand label to weapon panel
 		JLabel inHandLabel = new JLabel("In Hand:");
-
-		hand = new JTextField(20);
-		hand.setText("Test Name");
-
-		inHand.setLayout(new GridLayout(2, 0));
-		inHand.add(inHandLabel);
-		inHand.add(hand);
-
-		weapons.add(inHand, BorderLayout.CENTER);
-
-		// setting the panel that shows the cards the player has seeen
-		JPanel seen = new JPanel();
+		weaponPanel.add(inHandLabel);
+		
+		//Add hand text to weapon label
+		WeaponsHand = new JTextField(20);
+		WeaponsHand.setText("None");
+		weaponPanel.add(WeaponsHand);
+		
+		//Add hand text to weapon label
+		WeaponsHand = new JTextField(20);
+		WeaponsHand.setText("None2");
+		weaponPanel.add(WeaponsHand);
+		
+		//Add seen label to weapon panel
 		JLabel seenLabel = new JLabel("Seen:");
-
-		seenHand = new JTextField(25);
-		seenHand.setText("Test Name");
-
-		seen.setLayout(new GridLayout(2, 0));
-		seen.add(seenLabel);
-		seen.add(seenHand);
-
-		weapons.add(seen, BorderLayout.SOUTH);
-		return weapons;
+		weaponPanel.add(seenLabel);
+		
+		//Add seen text to weapon panel
+		WeaponsSeen = new JTextField(25);
+		WeaponsSeen.setText("None");
+		weaponPanel.add(WeaponsSeen);
+		
+		//Add hand text to weapon label
+		WeaponsHand = new JTextField(20);
+		WeaponsHand.setText("None2");
+		weaponPanel.add(WeaponsHand);
 	}
 	
 	public void updatePanel(JPanel panel, CardType c) {
-
+			panel.removeAll();
+			if(c == Card.CardType.PERSON) {
+				
+			}
+			else if(c == Card.CardType.ROOM) {
+				
+			}
+			else {
+				
+			}
 	}
+	
+
 	
 	public static void main(String[] args) {
 		CardPanel panel = new CardPanel();  // create the panel
@@ -153,6 +155,35 @@ public class CardPanel extends JPanel{
 		frame.setSize(400, 500);  // size the frame
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // allow it to close
 		frame.setVisible(true); // make it visible
+		
+		//Create a test Board
+		Board testBoard = Board.getInstance();
+		
+		//set file names to use my config files
+		testBoard.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");
+		
+		//Initialize will load config files
+		testBoard.initialize();
+		
+		//Deal deck of cards to players
+		testBoard.deal();
+		
+		//Mark all cards not in human players hand as seen for testing
+		for(Card card : testBoard.getDeck()) {
+			if(!testBoard.getHumanPlayer().getHand().contains(card)) {
+				testBoard.getHumanPlayer().setSeenCards(card);
+			}
+		}
+		
+		//Add cards in hand to correct panel
+		for(Card card: testBoard.getHumanPlayer().getHand()) {
+			
+		}
+		
+		//Add cards seen to correct panel
+		for(Card card: testBoard.getHumanPlayer().getSeenCards()) {
+			
+		}
 
 	}
 

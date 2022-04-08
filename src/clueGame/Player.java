@@ -82,6 +82,10 @@ public abstract class Player {
 		return seenCards;
 	}
 	
+	public void setSeenCards(Card c){
+		seenCards.add(c);
+	}
+	
 	public ArrayList<Card> getSuggestion(){
 		return suggestion;
 	}
