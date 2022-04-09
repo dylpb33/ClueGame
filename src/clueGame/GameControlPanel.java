@@ -1,6 +1,7 @@
 package clueGame;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridLayout;
 
 import javax.swing.*;
@@ -14,11 +15,12 @@ public class GameControlPanel extends JPanel{
 	private String theGuess;
 	private String guessResult;
 	private String turnName;
+	private String rollNum;
+	private Color color;
 	private JTextField guess;
 	private JTextField result;
 	private JTextField turn;
 	private JTextField roll;
-	private String rollNum;
 
 	// sets various panels and adds them to the main panel
 	public GameControlPanel() {
@@ -52,6 +54,7 @@ public class GameControlPanel extends JPanel{
 	// updating the text shown in each text box
 	public void updateDisplay() {
 		turn.setText(turnName);
+		turn.setBackground(color);
 		roll.setText(rollNum);
 		guess.setText(theGuess);
 		result.setText(guessResult);
@@ -67,6 +70,7 @@ public class GameControlPanel extends JPanel{
 
 		turn = new JTextField(25);
 		turn.setText(turnName);
+		turn.setBackground(color);
 
 		panel.setLayout(new GridLayout(1, 0));
 		whoseTurnPanel.setLayout(new GridLayout(2, 2));
@@ -74,6 +78,7 @@ public class GameControlPanel extends JPanel{
 		whoseTurnPanel.add(whoseTurn);
 		whoseTurnPanel.add(turn);
 
+		panel.setBorder(new TitledBorder (new EtchedBorder()));
 		panel.add(whoseTurnPanel, BorderLayout.CENTER);
 		
 		return panel;
@@ -95,6 +100,7 @@ public class GameControlPanel extends JPanel{
 		rollPanel.add(theRoll);
 		rollPanel.add(roll);
 
+		panel.setBorder(new TitledBorder (new EtchedBorder()));
 		panel.add(rollPanel, BorderLayout.CENTER);
 
 		return panel;
@@ -160,6 +166,7 @@ public class GameControlPanel extends JPanel{
 	private void setTurn(ComputerPlayer computerPlayer, int r) {
 		turnName = computerPlayer.getName();
 		rollNum = Integer.toString(r);
+		color = computerPlayer.getColor();
 		updateDisplay();
 	}
 	
@@ -169,7 +176,7 @@ public class GameControlPanel extends JPanel{
 		GameControlPanel panel = new GameControlPanel();  // create the panel
 		JFrame frame = new JFrame();  // create the frame 
 		frame.setContentPane(panel); // put the panel in the frame
-		frame.setSize(1000, 180);  // size the frame
+		frame.setSize(990, 180);  // size the frame
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // allow it to close
 		frame.setVisible(true); // make it visible
 		

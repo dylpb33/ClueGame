@@ -5,6 +5,7 @@ import java.util.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import clueGame.*;
+import clueGame.Card.CardType;
 
 public class ComputerAITest {
 	private static Board board;
@@ -44,11 +45,7 @@ public class ComputerAITest {
 	@Test
 	public void createSuggestion() {
 		ComputerPlayer newComputer = new ComputerPlayer();
-		
-		String room = "Room";
-		String person = "Player";
-		String weapon = "Weapon";
-		
+
 		//Set room as kitchen
 		newComputer.setColumn(18);
 		newComputer.setRow(11);
@@ -61,22 +58,22 @@ public class ComputerAITest {
 		ArrayList<Card> possibleCards = new ArrayList<Card>();
 		ArrayList<Card> seen = new ArrayList<Card>();
 		Card room1 = new Card("Office");
-		room1.setCardType(room);
+		room1.setCardType(CardType.ROOM);
 		possibleCards.add(room1);
 		Card room2 = new Card("Sunroom");
-		room2.setCardType(room);
+		room2.setCardType(CardType.ROOM);
 		possibleCards.add(room2);
 		Card person1 = new Card("Moreen Ridley");
-		person1.setCardType(person);
+		person1.setCardType(CardType.PERSON);
 		possibleCards.add(person1);
 		Card person2 = new Card("Ms. Pots");
-		person2.setCardType(person);
+		person2.setCardType(CardType.PERSON);
 		possibleCards.add(person2);
 		Card weapon1 = new Card("knife");
-		weapon1.setCardType(weapon);
+		weapon1.setCardType(CardType.WEAPON);
 		possibleCards.add(weapon1);
 		Card weapon2 = new Card("Saw");
-		weapon2.setCardType(weapon);
+		weapon2.setCardType(CardType.WEAPON);
 		possibleCards.add(weapon2);
 		
 		//Add cards that have been seen

@@ -6,6 +6,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.*;
 
+import clueGame.Card.CardType;
+
 public class Board {
 
 	private int numRows;
@@ -86,10 +88,10 @@ public class Board {
 					Room newRoom = new Room();
 					newRoom.setName(arrStr[1]);
 					roomMap.put(roomInitial, newRoom);
-					// making sure
+					// making sure spaces aren't added as rooms
 					if (!space.equals(arrStr[0])) {
 						newCard = new Card(arrStr[1]);
-						newCard.setCardType(room);
+						newCard.setCardType(CardType.ROOM);
 						Deck.add(newCard);
 					}
 				}
@@ -104,7 +106,7 @@ public class Board {
 						newHuman.setRow(row);
 						newHuman.setColumn(col);
 						newCard = new Card(arrStr[1]);
-						newCard.setCardType(player);
+						newCard.setCardType(CardType.PERSON);
 						Deck.add(newCard);
 						Players.add(newHuman);
 					}
@@ -116,14 +118,15 @@ public class Board {
 						newComputer.setRow(row);
 						newComputer.setColumn(col);
 						newCard = new Card(arrStr[1]);
-						newCard.setCardType(player);
+						newCard.setCardType(CardType.PERSON);
 						Deck.add(newCard);
 						Players.add(newComputer);
 					}
 				}
+				// loading in weapons
 				if (weapon.equals(arrStr[0])) {
 					newCard = new Card(arrStr[1]);
-					newCard.setCardType(weapon);
+					newCard.setCardType(CardType.WEAPON);
 					Deck.add(newCard);
 				}
 			}
@@ -238,7 +241,6 @@ public class Board {
 
 	public void setupWalkways() {
 		// Ensure door locations include their rooms and also additional walkways
-
 		// checking for rooms doors can go into
 		for(int row = 0; row < numRows; row++) {
 			for(int col = 0; col < numColumns; col++) {
@@ -268,6 +270,7 @@ public class Board {
 					cell.setAdjList(room.getCenterCell());
 					room.getCenterCell().setAdjList(cell);
 				}
+				// otherwise setup as a secret passage connection
 				else if(cell.isRoomCenter()) {
 					room = getRoom(cell);
 					if(room.getSecretPassageCell() != null) {
@@ -331,15 +334,13 @@ public class Board {
 				else {
 					findAllTargets(cell, pathLength-1);
 				}
-				//git remove adjCell from visited list
+				// remove adjCell from visited list
 				visited.remove(cell);
 			}
 		}
 	}
 	
 	public void deal() {
-
-
 		//Allocate new shuffledDeck and fill it with Deck's contents.
 		shuffledDeck = new ArrayList<Card>();
 		for(int i = 0; i < getDeck().size(); i++) {
@@ -352,23 +353,25 @@ public class Board {
 		//Set solution based on the first occurrence cards found.
 		solution = new Solution();
 
-		//Find first occurrence of a room, person, and weapon card from the shuffledDeck
+		//Find first occurrence of a room from the shuffledDeck
 		for(int i = 0; i < getShuffledDeck().size(); i++) {
-			if(shuffledDeck.get(i).getCardType() == "room") {
+			if(shuffledDeck.get(i).getCardType() == CardType.ROOM) {
 				solution.setSolutionRoom(shuffledDeck.get(i));
 				shuffledDeck.remove(i);
 				break;
 			}
 		}
+		//Find first occurrence of a person from the shuffledDeck
 		for(int i = 0; i < getShuffledDeck().size(); i++) {
-			if(shuffledDeck.get(i).getCardType() == "person") {
+			if(shuffledDeck.get(i).getCardType() == CardType.PERSON) {
 				solution.setSolutionPerson(shuffledDeck.get(i));
 				shuffledDeck.remove(i);
 				break;
 			}
 		}
+		//Find first occurrence of a weapon card from the shuffledDeck
 		for(int i = 0; i < getShuffledDeck().size(); i++) {
-			if(shuffledDeck.get(i).getCardType() == "weapon") {
+			if(shuffledDeck.get(i).getCardType() == CardType.WEAPON) {
 				solution.setSolutionWeapon(shuffledDeck.get(i));
 				shuffledDeck.remove(i);
 				break;
@@ -384,6 +387,7 @@ public class Board {
 		}	
 	}
 	
+	// check to make sure that all cards match the accusation made
 	public boolean checkAccusation(String room, String person, String weapon) {
 		if (room == solution.getSolutionRoom().getCardName() 
 				&& person == solution.getSolutionPerson().getCardName()
@@ -397,11 +401,11 @@ public class Board {
 
 	public Card handleSuggestion(String room, String person, String weapon, ArrayList<Player> playerArray, Player accusingPlayer) {
 		boolean first = true;
-		Card card = new Card();
+		Card card;
 		card = null;
 	
 		for(int i = 0; i < playerArray.size(); i++) {
-			if(first == false) {
+			if(!first) {
 				break;
 			}
 			for(int j = 0; j < playerArray.get(i).getHand().size(); j++) {

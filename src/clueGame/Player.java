@@ -1,13 +1,13 @@
 package clueGame;
 
-import static org.junit.Assert.assertFalse;
-
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Random;
 
 public abstract class Player {
 	protected String name;
-	protected String color;
+	protected String playerColor;
+	protected Color color;
 	protected int row;
 	protected int column;
 	protected ArrayList<Card> hand = new ArrayList<Card>();
@@ -29,12 +29,22 @@ public abstract class Player {
 	}
 	
 	//Sets player color.
-	public void setColor(String color) {
-		this.color = color;
+	public void setColor(String playerColor) {
+		this.playerColor = playerColor;
+		
+		if("orange".equals(playerColor)) {
+			color = Color.ORANGE;
+		}
+		if("red".equals(playerColor)) {
+			color = Color.RED;
+		}
+		if("blue".equals(playerColor)) {
+			color = Color.BLUE;
+		}
 	}
 	
 	//Return player color.
-	public String getColor() {
+	public Color getColor() {
 		return color;
 	}
 	

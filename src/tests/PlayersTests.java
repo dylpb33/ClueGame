@@ -1,6 +1,8 @@
 package tests;
 
 import static org.junit.Assert.*;
+
+import java.awt.Color;
 import java.util.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -34,7 +36,7 @@ public class PlayersTests {
 	public void testHuman() {
 		assertTrue(board.getPlayer(0) instanceof HumanPlayer);
 		assertEquals("Ms. Pots", board.getPlayer(0).getName());
-		assertEquals("red", board.getPlayer(0).getColor());
+		assertEquals(Color.RED, board.getPlayer(0).getColor());
 		
 	}
 	
@@ -43,7 +45,7 @@ public class PlayersTests {
 	public void testComputer() {
 		assertTrue(board.getPlayer(1) instanceof ComputerPlayer);
 		assertEquals("Moreen Ridley", board.getPlayer(1).getName());
-		assertEquals("blue", board.getPlayer(1).getColor());
+		assertEquals(Color.BLUE, board.getPlayer(1).getColor());
 	}
 	
 	//Test deck is correct size and holds correct cards.

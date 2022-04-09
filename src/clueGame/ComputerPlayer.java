@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Set;
 
+import clueGame.Card.CardType;
+
 public class ComputerPlayer extends Player{
 	
 	//Default constructor calls super.
@@ -11,11 +13,11 @@ public class ComputerPlayer extends Player{
 		super();
 	}
 	
-	public ComputerPlayer(String n, int i, int j, String c) {
-		name = n;
-		row = i;
-		column = j;
-		color = c;
+	public ComputerPlayer(String name, int row, int column, String color) {
+		this.name = name;
+		this.row = row;
+		this.column = column;
+		setColor(color);
 	}
 
 	public BoardCell selectTargets(Set<BoardCell> targets) {
@@ -67,16 +69,14 @@ public class ComputerPlayer extends Player{
 		//Create people and weapons arrays
 		ArrayList<Card> people = new ArrayList<Card>();
 		ArrayList<Card> weapons = new ArrayList<Card>();
-		String person = "person";
-		String weapon = "weapon";
 		
 		//If not in seen cards add cards to corresponding card type array
 		for(int i = 0; i < possibleCards.size(); i++) {
 			if(!player.getSeenCards().contains(possibleCards.get(i))) {
-				if(possibleCards.get(i).getCardType().equals(person)) {
+				if(possibleCards.get(i).getCardType().equals(CardType.PERSON)) {
 					people.add(possibleCards.get(i));
 				}
-				if(possibleCards.get(i).getCardType().equals(weapon)) {
+				if(possibleCards.get(i).getCardType().equals(CardType.WEAPON)) {
 					weapons.add(possibleCards.get(i));
 				}
 				

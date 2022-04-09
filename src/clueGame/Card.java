@@ -4,14 +4,6 @@ public class Card {
 	private String cardName;
 	public enum CardType {ROOM,PERSON,WEAPON};
 	private CardType type;
-	String room = "room";
-	String person = "person";
-	String weapon = "weapon";
-	
-	//Default constructor
-	public Card() {
-		
-	}
 	
 	//Constructor sets cardName
 	public Card(String cardName) {
@@ -19,40 +11,21 @@ public class Card {
 	}
 	
 	//Sets the CardType based on an input string.
-	public void setCardType(String cardType) {
-		if(cardType == "Room") {
-			type = type.ROOM;
+	public void setCardType(CardType cardType) {
+		if(cardType == CardType.ROOM) {
+			type = CardType.ROOM;
 		}
-		else if(cardType == "Player") {
-			type = type.PERSON;
+		else if(cardType == CardType.PERSON) {
+			type = CardType.PERSON;
 		}
 		else {
-			type = type.WEAPON;
+			type = CardType.WEAPON;
 		}
 	}
 	
 	//Returns string based on CardType.
-	public String getCardType() {
-		if(type == type.ROOM) {
-			return room;
-		}
-		else if(type == type.PERSON) {
-			return person;
-		}
-		else {
-			return weapon;
-		}
-	}
-	
-	//Determines whether a card equals another.
-	public boolean equals(Card target){
-		Card c = null;
-		if(target == c) {
-			return true;
-		}
-		else {
-			return false;
-		}
+	public CardType getCardType() {
+		return type;
 	}
 	
 	//Return cardName.
