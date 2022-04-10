@@ -2,6 +2,8 @@
 
 package clueGame;
 
+import java.awt.Color;
+import java.awt.Graphics;
 import java.util.*;
 
 import experiment.TestBoardCell;

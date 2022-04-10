@@ -1,0 +1,24 @@
+commit b4ada4d9d1cb0333b03a4c1a4d447524f597b7f5
+Author: Jazmine Hernandez <jazminehernandez@resnet-wl-dhcp-182-128.mines.edu>
+Date:   Thu Apr 7 15:54:06 2022 -0600
+
+    Added comments and refactored
+
+commit 5d8c509be42ead50a0c73503b997d743e1963bba
+Author: dylpb33 <dblaine@mines.edu>
+Date:   Thu Apr 7 15:41:27 2022 -0600
+
+    Added updateDisplay() to change text fields and updated the button methods
+
+commit fc5e9dff667929fcdc08f06765ef948d6bd2cb2d
+Author: Jazmine Hernandez <jazminehernandez@resnet-wl-dhcp-182-128.mines.edu>
+Date:   Thu Apr 7 14:55:30 2022 -0600
+
+    Added in turn, roll and guess panels
+
+commit 1b264b01ff179a51f40e36defb90ee3d2605b79f
+Author: dylpb33 <dblaine@mines.edu>
+Date:   Thu Apr 7 11:21:26 2022 -0600
+
+    Added skeleton classes to GameControlPanel class
+

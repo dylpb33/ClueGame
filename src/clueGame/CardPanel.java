@@ -25,13 +25,10 @@ public class CardPanel extends JPanel{
 	private JPanel peoplePanel;
 	private JPanel roomPanel;
 	private JPanel weaponPanel;
-	private Player player;
 
 	public CardPanel() {
 		// creating the known cards panel
 		JPanel knownCards = new JPanel();
-		knownCards.setBorder(new TitledBorder (new EtchedBorder(), "Known Cards"));
-		knownCards.setLayout(new GridLayout(3, 1));
 
 		peoplePanel();
 		knownCards.add(peoplePanel);
@@ -42,7 +39,13 @@ public class CardPanel extends JPanel{
 		weaponPanel();
 		knownCards.add(weaponPanel);
 		
+		knownCards.setBorder(new TitledBorder (new EtchedBorder(), "Known Cards"));
+		knownCards.setPreferredSize(new Dimension(250, 850));
+		knownCards.setLayout(new GridLayout(3, 1));
+		
 		add(knownCards);
+		
+		updatePanels();
 		
 	}
 	

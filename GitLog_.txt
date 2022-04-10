@@ -1,0 +1,29 @@
+commit 2da0072ad32dc2fa40033858f4959576473311bd (HEAD -> master, origin/master, origin/HEAD)
+Author: Jazmine Hernandez <jazminehernandez@Jazmines-MacBook-Pro.local>
+Date:   Fri Apr 8 18:46:42 2022 -0600
+
+    refactored code
+
+commit caa062a35f7f4398231664267810bb3b0a654640
+Author: dylpb33 <dblaine@mines.edu>
+Date:   Fri Apr 8 13:45:15 2022 -0600
+
+    Finished updatePanel method, GUI filling correctly
+
+commit 6ebaa7ceb5f5947073acc24fec79f1e000d00da9
+Author: dylpb33 <dblaine@mines.edu>
+Date:   Fri Apr 8 11:45:45 2022 -0600
+
+    Removed subpanels within each card panel and updated main to get the cards from the deck
+
+commit e5d7a6ae8ffcecc4bbe83a9b49c759c90fbb04b9
+Author: Jazmine Hernandez <jazminehernandez@Jazmines-MacBook-Pro.local>
+Date:   Thu Apr 7 23:20:25 2022 -0600
+
+    Added panels for people, rooms and weapon
+
+commit 8947e94b01f15b3d105da8c8719da413aac47439
+Author: dylpb33 <dblaine@mines.edu>
+Date:   Thu Apr 7 16:05:03 2022 -0600
+
+    Added skeleton methods

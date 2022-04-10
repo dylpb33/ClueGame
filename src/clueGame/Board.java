@@ -2,13 +2,18 @@
 
 package clueGame;
 
+import java.awt.Color;
+import java.awt.Graphics;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.security.KeyStore.Entry;
 import java.util.*;
+
+import javax.swing.JPanel;
 
 import clueGame.Card.CardType;
 
-public class Board {
+public class Board extends JPanel{
 
 	private int numRows;
 	private int numColumns;
@@ -429,7 +434,6 @@ public class Board {
 		return card;
 
 	}
-
 	
 	// Returns number of rows in board.
 	public int getNumRows() {
