@@ -32,6 +32,11 @@ public class BoardCell {
 		doorDirection = DoorDirection.NONE;
 	}
 	
+	//Draws each cell on board
+	public void drawCell(int height, int width, Graphics g) {
+		
+	}
+	
 	// Returns initial for cell
 	public char getInitial() {
 		return initial;

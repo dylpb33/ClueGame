@@ -18,6 +18,10 @@ public abstract class Player {
 		
 	}
 	
+	public void drawPlayer() {
+		
+	}
+	
 	//Sets player name.
 	public void setName(String name) {
 		this.name = name;

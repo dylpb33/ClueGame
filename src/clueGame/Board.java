@@ -435,6 +435,28 @@ public class Board extends JPanel{
 
 	}
 	
+	//Draws the board and players
+	@Override
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		
+		//Calculate panel size
+		
+		//Use panel size to calculate cell width and height
+		
+		//Loop through each boardcell and call draw(int width, int height, Graphics g) method
+		for(int i = 0; i < numRows; i++) {
+			for(int j = 0; j < numColumns; j++) {
+				grid[i][j].drawCell();
+			}
+		}
+		
+		//Set board panel to be same width and height calculated in layoutConfig()
+		
+		//Called to resize board whenever event occurs(ex. window changes size)
+		repaint();
+	}
+	
 	// Returns number of rows in board.
 	public int getNumRows() {
 		return numRows;

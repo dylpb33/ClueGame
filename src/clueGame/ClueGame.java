@@ -5,10 +5,12 @@ import java.awt.BorderLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public class ClueGame extends JPanel{
-	
+public class ClueGame extends JFrame{
+	private static Board board;
 
 	public ClueGame() {
+		setSize(1000, 1000);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		GameControlPanel gameControlPanel = new GameControlPanel();
 		add(gameControlPanel, BorderLayout.SOUTH);
@@ -16,18 +18,16 @@ public class ClueGame extends JPanel{
 		CardPanel cardPanel = new CardPanel();
 		add(cardPanel, BorderLayout.EAST);
 		
+		board = Board.getInstance();
+		add(board, BorderLayout.CENTER);
+		
 	}
 	
 	
 
 	public static void main(String[] args) {
-
-		ClueGame clueGame = new ClueGame();  // create the panel		
-		JFrame frame = new JFrame();  // create the frame 
-		frame.setContentPane(clueGame); // put the panel in the frame
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // allow it to close
-		frame.setVisible(true); // make it visible
-		frame.pack(); //makes the frame fit the screen
+		ClueGame clueGame = new ClueGame(); //Create clueGame object which is a frame	
+		clueGame.setVisible(true); // make it visible
 	}
 
 }
