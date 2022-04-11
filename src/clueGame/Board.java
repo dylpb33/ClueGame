@@ -28,6 +28,8 @@ public class Board extends JPanel{
 	private ArrayList<Card> shuffledDeck;
 	private ArrayList<Player> Players;
 	private Solution solution;
+	private int width;
+	private int height;
 
 	/*
 	 * variable and methods used for singleton pattern
@@ -440,18 +442,23 @@ public class Board extends JPanel{
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
+		//Set board panel to be same width and height calculated in layoutConfig()
+		
 		//Calculate panel size
+		setWidth(getInstance().getWidth());
+		setHeight(getInstance().getHeight());
 		
 		//Use panel size to calculate cell width and height
+		int cellWidth = width / numColumns;
+		int cellHeight = height / numRows;		
 		
 		//Loop through each boardcell and call draw(int width, int height, Graphics g) method
 		for(int i = 0; i < numRows; i++) {
 			for(int j = 0; j < numColumns; j++) {
-				grid[i][j].drawCell();
+				grid[i][j].drawCell(cellWidth, cellHeight, g);
 			}
 		}
 		
-		//Set board panel to be same width and height calculated in layoutConfig()
 		
 		//Called to resize board whenever event occurs(ex. window changes size)
 		repaint();
@@ -546,6 +553,22 @@ public class Board extends JPanel{
 	//Return solution for board.
 	public Solution getSolution() {
 		return solution;
+	}
+	
+	public int getWidth() {
+		return width;
+	}
+	
+	public int getHeight() {
+		return height;
+	}
+	
+	public void setWidth(int width) {
+		this.width = width;
+	}
+	
+	public void setHeight(int height) {
+		this.height = height;
 	}
 
 }
