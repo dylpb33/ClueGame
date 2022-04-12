@@ -28,8 +28,6 @@ public class Board extends JPanel{
 	private ArrayList<Card> shuffledDeck;
 	private ArrayList<Player> Players;
 	private Solution solution;
-	private int width;
-	private int height;
 
 	/*
 	 * variable and methods used for singleton pattern
@@ -442,27 +440,25 @@ public class Board extends JPanel{
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		//Set board panel to be same width and height calculated in layoutConfig()
-		
 		//Calculate panel size
-		setWidth(getInstance().getWidth());
-		setHeight(getInstance().getHeight());
-		
-		//Use panel size to calculate cell width and height
 		int xOffset;
 		int yOffset;
-		int cellWidth = width / numColumns;
-		int cellHeight = height / numRows;		
+		int width = this.getWidth();
+		int height = this.getHeight();
+		
+		//Use panel size to calculate cell width and height
+		int cellWidth = width / getNumColumns();
+		int cellHeight = height / getNumRows();		
 		
 		//Loop through each boardcell and call draw(int width, int height, Graphics g) method
 		for(int i = 0; i < numRows; i++) {
 			for(int j = 0; j < numColumns; j++) {
-				xOffset = cellWidth * numColumns;
-				yOffset = cellHeight * numRows;
-				grid[i][j].drawCell(cellWidth, cellHeight, xOffset, yOffset, g);
+				// calculate offset
+				xOffset = j * cellWidth;
+				yOffset = i * cellHeight;
+				getCell(i, j).drawCell(cellWidth, cellHeight, xOffset, yOffset, g);
 			}
 		}
-		//Called to resize board whenever event occurs(ex. window changes size)
-		repaint();
 	}
 	
 	// Returns number of rows in board.
@@ -554,22 +550,6 @@ public class Board extends JPanel{
 	//Return solution for board.
 	public Solution getSolution() {
 		return solution;
-	}
-	
-	public int getWidth() {
-		return width;
-	}
-	
-	public int getHeight() {
-		return height;
-	}
-	
-	public void setWidth(int width) {
-		this.width = width;
-	}
-	
-	public void setHeight(int height) {
-		this.height = height;
 	}
 
 }

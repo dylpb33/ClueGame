@@ -229,32 +229,7 @@ public class CardPanel extends JPanel{
 		JFrame frame = new JFrame();  // create the frame 
 		frame.setContentPane(panel); // put the panel in the frame
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // allow it to close
-		
-		//Create a test Board
-		Board testBoard = Board.getInstance();
-		
-		//set file names to use my config files
-		testBoard.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");
-		
-		//Initialize will load config files
-		testBoard.initialize();
-		
-		//Deal deck of cards to players
-		testBoard.deal();
-		
-		//Mark all cards not in human players hand as seen for testing
-		for(Card card : testBoard.getDeck()) {
-			if(!testBoard.getHumanPlayer().getHand().contains(card)) {
-				testBoard.getHumanPlayer().setSeenCards(card);
-				panel.setCardsSeen(card);
-			}
-			else {
-				panel.setCardsInHand(card);
-			}
-			
-		}
-		frame.setVisible(true); // make it visible
 		frame.pack(); //makes the frame fit the screen
+		frame.setVisible(true); // make it visible	}
 	}
-
 }

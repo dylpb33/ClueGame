@@ -33,11 +33,35 @@ public class BoardCell {
 	}
 	
 	//Draws each cell on board
-	public void drawCell(int height, int width, int xOffset, int yOffset, Graphics g) {
-		if(Boolean.TRUE.equals(getIsRoom())) {
+	public void drawCell(int width,  int height, int xOffset, int yOffset, Graphics g) {
+		if(this.getInitial() == 'X') {
 			g.setColor(Color.BLACK);
 			g.fillRect(xOffset, yOffset, width, height);
 		}
+		if(this.getInitial() == 'W') {
+			g.setColor(Color.BLACK);
+			g.drawRect(xOffset, yOffset, width, height);
+			g.setColor(Color.YELLOW);
+			g.fillRect(xOffset , yOffset , width , height );
+		}
+		if(this.isDoor) {
+			if (this.doorDirection == doorDirection.UP) {
+				g.setColor(Color.BLUE);
+				g.fillRect(xOffset, yOffset-5, width, 5);
+			}
+			if (this.doorDirection == doorDirection.DOWN) {
+				g.setColor(Color.BLUE);
+				g.fillRect(xOffset, yOffset + height, width, 5);
+			}
+			if (this.doorDirection == doorDirection.LEFT) {
+				g.setColor(Color.BLUE);
+				g.fillRect(xOffset-5, yOffset, 5, height);
+			}
+			if (this.doorDirection == doorDirection.RIGHT) {
+				g.setColor(Color.BLUE);
+				g.fillRect(xOffset + width, yOffset, 5, height);
+			}
+		}	
 	}
 	
 	// Returns initial for cell
