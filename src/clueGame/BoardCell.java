@@ -169,5 +169,13 @@ public class BoardCell {
 		return adjList;
 	}
 	
+	public int getRow() {
+		return row;
+	}
+	
+	public int getColumn() {
+		return col;
+	}
+	
 
 }

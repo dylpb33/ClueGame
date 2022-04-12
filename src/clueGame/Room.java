@@ -2,12 +2,24 @@
 
 package clueGame;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
+
 public class Room {
 	
 	private String name;
 	private BoardCell centerCell;
 	private BoardCell labelCell;
 	private BoardCell secretPassageCell;
+	
+	public void drawRoomName(int xOffset, int yOffset, Graphics g, int cellWidth, int cellHeight) {
+		g.setColor(Color.BLUE);
+		double fontSize = (cellWidth * 0.25) + (cellHeight * 0.25);
+		Font f = new Font("Comic Sans MS", Font.BOLD, (int) fontSize);
+		g.setFont(f);
+		g.drawString(name, xOffset, yOffset);
+	}
 	
 	//Returns name of room
 	public String getName() {

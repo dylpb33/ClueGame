@@ -465,6 +465,14 @@ public class Board extends JPanel{
 			yOffset = player.getRow() * cellHeight;
 			player.drawPlayer(cellWidth, cellHeight, xOffset, yOffset, g);
 		}
+
+		for(Map.Entry<Character, Room> entry : roomMap.entrySet()) {
+			if(entry.getValue().getLabelCell() != null) {
+				xOffset = (entry.getValue().getLabelCell().getColumn()) * cellWidth;
+				yOffset = (entry.getValue().getLabelCell().getRow() + 1) * cellHeight;
+				entry.getValue().drawRoomName(xOffset, yOffset, g, cellWidth, cellHeight);
+			}
+		}
 	}
 	
 	// Returns number of rows in board.
