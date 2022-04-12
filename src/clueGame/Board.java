@@ -441,7 +441,6 @@ public class Board extends JPanel{
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		
 		//Set board panel to be same width and height calculated in layoutConfig()
 		
 		//Calculate panel size
@@ -449,17 +448,19 @@ public class Board extends JPanel{
 		setHeight(getInstance().getHeight());
 		
 		//Use panel size to calculate cell width and height
+		int xOffset;
+		int yOffset;
 		int cellWidth = width / numColumns;
 		int cellHeight = height / numRows;		
 		
 		//Loop through each boardcell and call draw(int width, int height, Graphics g) method
 		for(int i = 0; i < numRows; i++) {
 			for(int j = 0; j < numColumns; j++) {
-				grid[i][j].drawCell(cellWidth, cellHeight, g);
+				xOffset = cellWidth * numColumns;
+				yOffset = cellHeight * numRows;
+				grid[i][j].drawCell(cellWidth, cellHeight, xOffset, yOffset, g);
 			}
 		}
-		
-		
 		//Called to resize board whenever event occurs(ex. window changes size)
 		repaint();
 	}

@@ -176,9 +176,9 @@ public class GameControlPanel extends JPanel{
 		GameControlPanel panel = new GameControlPanel();  // create the panel
 		JFrame frame = new JFrame();  // create the frame 
 		frame.setContentPane(panel); // put the panel in the frame
-		frame.setSize(990, 180);  // size the frame
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // allow it to close
 		frame.setVisible(true); // make it visible
+		frame.pack();
 		
 		// test filling in the data
 		panel.setTurn(new ComputerPlayer( "Col. Mustard", 0, 0, "orange"), 5);

@@ -33,8 +33,11 @@ public class BoardCell {
 	}
 	
 	//Draws each cell on board
-	public void drawCell(int height, int width, Graphics g) {
-		
+	public void drawCell(int height, int width, int xOffset, int yOffset, Graphics g) {
+		if(Boolean.TRUE.equals(getIsRoom())) {
+			g.setColor(Color.BLACK);
+			g.fillRect(xOffset, yOffset, width, height);
+		}
 	}
 	
 	// Returns initial for cell
