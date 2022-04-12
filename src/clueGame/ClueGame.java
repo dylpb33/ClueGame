@@ -2,6 +2,7 @@ package clueGame;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -9,6 +10,7 @@ import javax.swing.JPanel;
 public class ClueGame extends JFrame{
 	
 	private static Board board;
+	private int xSize, ySize;
 
 	public ClueGame() {
 
@@ -20,8 +22,11 @@ public class ClueGame extends JFrame{
 		board.initialize();
 		//Deal deck of cards to players
 		board.deal();
+		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
+		xSize = (int) (screen.getWidth() * 0.5);
+		ySize = (int) (screen.getHeight() * 0.9);
 		
-		setSize(1000, 850);
+		setSize(xSize, ySize);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		GameControlPanel gameControlPanel = new GameControlPanel();

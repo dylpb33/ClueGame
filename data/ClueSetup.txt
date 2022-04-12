@@ -17,9 +17,9 @@ Space, Walkway, W
 Player, Ms. Pots, human, red, 12, 0
 Player, Moreen Ridley, computer, blue, 23, 13
 Player, Leslie Zayne, computer, green, 0, 6
-Player, Dr. Brown, computer, brown, 0, 13
+Player, Dr. Brown, computer, white, 0, 13
 Player, Justin Prince, computer, orange, 6, 21
-Player, Pacman, computer, yellow, 23, 5
+Player, Pacman, computer, pink, 23, 5
 
 //Weapons and weapon cards
 Weapon, Knife

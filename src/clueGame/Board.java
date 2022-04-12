@@ -459,6 +459,12 @@ public class Board extends JPanel{
 				getCell(i, j).drawCell(cellWidth, cellHeight, xOffset, yOffset, g);
 			}
 		}
+		
+		for(Player player : Players) {
+			xOffset = player.getColumn() * cellWidth;
+			yOffset = player.getRow() * cellHeight;
+			player.drawPlayer(cellWidth, cellHeight, xOffset, yOffset, g);
+		}
 	}
 	
 	// Returns number of rows in board.

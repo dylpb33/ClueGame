@@ -25,28 +25,25 @@ public class GameControlPanel extends JPanel{
 	// sets various panels and adds them to the main panel
 	public GameControlPanel() {
 
-		JPanel mainPanel = new JPanel();
-		mainPanel.setLayout(new GridLayout(2, 4));
+		setLayout(new GridLayout(2, 4));
 
 		JPanel whoseTurn = whoseTurnPanel();
-		mainPanel.add(whoseTurn);
+		add(whoseTurn);
 		
 		JPanel roll = rollPanel();
-		mainPanel.add(roll);
+		add(roll);
 		
 		JButton makeAccusation = makeAccusationButton();
-		mainPanel.add(makeAccusation);
+		add(makeAccusation);
 
 		JPanel guessPanel = guessPanel();
-		mainPanel.add(guessPanel);
+		add(guessPanel);
 		
 		JPanel guessResult = guessResultPanel();
-		mainPanel.add(guessResult);
+		add(guessResult);
 		
 		JButton nextPlayer = nextButton();
-		mainPanel.add(nextPlayer);
-
-		add(mainPanel);
+		add(nextPlayer);
 		
 		updateDisplay();
 	}

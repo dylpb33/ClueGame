@@ -1,6 +1,7 @@
 package clueGame;
 
 import java.awt.Color;
+import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -18,8 +19,9 @@ public abstract class Player {
 		
 	}
 	
-	public void drawPlayer() {
-		
+	public void drawPlayer(int width,  int height, int xOffset, int yOffset, Graphics g) {
+		g.setColor(this.color);
+		g.fillOval(xOffset , yOffset , width , height );
 	}
 	
 	//Sets player name.
@@ -39,11 +41,20 @@ public abstract class Player {
 		if("orange".equals(playerColor)) {
 			color = Color.ORANGE;
 		}
-		if("red".equals(playerColor)) {
+		else if("red".equals(playerColor)) {
 			color = Color.RED;
 		}
-		if("blue".equals(playerColor)) {
+		else if("blue".equals(playerColor)) {
 			color = Color.BLUE;
+		}
+		else if("green".equals(playerColor)) {
+			color = Color.GREEN;
+		}
+		else if("white".equals(playerColor)) {
+			color = Color.WHITE;
+		}
+		else if("pink".equals(playerColor)) {
+			color = Color.PINK;
 		}
 	}
 	

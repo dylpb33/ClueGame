@@ -16,6 +16,7 @@ public class CardPanel extends JPanel{
 	
 	private ArrayList<Card> cardsInHand = new ArrayList<Card>();
 	private ArrayList<Card> cardsSeen = new ArrayList<Card>();
+	private int panelRows;
 	private JTextField PeopleHand;
 	private JTextField PeopleSeen;
 	private JTextField RoomsHand;
@@ -25,24 +26,21 @@ public class CardPanel extends JPanel{
 	private JPanel peoplePanel;
 	private JPanel roomPanel;
 	private JPanel weaponPanel;
-
+	
+	//Default constructor that creates card panel.
 	public CardPanel() {
-		// creating the known cards panel
-		JPanel knownCards = new JPanel();
 		
-		knownCards.setBorder(new TitledBorder (new EtchedBorder(), "Known Cards"));
-		knownCards.setLayout(new GridLayout(3, 1));
+		setBorder(new TitledBorder (new EtchedBorder(), "Known Cards"));
+		setLayout(new GridLayout(3, 1));
 
 		peoplePanel();
-		knownCards.add(peoplePanel);
+		add(peoplePanel);
 		
 		roomPanel();
-		knownCards.add(roomPanel);
+		add(roomPanel);
 		
 		weaponPanel();
-		knownCards.add(weaponPanel);
-		
-		add(knownCards);
+		add(weaponPanel);
 		
 		updatePanels();
 		
@@ -57,8 +55,8 @@ public class CardPanel extends JPanel{
 	public void peoplePanel() {		
 		// creating the people panel 
 		peoplePanel = new JPanel();
-		peoplePanel.setSize(80, 50);
-
+		
+		//2+held+seen
 		peoplePanel.setLayout(new GridLayout(0,1));
 		peoplePanel.setBorder(new TitledBorder (new EtchedBorder(), "People"));
 	}
@@ -228,8 +226,8 @@ public class CardPanel extends JPanel{
 		CardPanel panel = new CardPanel();  // create the panel
 		JFrame frame = new JFrame();  // create the frame 
 		frame.setContentPane(panel); // put the panel in the frame
+		frame.setSize(200, 800);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // allow it to close
-		frame.pack(); //makes the frame fit the screen
 		frame.setVisible(true); // make it visible	}
 	}
 }
