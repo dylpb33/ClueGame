@@ -13,14 +13,16 @@ public class Room {
 	private BoardCell labelCell;
 	private BoardCell secretPassageCell;
 	
+	// draws the room name blue
 	public void drawRoomName(int xOffset, int yOffset, Graphics g, int cellWidth, int cellHeight) {
-		g.setColor(Color.BLUE);
 		double fontSize = (cellWidth * 0.25) + (cellHeight * 0.25);
 		Font f = new Font("Comic Sans MS", Font.BOLD, (int) fontSize);
+		
+		g.setColor(Color.BLUE);
 		g.setFont(f);
 		g.drawString(name, xOffset, yOffset);
 	}
-	
+
 	//Returns name of room
 	public String getName() {
 		return name;

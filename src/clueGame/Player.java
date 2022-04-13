@@ -19,6 +19,7 @@ public abstract class Player {
 		
 	}
 	
+	// drawing the player in their starting location
 	public void drawPlayer(int width,  int height, int xOffset, int yOffset, Graphics g) {
 		g.setColor(this.color);
 		g.fillOval(xOffset , yOffset , width , height );

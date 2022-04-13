@@ -23,15 +23,19 @@ public class ClueGame extends JFrame{
 		//Deal deck of cards to players
 		board.deal();
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
-		xSize = (int) (screen.getWidth() * 0.5);
-		ySize = (int) (screen.getHeight() * 0.9);
+		xSize = (int) (screen.getWidth() * 0.7);
+		ySize = (int) (screen.getHeight() * 0.7);
 		
+		// setting JFrame size, title and exit
 		setSize(xSize, ySize);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setTitle("Clue Game - CSCI306");
 		
+		// adding the GameControlPanel
 		GameControlPanel gameControlPanel = new GameControlPanel();
 		add(gameControlPanel, BorderLayout.SOUTH);
 		
+		// adding the CardPanel and card data
 		CardPanel cardPanel = new CardPanel();
 		//Mark all cards not in human players hand as seen for testing
 		for(Card card : board.getDeck()) {
@@ -49,7 +53,6 @@ public class ClueGame extends JFrame{
 		board = Board.getInstance();
 		add(board, BorderLayout.CENTER);
 		
-		//pack();
 		setVisible(true); // make it visible
 	}
 	

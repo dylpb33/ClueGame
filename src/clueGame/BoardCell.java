@@ -23,7 +23,6 @@ public class BoardCell {
 	private Boolean isRoom = false;
 	private Boolean isOccupied = false;
 	
-	
 	//Constructor for each cell
 	public BoardCell(int row, int col) {
 		this.row = row;
@@ -34,17 +33,19 @@ public class BoardCell {
 	
 	//Draws each cell on board
 	public void drawCell(int width,  int height, int xOffset, int yOffset, Graphics g) {
+		// drawing the unused spaces black
 		if(this.getInitial() == 'X') {
 			g.setColor(Color.BLACK);
 			g.fillRect(xOffset, yOffset, width, height);
 		}
-		else if(this.getInitial() == 'W') {
-			g.setColor(Color.YELLOW);
+		// drawing the walkways yellow
+		if(this.getInitial() == 'W') {
+			g.setColor(Color.CYAN);
 			g.fillRect(xOffset , yOffset , width , height );
 			g.setColor(Color.BLACK);
 			g.drawRect(xOffset, yOffset, width, height);
 		}
-		
+		// drawing the doors
 		if(isDoor) {
 			if (this.doorDirection == doorDirection.UP) {
 				g.setColor(Color.BLUE);
@@ -58,14 +59,17 @@ public class BoardCell {
 				g.setColor(Color.BLUE);
 				g.fillRect(xOffset-5, yOffset, 5, height);
 			}
-			else {
+			else if (this.doorDirection == doorDirection.RIGHT) {
 				g.setColor(Color.BLUE);
 				g.fillRect(xOffset + width, yOffset, 5, height);
 			}
 		}
-		
-
-		
+		// drawing the rooms
+		if (this.isRoom) {
+			Color overlay = new Color(0, 0, 255, 30);
+			g.setColor(overlay);
+			g.fillRect(xOffset, yOffset, width, height);
+		}
 	}
 	
 	// Returns initial for cell

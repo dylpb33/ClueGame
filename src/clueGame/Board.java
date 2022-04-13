@@ -312,6 +312,12 @@ public class Board extends JPanel{
 						}
 					}
 				}
+				// setting up the rooms
+				if (cell.getInitial() == 'S' || cell.getInitial() == 'P' || cell.getInitial() == 'R'
+					|| cell.getInitial() == 'O' || cell.getInitial() == 'L' || cell.getInitial() == 'K'
+					|| cell.getInitial() == 'T' || cell.getInitial() == 'C' || cell.getInitial() == 'G') {
+					cell.setIsRoom(true);
+				}
 			}
 		}
 	}
@@ -459,13 +465,13 @@ public class Board extends JPanel{
 				getCell(i, j).drawCell(cellWidth, cellHeight, xOffset, yOffset, g);
 			}
 		}
-		
+		// getting player location and calling drawPlayer in PLayer class
 		for(Player player : Players) {
 			xOffset = player.getColumn() * cellWidth;
 			yOffset = player.getRow() * cellHeight;
 			player.drawPlayer(cellWidth, cellHeight, xOffset, yOffset, g);
 		}
-
+		// getting room names and calling drawRoomName in Room class
 		for(Map.Entry<Character, Room> entry : roomMap.entrySet()) {
 			if(entry.getValue().getLabelCell() != null) {
 				xOffset = (entry.getValue().getLabelCell().getColumn()) * cellWidth;
