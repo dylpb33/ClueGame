@@ -3,13 +3,16 @@ package clueGame;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
-
+import javax.swing.JDialog;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
 
 public class ClueGame extends JFrame{
 	
 	private static Board board;
+	boolean firstTurn = true;
 	private int xSize, ySize;
 
 	public ClueGame() {
@@ -54,8 +57,19 @@ public class ClueGame extends JFrame{
 		add(board, BorderLayout.CENTER);
 		
 		setVisible(true); // make it visible
+		
+		splashScreen();
 	}
 	
+	// shows splash screen displaying which character human player is
+	public void splashScreen() {
+		JLabel label = new JLabel("<html><p align=center>"
+                + "You are " + Board.getInstance().getHumanPlayer().getName() + "<br>"
+                + "Can you find the solution<br>"
+                + "before the computer players?");
+		label.setHorizontalAlignment(SwingConstants.CENTER);
+		JOptionPane.showMessageDialog(this, label, "Welcome to Clue", JOptionPane.ERROR_MESSAGE);
+	}
 	
 
 	public static void main(String[] args) {
