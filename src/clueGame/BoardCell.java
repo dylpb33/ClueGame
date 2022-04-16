@@ -22,7 +22,6 @@ public class BoardCell {
 	private Set<BoardCell> adjList;
 	private Boolean isRoom = false;
 	private Boolean isOccupied = false;
-	private Boolean highlighted = false;
 	
 	//Constructor for each cell
 	public BoardCell(int row, int col) {
@@ -75,12 +74,14 @@ public class BoardCell {
 	}
 	
 	public void highlightTargets (int cellWidth, int cellHeight, int xOffset, int yOffset, Graphics g) {
+		// coloring the walkways that are in the players targets list
 		if(this.getInitial() == 'W') {
 			g.setColor(Color.YELLOW);
 			g.fillRect(xOffset , yOffset , cellWidth , cellHeight );
 			g.setColor(Color.BLACK);
 			g.drawRect(xOffset, yOffset, cellWidth, cellHeight);
 		}
+		// Highlighting the room that is in the targets list
 		else {
 			g.setColor(Color.YELLOW);
 			g.fillRect(xOffset , yOffset , cellWidth , cellHeight );
@@ -195,10 +196,5 @@ public class BoardCell {
 	public int getColumn() {
 		return col;
 	}
-	
-	public void setHighlighted(Boolean b) {
-		highlighted = b;
-	}
-	
 
 }

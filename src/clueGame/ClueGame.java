@@ -59,7 +59,6 @@ public class ClueGame extends JFrame{
 		board.addMouseListener(board);
 		board.processNext(gameControlPanel);
 		
-		
 		setVisible(true); // make it visible
 		
 		splashScreen();

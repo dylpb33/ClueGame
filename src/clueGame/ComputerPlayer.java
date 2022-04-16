@@ -84,8 +84,6 @@ public class ComputerPlayer extends Player{
 			}
 		}
 		
-
-		
 		//Randomly select cards to add to suggestion
 		player.getSuggestion().add(people.get(rand.nextInt(people.size())));
 		player.getSuggestion().add(weapons.get(rand.nextInt(weapons.size())));
@@ -95,10 +93,13 @@ public class ComputerPlayer extends Player{
 	@Override
 	public void Move() {
 		board = board.getInstance();
+		// getting the cell the player is currently in and setting it to not occupied
 		board.getCell(this.row, this.column).setOccupied(false);
 		BoardCell c = this.selectTargets(board.getTargets());
+		// moving them to the clicked cell
 		this.setRow(c.getRow());
 		this.setColumn(c.getColumn());
+		// setting the clicked cell to occupied
 		c.setOccupied(true);
 	}
 	

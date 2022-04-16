@@ -500,6 +500,7 @@ public class Board extends JPanel implements MouseListener{
 		}
 	}
 	
+	//generates a random number between 1 and 6
 	public int rollDie() {
 		Random rand = new Random();
 		return rand.nextInt(6) + 1;
@@ -530,13 +531,13 @@ public class Board extends JPanel implements MouseListener{
 				//Flag unfinished
 				isFinished = false;
 			}
+			// otherwise the computer moves
 			else {
 				currentPlayer.Move();
-
 			}
 			repaint();
 		}
-
+		// displays this message if Human selects next before finishing their turn
 		else {
 			JOptionPane.showMessageDialog(null, "Please finish your turn!");
 		}
@@ -545,11 +546,15 @@ public class Board extends JPanel implements MouseListener{
 		
 	@Override
 	public void mouseClicked(MouseEvent e) {
+		// getting the cell clicked
 		int row = (int) e.getY() / (getHeight() / getNumRows());
 		int column = (int) e.getX() / (getWidth() / getNumColumns());
 		BoardCell c = getCell(row, column);
+		// if the current player is the human
 		if(currentPlayer instanceof HumanPlayer) {
+			// and the target contains the cell clicked
 			if(targets.contains(c)) {
+				// move the human to the cell clicked
 				currentPlayer.Move(c);
 				isFinished = true;
 				repaint();
@@ -557,6 +562,7 @@ public class Board extends JPanel implements MouseListener{
 					//Handle Suggestion
 				}
 			}
+			// if they select a cell that is not in the targets list
 			else {
 				JOptionPane.showMessageDialog(null, "That is not a target");
 			}
@@ -564,9 +570,16 @@ public class Board extends JPanel implements MouseListener{
 	}
 
 	//Unused abstract methods
+	@Override
 	public void mousePressed(MouseEvent e) {}
+	
+	@Override
 	public void mouseReleased(MouseEvent e) {}
+	
+	@Override
 	public void mouseEntered(MouseEvent e) {}
+	
+	@Override
 	public void mouseExited(MouseEvent e) {}	
 	
 
