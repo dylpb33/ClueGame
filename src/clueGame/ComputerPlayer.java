@@ -7,6 +7,7 @@ import java.util.Set;
 import clueGame.Card.CardType;
 
 public class ComputerPlayer extends Player{
+	private static Board board;
 	
 	//Default constructor calls super.
 	public ComputerPlayer() {
@@ -83,10 +84,20 @@ public class ComputerPlayer extends Player{
 			}
 		}
 		
+
+		
 		//Randomly select cards to add to suggestion
 		player.getSuggestion().add(people.get(rand.nextInt(people.size())));
 		player.getSuggestion().add(weapons.get(rand.nextInt(weapons.size())));
 		
+	}
+
+	@Override
+	public void Move() {
+		board = board.getInstance();
+		BoardCell c = this.selectTargets(board.getTargets());
+		this.setRow(c.getRow());
+		this.setColumn(c.getColumn());
 	}
 	
 

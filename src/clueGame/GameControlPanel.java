@@ -3,6 +3,8 @@ package clueGame;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
@@ -21,6 +23,7 @@ public class GameControlPanel extends JPanel{
 	private JTextField result;
 	private JTextField turn;
 	private JTextField roll;
+	private GameControlPanel controlPanel = this;
 
 	// sets various panels and adds them to the main panel
 	public GameControlPanel() {
@@ -137,7 +140,6 @@ public class GameControlPanel extends JPanel{
 		JLabel label = new JLabel("Make Accusation");
 		button.add(label);
 		return button;
-
 	}
 	
 	// button to move on to next 
@@ -145,8 +147,19 @@ public class GameControlPanel extends JPanel{
 		JButton button = new JButton();
 		JLabel label = new JLabel("NEXT!");
 		button.add(label);
+		button.addActionListener(new ButtonListener());
 		return button;
 	}
+	
+	
+	private class ButtonListener implements ActionListener{
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			Board board = Board.getInstance();
+			board.processNext(controlPanel);
+		}
+	}
+	
 	
 	// setters and getters
 	public void setGuess(String string) {
@@ -160,12 +173,13 @@ public class GameControlPanel extends JPanel{
 	}
 	
 
-	private void setTurn(ComputerPlayer computerPlayer, int r) {
-		turnName = computerPlayer.getName();
+	public void setTurn(Player player, int r) {
+		turnName = player.getName();
 		rollNum = Integer.toString(r);
-		color = computerPlayer.getColor();
+		color = player.getColor();
 		updateDisplay();
 	}
+	
 	
 
 	public static void main(String[] args) {

@@ -4,11 +4,14 @@ package clueGame;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.security.KeyStore.Entry;
 import java.util.*;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import clueGame.Card.CardType;
@@ -28,6 +31,10 @@ public class Board extends JPanel{
 	private ArrayList<Card> shuffledDeck;
 	private ArrayList<Player> Players;
 	private Solution solution;
+	private int currPlayerNum;
+	private HumanPlayer human;
+	private Player currentPlayer;
+	private Boolean isFinished = true;
 
 	/*
 	 * variable and methods used for singleton pattern
@@ -71,7 +78,7 @@ public class Board extends JPanel{
 		String space = "Space";
 		String player = "Player";
 		String comment = "//";
-		String human = "human";
+		String human1 = "human";
 		String weapon = "Weapon";
 		String computer = "computer";
 
@@ -104,16 +111,18 @@ public class Board extends JPanel{
 				if(player.equals(arrStr[0])) {
 					int row = Integer.parseInt(arrStr[4]);
 					int col = Integer.parseInt(arrStr[5]);
-					if(human.equals(arrStr[2])) {
-						HumanPlayer newHuman = new HumanPlayer();
-						newHuman.setName(arrStr[1]);
-						newHuman.setColor(arrStr[3]);
-						newHuman.setRow(row);
-						newHuman.setColumn(col);
+					if(human1.equals(arrStr[2])) {
+						human = new HumanPlayer();
+						human.setName(arrStr[1]);
+						human.setColor(arrStr[3]);
+						human.setRow(row);
+						human.setColumn(col);
 						newCard = new Card(arrStr[1]);
 						newCard.setCardType(CardType.PERSON);
 						Deck.add(newCard);
-						Players.add(newHuman);
+						Players.add(human);
+						currentPlayer = human;
+						currPlayerNum = -1;
 					}
 					if (computer.equals(arrStr[2])) {
 						// loading in computer player information
@@ -479,6 +488,58 @@ public class Board extends JPanel{
 				entry.getValue().drawRoomName(xOffset, yOffset, g, cellWidth, cellHeight);
 			}
 		}
+	}
+	
+	public int rollDie() {
+		Random rand = new Random();
+		return rand.nextInt(6) + 1;
+	}
+	
+	public void processNext(GameControlPanel controlPanel) {
+		//Current human player finished?
+	
+		if(!isFinished) {
+				JOptionPane.showMessageDialog(null, "Please finish your turn!");
+		}
+		
+		//Update current player
+		currPlayerNum = (currPlayerNum + 1) % Players.size();
+		currentPlayer = Players.get(currPlayerNum);
+		
+		//Roll the dice
+		int roll = rollDie();
+		
+		//Calc Targets
+		calcTargets(this.getCell(Players.get(currPlayerNum).getRow(), Players.get(currPlayerNum).getColumn()), roll);
+		
+		//Update Game control Panel
+		controlPanel.setTurn(currentPlayer, roll);
+		
+		//Is new player human?
+		if(currentPlayer instanceof HumanPlayer) {
+			//Display targets
+			for(BoardCell c : targets) {
+				c.setHighlighted(true);
+			}
+			
+			//Flag unfinished
+			isFinished = false;
+		}
+		else {
+			currentPlayer.Move();
+		}
+		repaint();
+	}
+	
+	private class MouseClicked implements ActionListener{
+		public void actionPerformed(ActionEvent e) {
+			Board board = Board.getInstance();
+			board.processClick();
+		}
+	}
+	
+	public void processClick() {
+		
 	}
 	
 	// Returns number of rows in board.

@@ -14,6 +14,7 @@ public abstract class Player {
 	protected ArrayList<Card> hand = new ArrayList<Card>();
 	protected ArrayList<Card> seenCards = new ArrayList<Card>();
 	protected ArrayList<Card> suggestion = new ArrayList<Card>();
+	protected boolean isFinished;
 	
 	public void player() {
 		
@@ -58,6 +59,8 @@ public abstract class Player {
 			color = Color.PINK;
 		}
 	}
+	
+	public abstract void Move();
 	
 	//Return player color.
 	public Color getColor() {
@@ -147,5 +150,12 @@ public abstract class Player {
 		}
 	}
 	
+	public boolean getIsFinished(){
+		return isFinished;
+	}
+	
+	public void setIsFinished(boolean b){
+		isFinished = b;
+	}
 	
 }

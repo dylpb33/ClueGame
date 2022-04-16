@@ -13,5 +13,12 @@ public class HumanPlayer extends Player{
 		this.playerColor = color;
 	}
 
+	@Override
+	public void Move() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+
 
 }

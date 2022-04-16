@@ -22,6 +22,7 @@ public class BoardCell {
 	private Set<BoardCell> adjList;
 	private Boolean isRoom = false;
 	private Boolean isOccupied = false;
+	private Boolean highlighted = false;
 	
 	//Constructor for each cell
 	public BoardCell(int row, int col) {
@@ -68,6 +69,11 @@ public class BoardCell {
 		if (this.isRoom) {
 			Color overlay = new Color(0, 0, 255, 30);
 			g.setColor(overlay);
+			g.fillRect(xOffset, yOffset, width, height);
+		}
+		
+		if(highlighted) {
+			g.setColor(Color.YELLOW);
 			g.fillRect(xOffset, yOffset, width, height);
 		}
 	}
@@ -179,6 +185,10 @@ public class BoardCell {
 	
 	public int getColumn() {
 		return col;
+	}
+	
+	public void setHighlighted(Boolean b) {
+		highlighted = b;
 	}
 	
 

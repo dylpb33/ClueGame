@@ -68,7 +68,7 @@ public class ClueGame extends JFrame{
                 + "Can you find the solution<br>"
                 + "before the computer players?");
 		label.setHorizontalAlignment(SwingConstants.CENTER);
-		JOptionPane.showMessageDialog(this, label, "Welcome to Clue", JOptionPane.ERROR_MESSAGE);
+		JOptionPane.showMessageDialog(this, label, "Welcome to Clue", JOptionPane.INFORMATION_MESSAGE);
 	}
 	
 
