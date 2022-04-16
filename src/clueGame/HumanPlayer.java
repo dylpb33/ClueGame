@@ -15,8 +15,10 @@ public class HumanPlayer extends Player{
 
 	@Override
 	public void Move(BoardCell c) {
+		c.setOccupied(false);
 		this.setRow(c.getRow());
 		this.setColumn(c.getColumn());
+		c.setOccupied(true);
 	}
 	
 

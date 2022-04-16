@@ -3,6 +3,8 @@ package clueGame;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.event.MouseListener;
+
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -53,8 +55,10 @@ public class ClueGame extends JFrame{
 		}
 		add(cardPanel, BorderLayout.EAST);
 		
-		board = Board.getInstance();
 		add(board, BorderLayout.CENTER);
+		board.addMouseListener(board);
+		board.processNext(gameControlPanel);
+		
 		
 		setVisible(true); // make it visible
 		

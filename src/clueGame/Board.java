@@ -18,7 +18,7 @@ import javax.swing.JPanel;
 
 import clueGame.Card.CardType;
 
-public class Board extends JPanel{
+public class Board extends JPanel implements MouseListener{
 
 	private int numRows;
 	private int numColumns;
@@ -45,7 +45,6 @@ public class Board extends JPanel{
 	// constructor is private to ensure only one can be created
 	private Board() {
 		super() ;
-		addMouseListener(new mouse());
 	}
 
 	// this method returns the only Board
@@ -491,6 +490,14 @@ public class Board extends JPanel{
 				entry.getValue().drawRoomName(xOffset, yOffset, g, cellWidth, cellHeight);
 			}
 		}
+		
+		if(!isFinished) {
+			for(BoardCell c : targets) {
+				xOffset = c.getColumn() * cellWidth;
+				yOffset = c.getRow() * cellHeight;
+				c.highlightTargets(cellWidth, cellHeight, xOffset, yOffset, g);
+			}
+		}
 	}
 	
 	public int rollDie() {
@@ -499,69 +506,68 @@ public class Board extends JPanel{
 	}
 	
 	public void processNext(GameControlPanel controlPanel) {
-		//Current human player finished?
-	
-		if(!isFinished) {
-				JOptionPane.showMessageDialog(null, "Please finish your turn!");
-		}
-		
-		//Update current player
-		currPlayerNum = (currPlayerNum + 1) % Players.size();
-		currentPlayer = Players.get(currPlayerNum);
-		
-		//Roll the dice
-		int roll = rollDie();
-		
-		//Calc Targets
-		calcTargets(getCell(Players.get(currPlayerNum).getRow(), Players.get(currPlayerNum).getColumn()), roll);
-		
-		//Update Game control Panel
-		controlPanel.setTurn(currentPlayer, roll);
-		
-		//Is new player human?
-		if(currentPlayer instanceof HumanPlayer) {
-			//Display targets
-			for(BoardCell c : targets) {
-				c.setHighlighted(true);
-			}
-			
-			//Flag unfinished
-			isFinished = false;
-		}
-		else {
-			currentPlayer.Move();
-		}
-		repaint();
-	}
-	
-	private class mouse implements MouseListener{
-		
-		@Override
-		public void mouseClicked(MouseEvent e) {
-			int row = (int) e.getY() / (getHeight() / getNumRows());
-			int column = (int) e.getX() / (getWidth() / getNumColumns());
-			BoardCell c = getCell(row, column);
+		if(isFinished) {
+			//Update current player
+			currPlayerNum = (currPlayerNum + 1) % Players.size();
+			currentPlayer = Players.get(currPlayerNum);
+
+			//Roll the dice
+			int roll = rollDie();
+
+			//Calc Targets
+			calcTargets(getCell(Players.get(currPlayerNum).getRow(), Players.get(currPlayerNum).getColumn()), roll);
+
+			//Update Game control Panel
+			controlPanel.setTurn(currentPlayer, roll);
+
+			//Is new player human?
 			if(currentPlayer instanceof HumanPlayer) {
-				if(targets.contains(c)) {
-					currentPlayer.Move(c);
-					if(getCell(currentPlayer.getRow(), currentPlayer.getColumn()).getIsRoom()) {
-						//Handle Suggestion
-					}
+				//Display targets
+				for(BoardCell c : targets) {
+					c.setHighlighted(true);
 				}
-				else {
-					JOptionPane.showMessageDialog(null, "That is not a target");
-				}
-			}
 
+				//Flag unfinished
+				isFinished = false;
+			}
+			else {
+				currentPlayer.Move();
+
+			}
+			repaint();
 		}
 
-		
-		//Unused abstract methods
-		public void mousePressed(MouseEvent e) {}
-		public void mouseReleased(MouseEvent e) {}
-		public void mouseEntered(MouseEvent e) {}
-		public void mouseExited(MouseEvent e) {}
+		else {
+			JOptionPane.showMessageDialog(null, "Please finish your turn!");
+		}
 	}
+	
+		
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		int row = (int) e.getY() / (getHeight() / getNumRows());
+		int column = (int) e.getX() / (getWidth() / getNumColumns());
+		BoardCell c = getCell(row, column);
+		if(currentPlayer instanceof HumanPlayer) {
+			if(targets.contains(c)) {
+				currentPlayer.Move(c);
+				isFinished = true;
+				repaint();
+				if(getCell(currentPlayer.getRow(), currentPlayer.getColumn()).getIsRoom()) {
+					//Handle Suggestion
+				}
+			}
+			else {
+				JOptionPane.showMessageDialog(null, "That is not a target");
+			}
+		}
+	}
+
+	//Unused abstract methods
+	public void mousePressed(MouseEvent e) {}
+	public void mouseReleased(MouseEvent e) {}
+	public void mouseEntered(MouseEvent e) {}
+	public void mouseExited(MouseEvent e) {}	
 	
 
 	

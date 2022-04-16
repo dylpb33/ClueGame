@@ -72,9 +72,18 @@ public class BoardCell {
 			g.fillRect(xOffset, yOffset, width, height);
 		}
 		
-		if(highlighted) {
+	}
+	
+	public void highlightTargets (int cellWidth, int cellHeight, int xOffset, int yOffset, Graphics g) {
+		if(this.getInitial() == 'W') {
 			g.setColor(Color.YELLOW);
-			g.fillRect(xOffset, yOffset, width, height);
+			g.fillRect(xOffset , yOffset , cellWidth , cellHeight );
+			g.setColor(Color.BLACK);
+			g.drawRect(xOffset, yOffset, cellWidth, cellHeight);
+		}
+		else {
+			g.setColor(Color.YELLOW);
+			g.fillRect(xOffset , yOffset , cellWidth , cellHeight );
 		}
 	}
 	

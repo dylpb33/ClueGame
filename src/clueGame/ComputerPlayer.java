@@ -95,9 +95,11 @@ public class ComputerPlayer extends Player{
 	@Override
 	public void Move() {
 		board = board.getInstance();
+		board.getCell(this.row, this.column).setOccupied(false);
 		BoardCell c = this.selectTargets(board.getTargets());
 		this.setRow(c.getRow());
 		this.setColumn(c.getColumn());
+		c.setOccupied(true);
 	}
 	
 
