@@ -523,11 +523,6 @@ public class Board extends JPanel implements MouseListener{
 
 			//Is new player human?
 			if(currentPlayer instanceof HumanPlayer) {
-				//Display targets
-				for(BoardCell c : targets) {
-					c.setHighlighted(true);
-				}
-
 				//Flag unfinished
 				isFinished = false;
 			}
