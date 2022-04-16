@@ -60,7 +60,9 @@ public abstract class Player {
 		}
 	}
 	
-	public abstract void Move();
+	public void Move() {
+		
+	};
 	
 	//Return player color.
 	public Color getColor() {
@@ -156,6 +158,10 @@ public abstract class Player {
 	
 	public void setIsFinished(boolean b){
 		isFinished = b;
+	}
+
+	public void Move(BoardCell c) {
+		
 	}
 	
 }

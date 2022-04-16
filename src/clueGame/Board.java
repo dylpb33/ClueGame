@@ -6,6 +6,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.security.KeyStore.Entry;
@@ -43,6 +45,7 @@ public class Board extends JPanel{
 	// constructor is private to ensure only one can be created
 	private Board() {
 		super() ;
+		addMouseListener(new mouse());
 	}
 
 	// this method returns the only Board
@@ -510,7 +513,7 @@ public class Board extends JPanel{
 		int roll = rollDie();
 		
 		//Calc Targets
-		calcTargets(this.getCell(Players.get(currPlayerNum).getRow(), Players.get(currPlayerNum).getColumn()), roll);
+		calcTargets(getCell(Players.get(currPlayerNum).getRow(), Players.get(currPlayerNum).getColumn()), roll);
 		
 		//Update Game control Panel
 		controlPanel.setTurn(currentPlayer, roll);
@@ -531,16 +534,36 @@ public class Board extends JPanel{
 		repaint();
 	}
 	
-	private class MouseClicked implements ActionListener{
-		public void actionPerformed(ActionEvent e) {
-			Board board = Board.getInstance();
-			board.processClick();
+	private class mouse implements MouseListener{
+		
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			int row = (int) e.getY() / (getHeight() / getNumRows());
+			int column = (int) e.getX() / (getWidth() / getNumColumns());
+			BoardCell c = getCell(row, column);
+			if(currentPlayer instanceof HumanPlayer) {
+				if(targets.contains(c)) {
+					currentPlayer.Move(c);
+					if(getCell(currentPlayer.getRow(), currentPlayer.getColumn()).getIsRoom()) {
+						//Handle Suggestion
+					}
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "That is not a target");
+				}
+			}
+
 		}
+
+		
+		//Unused abstract methods
+		public void mousePressed(MouseEvent e) {}
+		public void mouseReleased(MouseEvent e) {}
+		public void mouseEntered(MouseEvent e) {}
+		public void mouseExited(MouseEvent e) {}
 	}
 	
-	public void processClick() {
-		
-	}
+
 	
 	// Returns number of rows in board.
 	public int getNumRows() {
