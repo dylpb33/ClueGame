@@ -25,18 +25,22 @@ public class ComputerPlayer extends Player{
 
 		ArrayList<BoardCell> availablePaths = new ArrayList<BoardCell>();
 		ArrayList<BoardCell> availableDoorways = new ArrayList<BoardCell>();
+		// itterating through targets  to find doorways and walkways
 		for (BoardCell cell : targets)
 		{
 			if (cell.isDoorway())
 			{
+				//  if doorway adding to  available list
 				availableDoorways.add(cell);
 			}
 			if (cell.getInitial() == 'W')
 			{
+				// if walkway adding to available list
 				availablePaths.add(cell);
 			}
 		}
 
+		// if the doorway is not occupied select it
 		if (!availableDoorways.isEmpty())
 		{
 			int options = availableDoorways.size();
@@ -46,6 +50,7 @@ public class ComputerPlayer extends Player{
 		}
 		else
 		{
+		// otherwise select any random room
 			int options = availablePaths.size();
 			Random rand = new Random();
 			int selected = rand.nextInt(options);
