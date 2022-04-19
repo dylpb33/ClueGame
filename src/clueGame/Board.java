@@ -2,15 +2,11 @@
 
 package clueGame;
 
-import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.security.KeyStore.Entry;
 import java.util.*;
 
 import javax.swing.JOptionPane;
@@ -368,7 +364,6 @@ public class Board extends JPanel implements MouseListener{
 		for(int i = 0; i < getDeck().size(); i++) {
 			shuffledDeck.add(Deck.get(i));
 		}
-
 		//Shuffle shuffledDeck.
 		Collections.shuffle(shuffledDeck);
 
@@ -411,9 +406,12 @@ public class Board extends JPanel implements MouseListener{
 	
 	// check to make sure that all cards match the accusation made
 	public boolean checkAccusation(String room, String person, String weapon) {
-		if (room == solution.getSolutionRoom().getCardName() 
-				&& person == solution.getSolutionPerson().getCardName()
-				&& weapon == solution.getSolutionWeapon().getCardName()) {
+		// setting the variables
+		String roomGuess = solution.getSolutionRoom().getCardName();
+		String personGuess = solution.getSolutionPerson().getCardName();
+		String weaponGuess = solution.getSolutionWeapon().getCardName();
+		// checking to make sure they are all true for correct accusation
+		if (room == roomGuess && person == personGuess && weapon == weaponGuess) {
 			return true;
 		}
 		else  {
@@ -431,17 +429,19 @@ public class Board extends JPanel implements MouseListener{
 				break;
 			}
 			for(int j = 0; j < playerArray.get(i).getHand().size(); j++) {
-				if(playerArray.get(i).getHand(j).getCardName().equals(room) && playerArray.get(i) != accusingPlayer) {
+				String cardName = playerArray.get(i).getHand(j).getCardName();
+				
+				if(cardName.equals(room) && playerArray.get(i) != accusingPlayer) {
 					card = playerArray.get(i).getHand(j);
 					first = false;
 					break;
 				}
-				if(playerArray.get(i).getHand(j).getCardName().equals(person) && playerArray.get(i) != accusingPlayer) {
+				if(cardName.equals(person) && playerArray.get(i) != accusingPlayer) {
 					card = playerArray.get(i).getHand(j);
 					first = false;
 					break;
 				}
-				if(playerArray.get(i).getHand(j).getCardName().equals(weapon) && playerArray.get(i) != accusingPlayer) {
+				if(cardName.equals(weapon) && playerArray.get(i) != accusingPlayer) {
 					card = playerArray.get(i).getHand(j);
 					first = false;
 					break;
@@ -449,7 +449,6 @@ public class Board extends JPanel implements MouseListener{
 			}
 		}
 		return card;
-
 	}
 	
 	//Draws the board and players
