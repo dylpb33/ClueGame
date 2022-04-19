@@ -1,24 +1,32 @@
-commit b4ada4d9d1cb0333b03a4c1a4d447524f597b7f5
-Author: Jazmine Hernandez <jazminehernandez@resnet-wl-dhcp-182-128.mines.edu>
-Date:   Thu Apr 7 15:54:06 2022 -0600
+I, Dylan Blaine, certify that I participated equitably in the creation of assignment 24A, dated 2022.
+I, Jasmine Hernandez, certify that I participated equitably in the creation of this assignment 24A, dated 2022.
 
-    Added comments and refactored
+commit f4a3200932ec6695ab6d15d7ea37a5b704bff8ab (HEAD -> master, origin/master, origin/HEAD)
+Author: Jazmine Hernandez <jazminehernandez@Jazmines-MacBook-Pro.local>
+Date:   Sat Apr 16 11:04:30 2022 -0600
 
-commit 5d8c509be42ead50a0c73503b997d743e1963bba
+    added comments and refactored
+
+commit 6db688c0c665a25e88cafe807844c06a47768869
 Author: dylpb33 <dblaine@mines.edu>
-Date:   Thu Apr 7 15:41:27 2022 -0600
+Date:   Sat Apr 16 10:55:42 2022 -0600
 
-    Added updateDisplay() to change text fields and updated the button methods
+    Updated mouseListener and highlighting of targets, game functioning properly
 
-commit fc5e9dff667929fcdc08f06765ef948d6bd2cb2d
-Author: Jazmine Hernandez <jazminehernandez@resnet-wl-dhcp-182-128.mines.edu>
-Date:   Thu Apr 7 14:55:30 2022 -0600
-
-    Added in turn, roll and guess panels
-
-commit 1b264b01ff179a51f40e36defb90ee3d2605b79f
+commit 871550a3d3e3f11d718809d3949ca5fe8c7e0591
 Author: dylpb33 <dblaine@mines.edu>
-Date:   Thu Apr 7 11:21:26 2022 -0600
+Date:   Fri Apr 15 19:09:06 2022 -0600
 
-    Added skeleton classes to GameControlPanel class
+    Updated mouseListener method
 
+commit 8d16c03154af6b0b8c598bc2f671e11834861b20
+Author: dylpb33 <dblaine@mines.edu>
+Date:   Fri Apr 15 18:37:01 2022 -0600
+
+    Finished next button logic and updated board variables
+
+commit 64d0f3b1edcf7f53338d46c0de22f7ed3ad1612a
+Author: Jazmine Hernandez <jazminehernandez@Jazmines-MacBook-Pro.local>
+Date:   Fri Apr 15 11:50:35 2022 -0600
+
+    Added splash page

@@ -493,10 +493,10 @@ public class Board extends JPanel implements MouseListener{
 		}
 		
 		if(!isFinished) {
-			for(BoardCell c : targets) {
-				xOffset = c.getColumn() * cellWidth;
-				yOffset = c.getRow() * cellHeight;
-				c.highlightTargets(cellWidth, cellHeight, xOffset, yOffset, g);
+			for(BoardCell target : targets) {
+				xOffset = target.getColumn() * cellWidth;
+				yOffset = target.getRow() * cellHeight;
+				target.highlightTargets(cellWidth, cellHeight, xOffset, yOffset, g);
 			}
 		}
 	}
