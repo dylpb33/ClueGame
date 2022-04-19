@@ -33,6 +33,7 @@ public class Board extends JPanel implements MouseListener{
 	private HumanPlayer human;
 	private Player currentPlayer;
 	private Boolean isFinished = true;
+	private final static int ROLL_NUM = 6;
 
 	/*
 	 * variable and methods used for singleton pattern
@@ -504,7 +505,7 @@ public class Board extends JPanel implements MouseListener{
 	//generates a random number between 1 and 6
 	public int rollDie() {
 		Random rand = new Random();
-		return rand.nextInt(6) + 1;
+		return rand.nextInt(ROLL_NUM) + 1;
 	}
 	
 	public void processNext(GameControlPanel controlPanel) {
