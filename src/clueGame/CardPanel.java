@@ -16,7 +16,6 @@ public class CardPanel extends JPanel{
 	
 	private ArrayList<Card> cardsInHand = new ArrayList<Card>();
 	private ArrayList<Card> cardsSeen = new ArrayList<Card>();
-	private int panelRows;
 	private JTextField PeopleHand;
 	private JTextField PeopleSeen;
 	private JTextField RoomsHand;
