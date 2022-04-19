@@ -55,8 +55,6 @@ public class CardPanel extends JPanel{
 	public void peoplePanel() {		
 		// creating the people panel 
 		peoplePanel = new JPanel();
-		
-		//2+held+seen
 		peoplePanel.setLayout(new GridLayout(0,1));
 		peoplePanel.setBorder(new TitledBorder (new EtchedBorder(), "People"));
 	}

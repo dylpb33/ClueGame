@@ -1,0 +1,118 @@
+BEFORE:
+		if(isDoor) {
+			if (doorDirection == DoorDirection.UP) {
+				g.setColor(Color.BLUE);
+				g.fillRect(xOffset, yOffset-5, width, 5);
+			}
+			else if (doorDirection == DoorDirection.DOWN) {
+				g.setColor(Color.BLUE);
+				g.fillRect(xOffset, yOffset + height, width, 5);
+			}
+			else if (doorDirection == DoorDirection.LEFT) {
+				g.setColor(Color.BLUE);
+				g.fillRect(xOffset-5, yOffset, 5, height);
+			}
+			else if (doorDirection == DoorDirection.RIGHT) {
+				g.setColor(Color.BLUE);
+				g.fillRect(xOffset + width, yOffset, 5, height);
+			}
+		}
+
+
+
+
+AFTER:
+		if(isDoor) {
+			g.setColor(Color.BLUE);
+			switch (doorDirection) {
+			case UP: 
+				g.fillRect(xOffset, yOffset-5, width, 5);
+				break;
+			case DOWN: 
+				g.fillRect(xOffset, yOffset + height, width, 5);
+				break;
+			case LEFT: 
+				g.fillRect(xOffset-5, yOffset, 5, height);
+				break;
+			case RIGHT: 
+				g.fillRect(xOffset + width, yOffset, 5, height);
+				break;
+			}
+		}
+
+Before:
+
+	public void processNext(GameControlPanel controlPanel) {
+		if(isFinished) {
+			//Update current player
+			currPlayerNum = (currPlayerNum + 1) % Players.size();
+			currentPlayer = Players.get(currPlayerNum);
+
+			//Roll the dice
+			Random rand = new Random();
+
+			int roll = rand.nextInt(ROLL_NUM) + 1;
+
+			//Calc Targets
+			calcTargets(getCell(Players.get(currPlayerNum).getRow(), Players.get(currPlayerNum).getColumn()), roll);
+
+			//Update Game control Panel
+			controlPanel.setTurn(currentPlayer, roll);
+
+			//Is new player human?
+			if(currentPlayer instanceof HumanPlayer) {
+				//Flag unfinished
+				isFinished = false;
+			}
+			// otherwise the computer moves
+			else {
+				currentPlayer.Move();
+			}
+			repaint();
+		}
+		// displays this message if Human selects next before finishing their turn
+		else {
+			JOptionPane.showMessageDialog(null, "Please finish your turn!");
+		}
+	}
+
+After:
+
+	//generates a random number between 1 and 6
+	public int rollDie() {
+		Random rand = new Random();
+		return rand.nextInt(ROLL_NUM) + 1;
+	}
+	
+	public void processNext(GameControlPanel controlPanel) {
+		if(isFinished) {
+			//Update current player
+			currPlayerNum = (currPlayerNum + 1) % Players.size();
+			currentPlayer = Players.get(currPlayerNum);
+
+			//Roll the dice
+			int roll = rollDie();
+
+			//Calc Targets
+			calcTargets(getCell(Players.get(currPlayerNum).getRow(), Players.get(currPlayerNum).getColumn()), roll);
+
+			//Update Game control Panel
+			controlPanel.setTurn(currentPlayer, roll);
+
+			//Is new player human?
+			if(currentPlayer instanceof HumanPlayer) {
+				//Flag unfinished
+				isFinished = false;
+			}
+			// otherwise the computer moves
+			else {
+				currentPlayer.Move();
+			}
+			repaint();
+		}
+		// displays this message if Human selects next before finishing their turn
+		else {
+			JOptionPane.showMessageDialog(null, "Please finish your turn!");
+		}
+	}
+
