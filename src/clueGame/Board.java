@@ -430,17 +430,19 @@ public class Board extends JPanel implements MouseListener{
 			}
 			for(int j = 0; j < playerArray.get(i).getHand().size(); j++) {
 				String cardName = playerArray.get(i).getHand(j).getCardName();
-				
+				// returning the room card that the suggestion matches
 				if(cardName.equals(room) && playerArray.get(i) != accusingPlayer) {
 					card = playerArray.get(i).getHand(j);
 					first = false;
 					break;
 				}
+				// returning the person card that the suggestion matches
 				if(cardName.equals(person) && playerArray.get(i) != accusingPlayer) {
 					card = playerArray.get(i).getHand(j);
 					first = false;
 					break;
 				}
+				// returning the weapon card that the suggestion matches
 				if(cardName.equals(weapon) && playerArray.get(i) != accusingPlayer) {
 					card = playerArray.get(i).getHand(j);
 					first = false;
