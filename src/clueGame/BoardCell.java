@@ -47,21 +47,20 @@ public class BoardCell {
 		}
 		// drawing the doors
 		if(isDoor) {
-			if (this.doorDirection == doorDirection.UP) {
-				g.setColor(Color.BLUE);
+			g.setColor(Color.BLUE);
+			switch (doorDirection) {
+			case UP: 
 				g.fillRect(xOffset, yOffset-5, width, 5);
-			}
-			else if (this.doorDirection == doorDirection.DOWN) {
-				g.setColor(Color.BLUE);
+				break;
+			case DOWN: 
 				g.fillRect(xOffset, yOffset + height, width, 5);
-			}
-			else if (this.doorDirection == doorDirection.LEFT) {
-				g.setColor(Color.BLUE);
+				break;
+			case LEFT: 
 				g.fillRect(xOffset-5, yOffset, 5, height);
-			}
-			else if (this.doorDirection == doorDirection.RIGHT) {
-				g.setColor(Color.BLUE);
+				break;
+			case RIGHT: 
 				g.fillRect(xOffset + width, yOffset, 5, height);
+				break;
 			}
 		}
 		// drawing the rooms
@@ -70,7 +69,7 @@ public class BoardCell {
 			g.setColor(overlay);
 			g.fillRect(xOffset, yOffset, width, height);
 		}
-		
+
 	}
 	
 	public void highlightTargets (int cellWidth, int cellHeight, int xOffset, int yOffset, Graphics g) {
