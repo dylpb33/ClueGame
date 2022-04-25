@@ -15,6 +15,8 @@ public abstract class Player {
 	protected ArrayList<Card> seenCards = new ArrayList<Card>();
 	protected ArrayList<Card> suggestion = new ArrayList<Card>();
 	protected boolean isFinished;
+	protected boolean canDisprove = true;
+	protected boolean inSuggestion = false;
 	
 	public void player() {
 		
@@ -158,6 +160,22 @@ public abstract class Player {
 	
 	public void setIsFinished(boolean b){
 		isFinished = b;
+	}
+	
+	public void setInSuggestion(boolean b) {
+		inSuggestion = b;
+	}
+	
+	public boolean getCanDisprove() {
+		return canDisprove;
+	}
+	
+	public void setCanDisprove(boolean b) {
+		canDisprove = b;
+	}
+	
+	public boolean getInSuggestion() {
+		return inSuggestion;
 	}
 
 	public void Move(BoardCell c) {

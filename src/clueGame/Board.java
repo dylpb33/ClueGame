@@ -522,6 +522,12 @@ public class Board extends JPanel implements MouseListener{
 
 			//Update Game control Panel
 			controlPanel.setTurn(currentPlayer, roll);
+			
+			if(currentPlayer.getInSuggestion() || targets.size() == 0) {
+				BoardCell currentCell = getCell(Players.get(currPlayerNum).getRow(), Players.get(currPlayerNum).getColumn());
+				targets.add(currentCell);
+				currentPlayer.setInSuggestion(false);
+			}
 
 			//Is new player human?
 			if(currentPlayer instanceof HumanPlayer) {

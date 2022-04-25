@@ -24,6 +24,7 @@ public class GameControlPanel extends JPanel{
 	private JTextField turn;
 	private JTextField roll;
 	private GameControlPanel controlPanel = this;
+	private AccusationModalDialog accusationDialog;
 
 	// sets various panels and adds them to the main panel
 	public GameControlPanel() {
@@ -139,6 +140,7 @@ public class GameControlPanel extends JPanel{
 		JButton button = new JButton();
 		JLabel label = new JLabel("Make Accusation");
 		button.add(label);
+		button.addActionListener(new accusationListener());
 		return button;
 	}
 	
@@ -160,6 +162,12 @@ public class GameControlPanel extends JPanel{
 		}
 	}
 	
+	private class accusationListener implements ActionListener{
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			accusationDialog = new AccusationModalDialog();
+		}
+	}
 	
 	// setters and getters
 	public void setGuess(String string) {
