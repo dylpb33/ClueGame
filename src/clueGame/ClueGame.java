@@ -16,6 +16,7 @@ public class ClueGame extends JFrame{
 	private static Board board;
 	boolean firstTurn = true;
 	private int xSize, ySize;
+	private static ClueGame game;
 
 	public ClueGame() {
 
@@ -39,6 +40,7 @@ public class ClueGame extends JFrame{
 		// adding the GameControlPanel
 		GameControlPanel gameControlPanel = new GameControlPanel();
 		add(gameControlPanel, BorderLayout.SOUTH);
+		board.setGameControlPanel(gameControlPanel);
 		
 		// adding the CardPanel and card data
 		CardPanel cardPanel = new CardPanel();
@@ -54,6 +56,7 @@ public class ClueGame extends JFrame{
 			
 		}
 		add(cardPanel, BorderLayout.EAST);
+		board.setCardPanel(cardPanel);
 		
 		add(board, BorderLayout.CENTER);
 		board.addMouseListener(board);
@@ -72,6 +75,10 @@ public class ClueGame extends JFrame{
                 + "before the computer players?");
 		label.setHorizontalAlignment(SwingConstants.CENTER);
 		JOptionPane.showMessageDialog(this, label, "Welcome to Clue", JOptionPane.INFORMATION_MESSAGE);
+	}
+	
+	public static ClueGame getInstance() {
+		return game;
 	}
 	
 

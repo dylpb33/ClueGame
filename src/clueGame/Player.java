@@ -125,25 +125,24 @@ public abstract class Player {
 
 
 	public Card disproveSuggestion(String room, String person, String weapon) {
-		String newCard_ = null;
-		Card newCard = new Card(newCard_);
+		Card newCard = null;
 		ArrayList<Card> newArray = new ArrayList<Card>();
-		
-			for (int j = 0; j < hand.size(); j++) {
-				if (room == hand.get(j).getCardName()) {
-					newCard =  hand.get(j);
-					newArray.add(newCard);
-				}
-				if (person == hand.get(j).getCardName()) {
-					newCard =  hand.get(j);
-					newArray.add(newCard);
-				}
-				if (weapon == hand.get(j).getCardName()) {
-					newCard = hand.get(j);
-					newArray.add(newCard);
-				}
+
+		for (int j = 0; j < hand.size(); j++) {
+			if (room == hand.get(j).getCardName()) {
+				newCard = hand.get(j);
+				newArray.add(newCard);
 			}
-			
+			if (person == hand.get(j).getCardName()) {
+				newCard = hand.get(j);
+				newArray.add(newCard);
+			}
+			if (weapon == hand.get(j).getCardName()) {
+				newCard = hand.get(j);
+				newArray.add(newCard);
+			}
+		}
+
 		if (newArray.size() > 1) {
 			Random rand = new Random();
 			int randNum = rand.nextInt(2);

@@ -34,6 +34,9 @@ public class Board extends JPanel implements MouseListener{
 	private Player currentPlayer;
 	private Boolean isFinished = true;
 	private final static int ROLL_NUM = 6;
+	private GameControlPanel gameControlPanel;
+	private CardPanel cardPanel;
+	private Player disprovingPlayer;
 
 	/*
 	 * variable and methods used for singleton pattern
@@ -420,34 +423,14 @@ public class Board extends JPanel implements MouseListener{
 		}
 	}
 
-	public Card handleSuggestion(String room, String person, String weapon, ArrayList<Player> playerArray, Player accusingPlayer) {
-		boolean first = true;
-		Card card;
-		card = null;
+	public Card handleSuggestion(String room, String person, String weapon, Player accusingPlayer) {
+		Card card = null;
 	
-		for(int i = 0; i < playerArray.size(); i++) {
-			if(!first) {
-				break;
-			}
-			for(int j = 0; j < playerArray.get(i).getHand().size(); j++) {
-				String cardName = playerArray.get(i).getHand(j).getCardName();
-				// returning the room card that the suggestion matches
-				if(cardName.equals(room) && playerArray.get(i) != accusingPlayer) {
-					card = playerArray.get(i).getHand(j);
-					first = false;
-					break;
-				}
-				// returning the person card that the suggestion matches
-				if(cardName.equals(person) && playerArray.get(i) != accusingPlayer) {
-					card = playerArray.get(i).getHand(j);
-					first = false;
-					break;
-				}
-				// returning the weapon card that the suggestion matches
-				if(cardName.equals(weapon) && playerArray.get(i) != accusingPlayer) {
-					card = playerArray.get(i).getHand(j);
-					first = false;
-					break;
+		for(Player player : Players) {
+			if(player != accusingPlayer) {
+				if(player.disproveSuggestion(room, person, weapon) != null) {
+					card = player.disproveSuggestion(room, person, weapon);
+					disprovingPlayer = player;
 				}
 			}
 		}
@@ -510,6 +493,10 @@ public class Board extends JPanel implements MouseListener{
 	
 	public void processNext(GameControlPanel controlPanel) {
 		if(isFinished) {
+			//Reset guess and guess result fields
+			gameControlPanel.setGuess("");
+			gameControlPanel.setGuessResult("");
+			
 			//Update current player
 			currPlayerNum = (currPlayerNum + 1) % Players.size();
 			currentPlayer = Players.get(currPlayerNum);
@@ -523,12 +510,12 @@ public class Board extends JPanel implements MouseListener{
 			//Update Game control Panel
 			controlPanel.setTurn(currentPlayer, roll);
 			
+			//Check if player placed in room because of suggestion or if player cannot move out of room
 			if(currentPlayer.getInSuggestion() || targets.size() == 0) {
 				BoardCell currentCell = getCell(Players.get(currPlayerNum).getRow(), Players.get(currPlayerNum).getColumn());
 				targets.add(currentCell);
 				currentPlayer.setInSuggestion(false);
 			}
-
 			//Is new player human?
 			if(currentPlayer instanceof HumanPlayer) {
 				//Flag unfinished
@@ -536,6 +523,9 @@ public class Board extends JPanel implements MouseListener{
 			}
 			// otherwise the computer moves
 			else {
+				if(currentPlayer.canDisprove == false) {
+					
+				}
 				currentPlayer.Move();
 			}
 			repaint();
@@ -632,6 +622,14 @@ public class Board extends JPanel implements MouseListener{
 		return Players.get(i);
 	}
 	
+	public Player getDisprovingPlayer() {
+		return disprovingPlayer;
+	}
+	
+	public void setDisprovingPlayer(Player p) {
+		disprovingPlayer = p;
+	}
+	
 	//Return player from Players Array based on index.
 	public HumanPlayer getHumanPlayer() {
 		HumanPlayer human = null;
@@ -676,6 +674,26 @@ public class Board extends JPanel implements MouseListener{
 	//Return solution for board.
 	public Solution getSolution() {
 		return solution;
+	}
+	
+	public void setGameControlPanel(GameControlPanel panel) {
+		gameControlPanel = panel;
+	}
+	
+	public GameControlPanel getGameControlPanel() {
+		return gameControlPanel;
+	}
+	
+	public void setCardPanel(CardPanel panel) {
+		cardPanel = panel;
+	}
+	
+	public CardPanel getCardPanel() {
+		return cardPanel;
+	}
+	
+	public void setHuman(HumanPlayer humanplayer) {
+		human = humanplayer;
 	}
 
 }

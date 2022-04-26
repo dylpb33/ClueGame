@@ -12,120 +12,159 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
+import clueGame.Card.CardType;
+
 public class SuggestionModalDialog extends JDialog {
 	private static Board board = Board.getInstance();
-	private JComboBox<String> playerBox;
-	private JComboBox<String> weaponBox;
-	JTextField roomName = new JTextField(15);
-	private ArrayList<Card> playerCards = board.getPlayerCards();
-	private ArrayList<Card> weaponCards = board.getWeaponsCards();
-	private ArrayList<Card> roomCards = board.getRoomCards();
-	private GameControlPanel gameControl = board.getGameControl();
-	private static ClueGame theGame = ClueGame.getInstance();
-	
-	public SuggestionModalDialog(Room currentRoom) {
-		String[] playerNames = createNameArray(playerCards);
-		String[] weaponNames = createNameArray(weaponCards);
+	private ArrayList<Card> roomCards;
+	private ArrayList<Card> playerCards;
+	private ArrayList<Card> weaponCards;
+	private String[] rooms;
+	private String[] players;
+	private String[] weapons;
+	private JComboBox<String> playerMenu;
+	private JComboBox<String> weaponMenu;
+	JTextField roomText = new JTextField(15);
+	private Room currentRoom;
+	private static ClueGame game = ClueGame.getInstance();
+
+	public SuggestionModalDialog() {
 		
-		playerBox = new JComboBox<String>(playerNames);
-		weaponBox = new JComboBox<String>(weaponNames);
-		
-		//gives enough room for the labels, comboboxes, and buttons
 		setLayout(new GridLayout(4,4));
-		setTitle("Make a Suggestion!");
+		setTitle("Make a Suggestion");
 		
+		setPlayers(board);
+		setWeapons(board);
+		
+		JLabel room = new JLabel("Current room");
 		JLabel person = new JLabel("Person");
-		JLabel room = new JLabel("Current Room");
 		JLabel weapon = new JLabel("Weapon");
 		
-		roomName.setText(currentRoom.getName());
-		//make sure the player cannot edit the room name cause that would mess up the suggestion
-		roomName.setEditable(false);
+		playerMenu = new JComboBox<String>(players);
+		weaponMenu = new JComboBox<String>(weapons);
+		
+		roomText.setText(currentRoom.getName());
+		roomText.setEditable(false);
 		
 		add(room);
-		add(roomName);		
+		add(roomText);
 		add(person);
-		add(playerBox);
+		add(playerMenu);
 		add(weapon);
-		add(weaponBox);
+		add(weaponMenu);
+		add(this.cancelButton());
+		add(this.submitButton());
 		
-		JButton submitButton = new JButton("Submit");
-		submitButton.addActionListener(new SubmitListener());
-		add(submitButton);
-		
-		JButton cancelButton = new JButton("Cancel");
-		cancelButton.addActionListener(new CancelListener());
-		add(cancelButton);
-		
-		setSize(400, 200);
+		setSize(600, 300);
 		setVisible(true);
-	}
-	
-	private class SubmitListener implements ActionListener {
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			setVisible(false);
-			String suggestedPersonName = playerBox.getSelectedItem().toString();
-			String room = roomName.getText();
-			String weapon = weaponBox.getSelectedItem().toString();
-			
-			Card playerCard = findCorrectCard(suggestedPersonName, playerCards);
-			Card roomCard = findCorrectCard(room, roomCards);
-			Card weaponCard = findCorrectCard(weapon, weaponCards);
-			
-			HumanPlayer humanPlayer = board.getHumanPlayer();
-			Card guessResult = board.handleSuggestion(room, suggestedPersonName, weapon, humanPlayer);
-			gameControl.setGuess(suggestedPersonName + ", " + room + ", " + weapon);
-			if (guessResult != null) { //player's card was disproven
-				CardPanel knownCards = theGame.getKnownCards();
-				Player cardDisprover = board.getCardDisprover();
-				gameControl.setGuessResult(guessResult.getCardName() + " - disproven by " + cardDisprover.getName());
-				humanPlayer.updateSeen(guessResult);
-				board.setHumanPlayer(humanPlayer);
-				knownCards.updatePanels();
-				theGame.setVisible(true); //need to make the frame visible again so that the panel actually updates
-			} else {
-				gameControl.setGuessResult("No card was given to disprove your suggestion.");
-			}
-			//update the player who was pulled into the room
-			ArrayList<Player> players = board.getPlayers();
-			for (Player player : players) { //move suggested player into the room
-				if (player.getName().equals(suggestedPersonName)) {
-					player.setRow(humanPlayer.getRow());
-					player.setColumn(humanPlayer.getColumn());
-					player.setPulledIn(true);
-					break; //break so that no other player gets moved into the room with them
-				}
-			}
-			board.repaint(); //repaint is here because otherwise the player doesn't actually get moved for some reason
-		}
+		
 
-		private Card findCorrectCard(String chosenCard, ArrayList<Card> cards) {
-			//grab the correct selected card based on the name of the player choice
-			for (Card card : cards) {
-				if (card.getCardName().equals(chosenCard)) {
-					return card;
-				}
-			}
-			return null;
-		}	
 	}
 	
-	private class CancelListener implements ActionListener {
+	private JButton cancelButton() {
+		JButton cancelButton = new JButton("Cancel");
+		cancelButton.addActionListener(new cancelListener());
+		return cancelButton;
+	}
+	
+	private JButton submitButton() {
+		JButton submitButton = new JButton("Submit");
+		submitButton.addActionListener(new submitListener());
+		return submitButton;
+	}
+	
+	private class cancelListener implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			//close the dialog with no penalty
 			setVisible(false);
-		}	
+		}
 	}
 	
-	private String[] createNameArray(ArrayList<Card> cards) {
-		//turn the cards into an array of the string names
-		String[] cardNames = new String[cards.size()];
-		for (int i = 0; i < cards.size(); i++) {
-			cardNames[i] = cards.get(i).getCardName();
+	private class submitListener implements ActionListener{
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			setVisible(false);
+			String room = currentRoom.getName();
+			String person = playerMenu.getSelectedItem().toString();
+			String weapon = weaponMenu.getSelectedItem().toString();
+			board.getGameControlPanel().setGuess(person + ", " + room + ", " + weapon);
+			HumanPlayer human = board.getHumanPlayer();
+			
+			Card suggestionCard = board.handleSuggestion(room, person, weapon, human);
+			
+			//Case where card is disproven
+			if(suggestionCard != null) {
+				//Update game control panel to include the guess
+				board.getGameControlPanel().setGuessResult(board.getDisprovingPlayer().getName() + " disproves suggestion with: " + suggestionCard.getCardName());
+				//Add the suggested card to seen cards
+				human.setSeenCards(suggestionCard);
+				//Update card panel to include the card
+				board.getCardPanel().updatePanels();
+				//Set the human player in board
+				board.setHuman(human);
+				//Update panel in frame
+				ClueGame.getInstance().setVisible(true);
+				
+			}
+			//Case where card is not disproven
+			else {
+				board.getGameControlPanel().setGuessResult("No new clue");
+			}
+			
+			//Change location of player in suggestion to the correct room
+			for(Player player : board.getPlayerArray()) {
+				if(player.getName().equals(person)) {
+					player.setInSuggestion(true);
+					player.setRow(human.getRow());
+					player.setColumn(human.getColumn());
+				}
+			}
+		}
+	}
+	
+	public void setCurrentRoom(Room r) {
+		currentRoom = r;
+	}
+	
+	public Room getCurrentRoom() {
+		return currentRoom;
+	}
+	
+	private void setPlayers(Board board) {
+		//Create arrayList of player cards
+		playerCards = new ArrayList<Card>();
+		for(Card c : board.getDeck()) {
+			if(c.getCardType() == CardType.PERSON) {
+				playerCards.add(c);
+			}
 		}
 		
-		return cardNames;
+		//Fill array with player cards
+		players = new String[playerCards.size()];
+		int i = 0;
+		for(Card c : playerCards) {
+			players[i] = c.getCardName();
+			i++;
+		}
+		
+	}
+	
+	private void setWeapons(Board board) {
+		//Create arrayList of weapon cards
+		weaponCards = new ArrayList<Card>();
+		for(Card c : board.getDeck()) {
+			if(c.getCardType() == CardType.WEAPON) {
+				weaponCards.add(c);
+			}
+		}
+		
+		//Fill array with weapon cards
+		weapons = new String[weaponCards.size()];
+		int i = 0;
+		for(Card c : weaponCards) {
+			weapons[i] = c.getCardName();
+			i++;
+		}
+		
 	}
 }
