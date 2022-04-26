@@ -60,16 +60,16 @@ public class ComputerPlayer extends Player{
 	}
 	
 	
-	public void createSuggestion(Card location, ArrayList<Card> possibleCards, ComputerPlayer player, ArrayList<Card> seen) {
+	public Solution createSuggestion(Card location, ArrayList<Card> possibleCards, ArrayList<Card> seen) {
 		//Create random object
 		Random rand = new Random();
 		
 		//Add location to suggestion
-		player.getSuggestion().add(location);
+		Card roomCard = location;
 		
 		//Add seen cards to seenCards array
 		for(int i = 0; i < seen.size(); i++) {
-			player.getSeenCards().add(seen.get(i));
+			this.getSeenCards().add(seen.get(i));
 		}
 		
 		//Create people and weapons arrays
@@ -78,7 +78,7 @@ public class ComputerPlayer extends Player{
 		
 		//If not in seen cards add cards to corresponding card type array
 		for(int i = 0; i < possibleCards.size(); i++) {
-			if(!player.getSeenCards().contains(possibleCards.get(i))) {
+			if(!this.getSeenCards().contains(possibleCards.get(i))) {
 				if(possibleCards.get(i).getCardType().equals(CardType.PERSON)) {
 					people.add(possibleCards.get(i));
 				}
@@ -90,8 +90,11 @@ public class ComputerPlayer extends Player{
 		}
 		
 		//Randomly select cards to add to suggestion
-		player.getSuggestion().add(people.get(rand.nextInt(people.size())));
-		player.getSuggestion().add(weapons.get(rand.nextInt(weapons.size())));
+		Card personCard = people.get(rand.nextInt(people.size()));
+		Card weaponCard = weapons.get(rand.nextInt(weapons.size()));
+		
+		return new Solution(roomCard, personCard, weaponCard);
+		
 		
 	}
 

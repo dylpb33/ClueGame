@@ -372,7 +372,7 @@ public class Board extends JPanel implements MouseListener{
 		Collections.shuffle(shuffledDeck);
 
 		//Set solution based on the first occurrence cards found.
-		solution = new Solution();
+		solution = new Solution(null, null, null);
 
 		//Find first occurrence of a room from the shuffledDeck
 		for(int i = 0; i < getShuffledDeck().size(); i++) {
@@ -523,10 +523,45 @@ public class Board extends JPanel implements MouseListener{
 			}
 			// otherwise the computer moves
 			else {
+				Card currentLocation = null;
+				//Get card for current location
+				for(int i = 0; i < getDeck().size(); i++) {
+					if(getRoom(getCell(currentPlayer.getRow(), currentPlayer.getColumn()).getInitial()).getName().equals(getDeck().get(i).getCardName())){
+						currentLocation = getDeck().get(i);
+					}
+				}
 				if(currentPlayer.canDisprove == false) {
-					
+					Solution possibleSolution = ((ComputerPlayer) currentPlayer).createSuggestion(currentLocation, getDeck(), currentPlayer.getSeenCards());
+					if(possibleSolution.equals(this.solution)) {
+						JOptionPane.showMessageDialog(null, currentPlayer.getName() + " wins! " + " it was " + this.solution.getSolutionPerson() + " in the " + this.solution.getSolutionRoom() + " with a " + this.solution.getSolutionWeapon());
+						System.exit(0);
+					}
+					currentPlayer.setCanDisprove(true);
 				}
 				currentPlayer.Move();
+				
+				if(getCell(currentPlayer.getRow(), currentPlayer.getColumn()).isRoomCenter()) {
+					Solution possibleSolution = ((ComputerPlayer) currentPlayer).createSuggestion(currentLocation, getDeck(), currentPlayer.getSeenCards());
+					for(Player player : Players) {
+						if(player.getName().equals(possibleSolution.getSolutionPerson().getCardName())){
+							player.setRow(currentPlayer.getRow());
+							player.setColumn(currentPlayer.getColumn());
+							player.setInSuggestion(true);
+						}
+					}
+					
+					gameControlPanel.setGuess(possibleSolution.getSolutionPerson().getCardName() + ", " + possibleSolution.getSolutionRoom().getCardName() + ", " + possibleSolution.getSolutionWeapon());
+					Card suggestedCard = handleSuggestion(possibleSolution.getSolutionRoom().getCardName(), possibleSolution.getSolutionPerson().getCardName(), possibleSolution.getSolutionWeapon().getCardName(), currentPlayer);
+					if(suggestedCard != null) {
+						currentPlayer.setSeenCards(suggestedCard);
+						gameControlPanel.setGuess("Suggestion diproven by " + disprovingPlayer.getName());
+					}
+					else {
+						currentPlayer.setCanDisprove(false);
+						gameControlPanel.setGuessResult("No card able to disprove accusation");
+					}
+					
+				}
 			}
 			repaint();
 		}
@@ -552,7 +587,7 @@ public class Board extends JPanel implements MouseListener{
 				isFinished = true;
 				repaint();
 				if(getCell(currentPlayer.getRow(), currentPlayer.getColumn()).getIsRoom()) {
-					//Handle Suggestion
+					SuggestionModalDialog suggestionBox = new SuggestionModalDialog(getRoom(getCell(currentPlayer.getRow(), currentPlayer.getColumn())));
 				}
 			}
 			// if they select a cell that is not in the targets list

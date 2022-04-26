@@ -28,8 +28,8 @@ public class SuggestionModalDialog extends JDialog {
 	private Room currentRoom;
 	private static ClueGame game = ClueGame.getInstance();
 
-	public SuggestionModalDialog() {
-		
+	public SuggestionModalDialog(Room r) {
+		currentRoom = r;
 		setLayout(new GridLayout(4,4));
 		setTitle("Make a Suggestion");
 		
@@ -122,9 +122,7 @@ public class SuggestionModalDialog extends JDialog {
 		}
 	}
 	
-	public void setCurrentRoom(Room r) {
-		currentRoom = r;
-	}
+	
 	
 	public Room getCurrentRoom() {
 		return currentRoom;

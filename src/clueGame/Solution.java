@@ -6,8 +6,10 @@ public class Solution {
 	private Card weapon;
 	
 	//Default constructor
-	public Solution() {
-		super();
+	public Solution(Card room, Card person, Card weapon) {
+		this.room = room;
+		this.person = person;
+		this.weapon = weapon;
 	}
 	
 	//Sets the solution variables.
