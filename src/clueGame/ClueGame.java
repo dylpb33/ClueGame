@@ -83,7 +83,7 @@ public class ClueGame extends JFrame{
 	
 
 	public static void main(String[] args) {
-		ClueGame clueGame = new ClueGame(); //Create clueGame object which is a frame	
+		game = new ClueGame(); //Create clueGame object which is a frame	
 	}
 
 }

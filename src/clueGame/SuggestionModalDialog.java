@@ -103,7 +103,7 @@ public class SuggestionModalDialog extends JDialog {
 				//Set the human player in board
 				board.setHuman(human);
 				//Update panel in frame
-				ClueGame.getInstance().setVisible(true);
+				game.setVisible(true);
 				
 			}
 			//Case where card is not disproven
