@@ -43,7 +43,7 @@ public class Solution {
 	}
 
 	public void setSolutionWeapon(Card weapon) {
-		this.person = weapon;
+		this.weapon = weapon;
 	
 	}
 
