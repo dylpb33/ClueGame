@@ -28,7 +28,7 @@ public class ComputerPlayer extends Player{
 		// itterating through targets  to find doorways and walkways
 		for (BoardCell cell : targets)
 		{
-			if (cell.isDoorway())
+			if (cell.isRoomCenter())
 			{
 				//  if doorway adding to  available list
 				availableDoorways.add(cell);
@@ -64,8 +64,23 @@ public class ComputerPlayer extends Player{
 		//Create random object
 		Random rand = new Random();
 		
+		Card roomCard = null;
+		
 		//Add location to suggestion
-		Card roomCard = location;
+		if(location == null) {
+			ArrayList<Card> unseenCardRoom = new ArrayList<Card>();
+			for(Card c : board.getDeck()) {
+				if(!getHand().contains(c) && c.getCardType() == CardType.ROOM) {
+					unseenCardRoom.add(c);
+				}
+			}
+			Random randInt = new Random();
+			int randomNum = randInt.nextInt(unseenCardRoom.size());
+			roomCard = unseenCardRoom.get(randomNum);
+		}
+		else {
+			roomCard = location;
+		}
 		
 		//Add seen cards to seenCards array
 		for(int i = 0; i < seen.size(); i++) {

@@ -44,17 +44,7 @@ public class ClueGame extends JFrame{
 		
 		// adding the CardPanel and card data
 		CardPanel cardPanel = new CardPanel();
-		//Mark all cards not in human players hand as seen for testing
-		for(Card card : board.getDeck()) {
-			if(!board.getHumanPlayer().getHand().contains(card)) {
-				board.getHumanPlayer().setSeenCards(card);
-				cardPanel.setCardsSeen(card);
-			}
-			else {
-				cardPanel.setCardsInHand(card);
-			}
-			
-		}
+
 		add(cardPanel, BorderLayout.EAST);
 		board.setCardPanel(cardPanel);
 		

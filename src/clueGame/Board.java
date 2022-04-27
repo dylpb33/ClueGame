@@ -461,12 +461,7 @@ public class Board extends JPanel implements MouseListener{
 				getCell(i, j).drawCell(cellWidth, cellHeight, xOffset, yOffset, g);
 			}
 		}
-		// getting player location and calling drawPlayer in PLayer class
-		for(Player player : Players) {
-			xOffset = player.getColumn() * cellWidth;
-			yOffset = player.getRow() * cellHeight;
-			player.drawPlayer(cellWidth, cellHeight, xOffset, yOffset, g);
-		}
+
 		// getting room names and calling drawRoomName in Room class
 		for(Map.Entry<Character, Room> entry : roomMap.entrySet()) {
 			if(entry.getValue().getLabelCell() != null) {
@@ -482,6 +477,32 @@ public class Board extends JPanel implements MouseListener{
 				yOffset = target.getRow() * cellHeight;
 				target.highlightTargets(cellWidth, cellHeight, xOffset, yOffset, g);
 			}
+		}
+		
+		Set<Player> sameCellPlayers = new HashSet<Player>();
+		for(int i = 0; i < Players.size(); i++) {
+			for(int j = i + 1; j < Players.size(); j++) {
+				if(Players.get(i).getRow() == Players.get(j).getRow() && Players.get(i).getColumn() == Players.get(j).getColumn()) {
+					sameCellPlayers.add(Players.get(i));
+					sameCellPlayers.add(Players.get(j));
+				}
+					
+			}
+		}
+		
+	
+		int locationOffset = 0;
+		for(Player player : Players) {
+			xOffset = player.getColumn() * cellWidth;
+			yOffset = player.getRow() * cellHeight;	
+			if(sameCellPlayers.contains(player)) {
+				player.drawPlayer(cellWidth, cellHeight, xOffset + locationOffset, yOffset, g);
+				locationOffset = locationOffset + cellWidth / 4;
+			}
+			else {
+				player.drawPlayer(cellWidth, cellHeight, xOffset, yOffset, g);
+			}
+			
 		}
 	}
 	
@@ -520,13 +541,16 @@ public class Board extends JPanel implements MouseListener{
 			if(currentPlayer instanceof HumanPlayer) {
 				//Flag unfinished
 				isFinished = false;
+				repaint();
 			}
 			// otherwise the computer moves
 			else {
 				Card currentLocation = null;
 				//Get card for current location
 				for(int i = 0; i < getDeck().size(); i++) {
-					if(getRoom(getCell(currentPlayer.getRow(), currentPlayer.getColumn()).getInitial()).getName().equals(getDeck().get(i).getCardName())){
+					String roomName = getRoom(getCell(currentPlayer.getRow(), currentPlayer.getColumn()).getInitial()).getName();
+					String cardName = getDeck().get(i).getCardName();
+					if(roomName.equals(cardName)){
 						currentLocation = getDeck().get(i);
 					}
 				}
@@ -550,11 +574,10 @@ public class Board extends JPanel implements MouseListener{
 						}
 					}
 					
-					gameControlPanel.setGuess(possibleSolution.getSolutionPerson().getCardName() + ", " + possibleSolution.getSolutionRoom().getCardName() + ", " + possibleSolution.getSolutionWeapon());
+					gameControlPanel.setGuess(possibleSolution.getSolutionPerson().getCardName() + ", " + possibleSolution.getSolutionRoom().getCardName() + ", " + possibleSolution.getSolutionWeapon().getCardName());
 					Card suggestedCard = handleSuggestion(possibleSolution.getSolutionRoom().getCardName(), possibleSolution.getSolutionPerson().getCardName(), possibleSolution.getSolutionWeapon().getCardName(), currentPlayer);
 					if(suggestedCard != null) {
-						currentPlayer.setSeenCards(suggestedCard);
-						gameControlPanel.setGuess("Suggestion diproven by " + disprovingPlayer.getName());
+						gameControlPanel.setGuessResult("Suggestion diproven by " + disprovingPlayer.getName());
 					}
 					else {
 						currentPlayer.setCanDisprove(false);
@@ -730,5 +753,11 @@ public class Board extends JPanel implements MouseListener{
 	public void setHuman(HumanPlayer humanplayer) {
 		human = humanplayer;
 	}
+	
+	public HumanPlayer getHuman() {
+		return human;
+	}
+	
+
 
 }

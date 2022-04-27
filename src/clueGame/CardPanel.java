@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
@@ -14,8 +15,8 @@ import clueGame.Card.CardType;
 
 public class CardPanel extends JPanel{
 	
-	private ArrayList<Card> cardsInHand = new ArrayList<Card>();
-	private ArrayList<Card> cardsSeen = new ArrayList<Card>();
+	private ArrayList<Card> cardsInHand;
+	private ArrayList<Card> cardsSeen;
 	private JTextField PeopleHand;
 	private JTextField PeopleSeen;
 	private JTextField RoomsHand;
@@ -25,6 +26,7 @@ public class CardPanel extends JPanel{
 	private JPanel peoplePanel;
 	private JPanel roomPanel;
 	private JPanel weaponPanel;
+	private static Board board = Board.getInstance();
 	
 	//Default constructor that creates card panel.
 	public CardPanel() {
@@ -72,10 +74,17 @@ public class CardPanel extends JPanel{
 		weaponPanel.setBorder(new TitledBorder (new EtchedBorder(), "Weapons"));
 	}
 	
-	public void updatePanel(JPanel panel, CardType card) {		
+	public void updatePanel(JPanel panel, CardType card) {
+		cardsInHand = board.getHuman().getHand();
+		cardsSeen = board.getHuman().getSeenCards();
+		
+		
 		if(cardsInHand != null && cardsSeen != null) {			
 			panel.removeAll();
 			if(card.equals(CardType.PERSON)) {
+				//Add in Hand label to room panel
+				JLabel inHandLabel = new JLabel("In Hand:");
+				peoplePanel.add(inHandLabel);
 				
 				JTextField noPeopleInHand = new JTextField(15);
 				noPeopleInHand.setText("None");

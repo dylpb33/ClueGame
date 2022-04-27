@@ -3,6 +3,7 @@ package clueGame;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Random;
 
 public abstract class Player {
@@ -17,6 +18,7 @@ public abstract class Player {
 	protected boolean isFinished;
 	protected boolean canDisprove = true;
 	protected boolean inSuggestion = false;
+	Board board = Board.getInstance();
 	
 	public void player() {
 		

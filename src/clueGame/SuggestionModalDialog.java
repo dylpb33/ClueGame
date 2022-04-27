@@ -119,6 +119,8 @@ public class SuggestionModalDialog extends JDialog {
 					player.setColumn(human.getColumn());
 				}
 			}
+			
+			board.repaint();
 		}
 	}
 	
