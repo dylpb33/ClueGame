@@ -425,7 +425,7 @@ public class Board extends JPanel implements MouseListener{
 
 	public Card handleSuggestion(String room, String person, String weapon, Player accusingPlayer) {
 		Card card = null;
-	
+	// iterating through players to see who can disprove the suggestion
 		for(Player player : Players) {
 			if(player != accusingPlayer) {
 				if(player.disproveSuggestion(room, person, weapon) != null) {
@@ -479,6 +479,7 @@ public class Board extends JPanel implements MouseListener{
 			}
 		}
 		
+		// if two players are in the same room add them to array
 		Set<Player> sameCellPlayers = new HashSet<Player>();
 		for(int i = 0; i < Players.size(); i++) {
 			for(int j = i + 1; j < Players.size(); j++) {
@@ -490,11 +491,12 @@ public class Board extends JPanel implements MouseListener{
 			}
 		}
 		
-	
+		// drawing the players
 		int locationOffset = 0;
 		for(Player player : Players) {
 			xOffset = player.getColumn() * cellWidth;
 			yOffset = player.getRow() * cellHeight;	
+			// offset the players in the same room so they  don't overlap when printed
 			if(sameCellPlayers.contains(player)) {
 				player.drawPlayer(cellWidth, cellHeight, xOffset + locationOffset, yOffset, g);
 				locationOffset = locationOffset + cellWidth / 4;
@@ -554,6 +556,7 @@ public class Board extends JPanel implements MouseListener{
 						currentLocation = getDeck().get(i);
 					}
 				}
+				// checking to see if the solution is right
 				if(currentPlayer.canDisprove == false) {
 					Solution possibleSolution = ((ComputerPlayer) currentPlayer).createSuggestion(currentLocation, getDeck(), currentPlayer.getSeenCards());
 					if(possibleSolution.equals(this.solution)) {
